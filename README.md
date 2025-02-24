@@ -12,6 +12,9 @@ De doelgroep waar wij ons gaan focussen zijn spelers die nog geen clan hebben en
 ### Moodboard
 
 ![Moodboard](readme_images/moadboard.jpg)
+
+### Kleurenpalet
+
 ![Kleurenpalet](readme_images/kleurenpalet.jpeg)
 
 ### Job Stories
