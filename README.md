@@ -3,11 +3,36 @@
 
 # WIKI
 
-## Concept
+## Concept 
 Voor clash of clans spelers willen wij een maching website maken waarbij spelers kunnen zoeken naar clans. In de game kunnen clans aangeven hoeveel trofeeën, welke stadshuis level ze zijn, in welk land de clan is gevestigd en welke taal er in de clan wordt gesproken om zo de juiste spelers te vinden voor hun clan. Wij willen met onze app/website daarmee helpen. Via ons product kunnen ze een formulier invullen waarbij zij hun eigen gegevens kunnen invullen. De app/website zoekt dan vervolgens naar clans die voldoen aan die criteria.
 
+<details>
+<summary>Andere concepten</summary>
+
+### StockX
+
+![Moodboard StockX](readme_images/stockx.png)
+
+ShoeMatch is een app die mensen helpt schoenen te kopen en tegelijkertijd nieuwe mensen te ontmoeten. Gebruikers kunnen hun favoriete schoenen kiezen, waarna het algoritme ze matcht met anderen die dezelfde smaak hebben. Het draait dus om het vinden van een connectie op basis van gedeelde modevoorkeuren, in plaats van alleen maar profielen. Het biedt een leuke manier om zowel je stijl te laten zien als iemand te vinden die daarin past.
+
+
+### SoloMate
+
+SoloMate is een datingplatform speciaal ontworpen voor single ouders die op zoek zijn naar een serieuze relatie met iemand die begrijpt hoe het is om een kind(eren) op te voeden. Traditionele datingapps houden vaak geen rekening met de unieke uitdagingen en prioriteiten van alleenstaande ouders, zoals beperkte tijd en de behoefte aan een partner die begripvol en verantwoordelijk is.
+
+
+</details>
+
 ### Doelgroep
-De doelgroep waar wij ons gaan focussen zijn spelers die nog geen clan hebben en graag makkelijk en snel een clan willen zoeken joinen.
+Onze doelgroep bestaat uit gamers die nog geen clan hebben en op een makkelijke en snelle manier een clan willen vinden en joinen. Dit zijn spelers die graag in een community willen spelen, maar geen zin of tijd hebben om eindeloos te zoeken op forums of sociale media.
+
+Kenmerken van de doelgroep:
+Casual & beginnende spelers – Gamers die net begonnen zijn of af en toe spelen en op zoek zijn naar een gezellige groep om mee te gamen.
+Competitieve spelers – Spelers die beter willen worden en een serieuze clan zoeken met structuur en actieve leden.
+Sociale gamers – Mensen die gamen vooral leuk vinden vanwege het sociale aspect en een actieve community willen.
+Drukke gamers – Spelers met een volle agenda die snel en zonder gedoe een clan willen vinden.
+Verschillende platformen – De doelgroep kan op pc, console of mobiel gamen, afhankelijk van de game.
+Kort gezegd richten we ons op gamers die een clan zoeken zonder gedoe, zodat ze direct kunnen beginnen met spelen in een groep die bij hen past.
 
 ### Moodboard
 
