@@ -1,0 +1,22 @@
+{
+  "name": "tech24-25",
+  "version": "1.0.0",
+  "description": "Eindopdracht voor blok Tech",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JelleDeKoning/TECH24-25.git"
+  },
+  "author": "Jelle Hotting",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JelleDeKoning/TECH24-25/issues"
+  },
+  "homepage": "https://github.com/JelleDeKoning/TECH24-25#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
