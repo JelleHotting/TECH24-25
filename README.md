@@ -3,9 +3,6 @@
 
 # WIKI
 
-## Concept 
-Voor clash of clans spelers willen wij een maching website maken waarbij spelers kunnen zoeken naar clans. In de game kunnen clans aangeven hoeveel trofeeën, welke stadshuis level ze zijn, in welk land de clan is gevestigd en welke taal er in de clan wordt gesproken om zo de juiste spelers te vinden voor hun clan. Wij willen met onze app/website daarmee helpen. Via ons product kunnen ze een formulier invullen waarbij zij hun eigen gegevens kunnen invullen. De app/website zoekt dan vervolgens naar clans die voldoen aan die criteria.
-
 <details>
 <summary>Andere concepten</summary>
 
@@ -22,6 +19,11 @@ SoloMate is een datingplatform speciaal ontworpen voor single ouders die op zoek
 
 
 </details>
+
+## Gekozen Concept 
+Voor Clash of Clans spelers willen wij een maching website maken waarbij spelers kunnen zoeken naar clans. In de game kunnen clans aangeven hoeveel trofeeën, welke stadshuis level ze zijn, in welk land de clan is gevestigd en welke taal er in de clan wordt gesproken om zo de juiste spelers te vinden voor hun clan. Wij willen met onze app/website daarmee helpen. Via ons product kunnen ze een formulier invullen waarbij zij hun eigen gegevens kunnen invullen. De app/website zoekt dan vervolgens naar clans die voldoen aan die criteria.
+
+
 
 ### Doelgroep
 Onze doelgroep bestaat uit gamers die nog geen clan hebben en op een makkelijke en snelle manier een clan willen vinden en joinen. Dit zijn spelers die graag in een community willen spelen, maar geen zin of tijd hebben om eindeloos te zoeken op forums of sociale media.
@@ -72,3 +74,35 @@ zodat de website automatisch een passende clan voor mij vindt.
 Wanneer ik niet veel tijd wil besteden aan het handmatig zoeken naar een clan,
 wil ik snel een overzicht van de beste matches krijgen,
 zodat ik direct een keuze kan maken zonder eindeloos te scrollen.
+
+### Requirementlist
+
+1. **Clan Zoekfunctionaliteit**
+    - Een zoekbalk om clans te vinden op basis van naam of ID.
+    - Een geautomatiseerde lijst met relevante clans op basis van trofeeën, stadshuisniveau, taal en land.
+    - Sorteringsopties zoals “Meest actieve clans”, “Hoogste trofeeën”, of “Beste match”.
+
+2. **Filteropties voor Clanvereisten**
+    - Filters op trofeeën, stadshuisniveau en taal.
+    - Mogelijkheid om meerdere filters tegelijk toe te passen.
+    - Directe herberekening van resultaten bij aanpassing van filters.
+
+3. **Taal- en Regiofilters**
+    - Keuzemenu voor taalinstellingen van de clan.
+    - Filter op land of regio om lokale clans te vinden.
+    - Weergave van taal en regio in de zoekresultaten.
+
+4. **Automatische Clan Matchmaking**
+    - Een formulier waarin spelers hun trofeeën, stadshuisniveau en voorkeuren kunnen invullen.
+    - Een algoritme dat op basis van de ingevulde gegevens een passende clan aanbeveelt.
+    - Mogelijkheid om suggesties opnieuw te genereren bij veranderde voorkeuren.
+
+5. **Snelle Zoekervaring**
+    - Directe weergave van resultaten zonder lange laadtijden.
+    - Suggesties voor populaire of aanbevolen clans.
+    - Mogelijkheid om een lijst met favorieten op te slaan voor later gebruik.
+
+
+## Technische Analyse
+
+We gebruiken de API van [Clash of Clans](https://developer.clashofclans.com/#/)
