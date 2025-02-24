@@ -28,15 +28,15 @@ Onze doelgroep bestaat uit gamers die nog geen clan hebben en op een makkelijke 
 
 Kenmerken van de doelgroep:
 Casual & beginnende spelers
- : Gamers die net begonnen zijn of af en toe spelen en op zoek zijn naar een gezellige groep om mee te gamen.
+ * Gamers die net begonnen zijn of af en toe spelen en op zoek zijn naar een gezellige groep om mee te gamen.
 Competitieve spelers
- : Spelers die beter willen worden en een serieuze clan zoeken met structuur en actieve leden.
+ * Spelers die beter willen worden en een serieuze clan zoeken met structuur en actieve leden.
 Sociale gamers
- : Mensen die gamen vooral leuk vinden vanwege het sociale aspect en een actieve community willen.
+ * Mensen die gamen vooral leuk vinden vanwege het sociale aspect en een actieve community willen.
 Drukke gamers 
- : Spelers met een volle agenda die snel en zonder gedoe een clan willen vinden.
+ * Spelers met een volle agenda die snel en zonder gedoe een clan willen vinden.
 Verschillende platformen 
- :  De doelgroep kan op pc, console of mobiel gamen, afhankelijk van de game.
+ *  De doelgroep kan op pc, console of mobiel gamen, afhankelijk van de game.
 Kort gezegd richten we ons op gamers die een clan zoeken zonder gedoe, zodat ze direct kunnen beginnen met spelen in een groep die bij hen past.
 
 ### Moodboard
