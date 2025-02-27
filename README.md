@@ -48,7 +48,6 @@ Kenmerken van de doelgroep:
 
 ![Kleurenpalet](readme_images/kleurenpalet.jpeg)
 
-### Job Stories
 
 ### Job Stories
 
@@ -107,4 +106,42 @@ zodat ik direct een keuze kan maken zonder eindeloos te scrollen.
 
 ## Technische Analyse
 
-We gebruiken de API van [Clash of Clans](https://developer.clashofclans.com/#/)
+We gebruiken de [API van Clash of Clans](https://developer.clashofclans.com/#/)
+
+## Afspraken code
+### Code Style
+
+- Gebruik van camelCase voor variabelen en functies.
+- Gebruik van PascalCase voor klassen en componenten.
+- Consistente inspringing met 2 spaties.
+
+### Versiebeheer
+
+- Gebruik van feature branches voor nieuwe functionaliteiten.
+- Regelmatige commits met duidelijke en beschrijvende berichten.
+- Pull requests moeten worden goedgekeurd door ten minste één teamlid.
+
+### Documentatie
+
+- Elke functie en klasse moet worden gedocumenteerd met JSDoc.
+- Belangrijke beslissingen en wijzigingen moeten worden vastgelegd in de projectdocumentatie.
+- Gebruik van markdown voor alle documentatiebestanden.
+
+### Testing
+
+- Schrijf unit tests voor elke nieuwe functie of module.
+- Gebruik van Jest als testframework.
+- Testen moeten worden uitgevoerd voor elke merge naar de main branch.
+
+### Code Reviews
+
+- Elke pull request moet een code review ondergaan.
+- Reviewers moeten letten op codekwaliteit, leesbaarheid en naleving van de stijlrichtlijnen.
+- Feedback moet constructief en duidelijk zijn.
+
+### Veiligheid
+
+- Vermijd het hardcoderen van gevoelige informatie zoals API-sleutels.
+- Gebruik van environment variables voor configuratie-instellingen.
+- Regelmatige beveiligingsaudits en updates van dependencies.
+
