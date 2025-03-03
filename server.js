@@ -15,6 +15,7 @@ app
 
 // Use MongoDB
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
+const path = require('path');
 // Construct URL used to connect to database from info in the .env file
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
 // Create a MongoClient
@@ -41,6 +42,10 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+app.get('/login.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'login.html'));
+});
+
 // Middleware to handle not found errors - error 404
 app.use((req, res) => {
   // log error to console
@@ -57,9 +62,34 @@ app.use((err, req, res) => {
   res.status(500).send('500: server error')
 })
 
-// Start the webserver and listen for HTTP requests at specified port
-app.listen(process.env.PORT, () => {
-  console.log(`I did not change this message and now my webserver is listening at port ${process.env.PORT}`)
-})
+
+// Route to handle login
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Connect to the database
+    await client.connect();
+    const database = client.db(process.env.DB_NAME);
+    const users = database.collection('users');
+
+    // Find the user with the provided username
+    const user = await users.findOne({ username: username });
+
+    if (user && user.password === password) {
+      // If user is found and password matches, send success response
+      res.status(200).send('Login successful');
+    } else {
+      // If user is not found or password does not match, send error response
+      res.status(401).send('Invalid username or password');
+    }
+  } catch (err) {
+    console.error('Error during login:', err);
+    res.status(500).send('Internal server error');
+  } finally {
+    // Ensure the client will close when you finish/error
+    await client.close();
+  }
+});
 
 
