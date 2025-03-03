@@ -1,5 +1,0 @@
-DB_HOST=cluster0.pvoqi.mongodb.net
-DB_NAME=Bigboss
-DB_USERNAME=Jelle
-DB_PASSWORD=jelle123
-DB_COLLECTION=Films
