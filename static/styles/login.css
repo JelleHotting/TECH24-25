@@ -1,3 +1,5 @@
+
+/* inlog scherm */
 main{
     display: flex;
     justify-content: center;
@@ -5,4 +7,51 @@ main{
     height: 100vh;
     background-color: #f5f5f5;
 }
+body{
+    background-image: url(static/images/clash-of-clans-halloween-battlefield-8e0l3h8yaw2qvxae-2.jpg);
+}
 
+
+
+.loginForm{
+    width: 35vw;
+    height: 65vh;
+    padding: 1.2em;
+    background-color: rgba(0, 0, 0, 0.737);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+}
+
+input[type="text"], input[type="password"]{
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+label{
+    color: #fff;
+    font-size: 1em;
+}
+
+.loginForm h2{
+    font-size: 1em;
+    color: #fff;
+}
+
+.loginForm  h2 a{
+    color: #1BA352;
+}
+
+.loginButton{
+    background-color: #1BA352;
+    border: none;
+    border-radius: 1em;
+    padding: 0.2em 1em;
+}
+
+
+
+/* eind inlog scher */
