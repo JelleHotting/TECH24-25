@@ -42,8 +42,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/login.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'login.html'));
+app.get('/login', (req, res) => {
+  res.render('login');
 });
 
 // Middleware to handle not found errors - error 404
