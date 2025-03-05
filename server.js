@@ -52,6 +52,14 @@ app.get('/register', (req, res) => {
 app.post('/register', async (req, res) => {
   try {
     const collection = client.db(process.env.DB_NAME).collection('submissions')
+
+    // Controleer of het e-mailadres al bestaat
+    const existingUser = await collection.findOne({ email: req.body.email });
+
+    if (existingUser) {
+      return res.render('register', { error: 'Email bestaat al. Probeer een ander e-mailadres.' });
+    }
+
     const result = await collection.insertOne({
       email: req.body.email,
       password: req.body.password
