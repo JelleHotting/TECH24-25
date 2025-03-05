@@ -16,6 +16,7 @@ header nav ul,a{
     list-style: none;
     padding: 0em;
     color: white;
+    font-family: poppins;
 }
 
 nav ul:first-of-type li:nth-child(2){
@@ -41,6 +42,7 @@ h1{
     background-image: linear-gradient(to right, #98FE00, #337EFF); /* Gradiënt van links naar rechts */
     -webkit-background-clip: text;  /* Zorgt ervoor dat de gradiënt alleen de tekst bedekt */
     color: transparent; /* Zet de tekstkleur op transparant zodat de gradiënt zichtbaar is */
+    font-family: poppins;
 }
 
 /* zoek balk */
