@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
 
 // Registratie
 app.get('/register', (req, res) => {
-  res.render('register');
+  res.render('register', { error: null });
 });
 
 app.post('/register', async (req, res) => {
