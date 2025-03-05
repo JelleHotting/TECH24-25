@@ -87,7 +87,6 @@ app.post('/login', async (req, res) => {
 
     // Controleer of het wachtwoord overeenkomt
     if (user.password === req.body.password) {
-      res.send('Login successful')
       res.render('home')
     } else {
       res.send('Invalid password')
