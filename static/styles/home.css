@@ -43,3 +43,29 @@ h1{
     color: transparent; /* Zet de tekstkleur op transparant zodat de gradiënt zichtbaar is */
 }
 
+/* zoek balk */
+form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2em;
+    background-color: white;
+    height: 3em;
+    width: 25em;
+    border-radius: 100px;
+}
+
+form input{
+    border: none;
+    outline: none;
+    background-color: white;
+    width: 70%;
+}
+
+form button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
