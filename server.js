@@ -88,6 +88,7 @@ app.post('/login', async (req, res) => {
     // Controleer of het wachtwoord overeenkomt
     if (user.password === req.body.password) {
       res.send('Login successful')
+      res.render('home')
     } else {
       res.send('Invalid password')
     }
@@ -96,6 +97,10 @@ app.post('/login', async (req, res) => {
     res.status(500).send('Error finding document in MongoDB')
   }
 })
+
+app.get('/home', (req, res) => {
+  res.render('home');
+});
 
 
 
