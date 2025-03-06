@@ -11,7 +11,6 @@ app
   .use(express.static('static'))             // Allow server to serve static content such as images, stylesheets, fonts or frontend js from the directory named static
   .set('view engine', 'ejs')                 // Set EJS to be our templating engine
   .set('views', 'view')                      // And tell it the views can be found in the directory named view
-  .listen(8000)
 
 // Use MongoDB
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
@@ -42,9 +41,71 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+
+
+
+// Registratie
+app.get('/register', (req, res) => {
+  res.render('register', { error: null });
+});
+
+app.post('/register', async (req, res) => {
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions')
+
+    // Controleer of het e-mailadres al bestaat
+    const existingUser = await collection.findOne({ email: req.body.email });
+
+    if (existingUser) {
+      return res.render('register', { error: 'Email bestaat al. Probeer een ander e-mailadres.' });
+    }
+
+    const result = await collection.insertOne({
+      email: req.body.email,
+      password: req.body.password
+    })
+    res.render('login');
+  } catch (err) {
+    console.error('Error inserting document into MongoDB', err)
+    res.status(500).send('Error inserting document into MongoDB')
+  }
+})
+
 app.get('/login', (req, res) => {
   res.render('login');
 });
+
+// Login
+app.post('/login', async (req, res) => {
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions')
+    const user = await collection.findOne({ email: req.body.email })
+
+    if (!user) {
+      return res.send('Gebruiker niet gevonden')
+    }
+
+    // Controleer of het wachtwoord overeenkomt
+    if (user.password === req.body.password) {
+      res.render('home')
+    } else {
+      res.send('Invalid password')
+    }
+  } catch (err) {
+    console.error('Error finding document in MongoDB', err)
+    res.status(500).send('Error finding document in MongoDB')
+  }
+})
+
+app.get('/home', (req, res) => {
+  res.render('home');
+});
+
+
+
+
+// Listen op port 8000
+app.listen(8000);
 
 // Middleware to handle not found errors - error 404
 app.use((req, res) => {
@@ -61,35 +122,3 @@ app.use((err, req, res) => {
   // send back a HTTP response with status code 500
   res.status(500).send('500: server error')
 })
-
-
-// Route to handle login
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-
-  try {
-    // Connect to the database
-    await client.connect();
-    const database = client.db(process.env.DB_NAME);
-    const users = database.collection('users');
-
-    // Find the user with the provided username
-    const user = await users.findOne({ username: username });
-
-    if (user && user.password === password) {
-      // If user is found and password matches, send success response
-      res.status(200).send('Login successful');
-    } else {
-      // If user is not found or password does not match, send error response
-      res.status(401).send('Invalid username or password');
-    }
-  } catch (err) {
-    console.error('Error during login:', err);
-    res.status(500).send('Internal server error');
-  } finally {
-    // Ensure the client will close when you finish/error
-    await client.close();
-  }
-});
-
-
