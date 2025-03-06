@@ -41,6 +41,7 @@ h1{
     font-size: 2.5em;
     background-image: linear-gradient(to right, #98FE00, #337EFF); /* Gradiënt van links naar rechts */
     -webkit-background-clip: text;  /* Zorgt ervoor dat de gradiënt alleen de tekst bedekt */
+    background-clip: text;
     color: transparent; /* Zet de tekstkleur op transparant zodat de gradiënt zichtbaar is */
     font-family: poppins;
 }
