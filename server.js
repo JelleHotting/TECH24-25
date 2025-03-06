@@ -102,6 +102,7 @@ app.get('/home', (req, res) => {
 });
 
 
+
 // Start de server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`✅ Server draait op poort ${PORT}, open http://localhost:${PORT} in je browser`));
