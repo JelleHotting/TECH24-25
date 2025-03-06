@@ -72,3 +72,22 @@ form button{
     outline: none;
 }
 
+/* resultaten section */
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2em;
+    background-color: white;
+    height: 3em;
+    width: 25em;
+    border-radius: 100px;
+}
+
+section button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+

@@ -103,9 +103,9 @@ app.get('/home', (req, res) => {
 
 
 
-
-// Listen op port 8000
-app.listen(8000);
+// Start de server
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => console.log(`✅ Server draait op poort ${PORT}, open http://localhost:${PORT} in je browser`));
 
 // Middleware to handle not found errors - error 404
 app.use((req, res) => {
