@@ -1,6 +1,5 @@
-
 // Add info from .env file to process.env
-require('dotenv').config() 
+require('dotenv').config()
 
 // Initialise Express webserver
 const express = require('express')
@@ -41,6 +40,92 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+// Registratie
+app.get('/register', (req, res) => {
+  res.render('register', { error: null });
+});
+
+app.post('/register', async (req, res) => {
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions')
+
+    // Controleer of het e-mailadres al bestaat
+    const existingUser = await collection.findOne({ email: req.body.email });
+
+    if (existingUser) {
+      return res.render('register', { error: 'Email bestaat al. Probeer een ander e-mailadres.' });
+    }
+
+    const result = await collection.insertOne({
+      email: req.body.email,
+      password: req.body.password
+    })
+    res.render('login');
+  } catch (err) {
+    console.error('Error inserting document into MongoDB', err)
+    res.status(500).send('Error inserting document into MongoDB')
+  }
+})
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+// Login
+app.post('/login', async (req, res) => {
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions')
+    const user = await collection.findOne({ email: req.body.email })
+
+    if (!user) {
+      return res.send('Gebruiker niet gevonden')
+    }
+
+    // Controleer of het wachtwoord overeenkomt
+    if (user.password === req.body.password) {
+      res.render('home')
+    } else {
+      res.send('Invalid password')
+    }
+  } catch (err) {
+    console.error('Error finding document in MongoDB', err)
+    res.status(500).send('Error finding document in MongoDB')
+  }
+})
+
+app.get('/home', (req, res) => {
+  res.render('home');
+});
+
+// New route to fetch data from Clash of Clans API
+app.get('/api/clan/:clanTag', async (req, res) => {
+  const apiToken = process.env.COC_API_KEY;
+  const clanTag = req.params.clanTag;
+
+  try {
+    const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans/%23${clanTag}`, {
+      headers: {
+        'Authorization': `Bearer ${apiToken}`
+      }
+    });
+
+    if (!response.ok) {
+      console.error(`Error: ${response.status} - ${response.statusText}`);
+      return res.status(response.status).send(response.statusText);
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error('Error fetching data from Clash of Clans API', err);
+    res.status(500).send('Error fetching data from Clash of Clans API');
+  }
+});
+
+// Start de server
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => console.log(`✅ Server draait op poort ${PORT}, open http://localhost:${PORT} in je browser`));
+
 // Middleware to handle not found errors - error 404
 app.use((req, res) => {
   // log error to console
@@ -56,10 +141,4 @@ app.use((err, req, res) => {
   // send back a HTTP response with status code 500
   res.status(500).send('500: server error')
 })
-
-// Start the webserver and listen for HTTP requests at specified port
-app.listen(process.env.PORT, () => {
-  console.log(`I did not change this message and now my webserver is listening at port ${process.env.PORT}`)
-})
-
 
