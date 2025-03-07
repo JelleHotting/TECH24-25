@@ -21,13 +21,13 @@ main{
 
 .loginForm{
     width: 35vw;
-    max-width: 25em;
+    max-width: 20em;
     height: 65vh;
-    padding: 1.2em;
+    border-radius: 1em;
+    padding: 1.5em;
     background-color: rgba(0, 0, 0, 0.737);
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    backdrop-filter: blur(0.2em);
+    box-shadow: 0 0 1em rgba(0,0,0,0.2);
+    backdrop-filter: blur(0.25em);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,19 +35,20 @@ main{
     font-weight: 300;
 }
 
+label{
+    color: #fff;
+    font-size: 0.8em;
+    align-self: flex-start; 
+}
+
 input[type="text"], input[type="password"]{
-    width: 90%;
+    width: 95%;
     padding: 0.6em;
     margin: 0.4em 0;
     border: 0.1em solid #ccc;
     border-radius: 0.5em;
     background: transparent;
     color: white;
-}
-
-label{
-    color: #fff;
-    font-size: 1em;
 }
 
 .loginForm h2{
@@ -64,9 +65,11 @@ label{
     background-color: #1BA352;
     border: none;
     border-radius: 1em;
-    padding: 0.2em 1em;
+    padding: 0.5em;
     color: #fff;
+    width: 100%;
 }
+
 
 
 /* eind inlog scher */
