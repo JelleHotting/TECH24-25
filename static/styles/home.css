@@ -6,7 +6,7 @@ header nav{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 5em;
+    margin: 2em 5em;
 }
 
 header nav ul,a{
@@ -76,18 +76,24 @@ form button{
 section{
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin: 2em;
     background-color: white;
-    height: 3em;
+    height: 26.5em;
     width: 25em;
-    border-radius: 100px;
+    border-radius: 30px;
 }
 
 section button{
-    background: none;
-    border: none;
-    cursor: pointer;
-    outline: none;
+    height: 3em;
 }
+
+section button:nth-of-type(1){
+    width: 3.875em;
+}
+
+section button:nth-of-type(2),
+section button:nth-of-type(3){
+    width: 8.75em;
+}
+
+
 
