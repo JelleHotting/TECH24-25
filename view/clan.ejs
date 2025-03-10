@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClashConnect: <%= clanName %></title>
+</head>
+<body>
+    <h1><%= clanName %></h1>
+    <h2>#<%= clanTag %></h2>
+
+    <section>
+        <h3>Spelers</h3>
+        <ul>
+            <% memberList.forEach(member => { %>
+                <li>
+                    <strong>Name:</strong> <%= member.name %><br>
+                    <strong>Role:</strong> <%= member.role %><br>
+                    <strong>Town Hall Level:</strong> <%= member.townHallLevel %><br>
+                    <strong>Experience Level:</strong> <%= member.expLevel %><br>
+                    <strong>Trophies:</strong> <%= member.trophies %><br>
+                    <strong>Donations:</strong> <%= member.donations %><br>
+                    <strong>Donations Received:</strong> <%= member.donationsReceived %>
+                </li>
+            <% }) %>
+        </ul>
+    </section>
+    </body>
+    </html>

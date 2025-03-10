@@ -10,7 +10,6 @@ app
   .use(express.static('static'))             // Allow server to serve static content such as images, stylesheets, fonts or frontend js from the directory named static
   .set('view engine', 'ejs')                 // Set EJS to be our templating engine
   .set('views', 'view')                      // And tell it the views can be found in the directory named view
-  .listen(8000)
 
 // Use MongoDB
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
@@ -98,7 +97,7 @@ app.get('/home', (req, res) => {
 });
 
 // New route to fetch data from Clash of Clans API
-app.get('/api/clan/:clanTag', async (req, res) => {
+app.get('/clan/:clanTag', async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
   const clanTag = req.params.clanTag;
 
@@ -107,15 +106,23 @@ app.get('/api/clan/:clanTag', async (req, res) => {
       headers: {
         'Authorization': `Bearer ${apiToken}`
       }
+      
     });
+    
 
     if (!response.ok) {
       console.error(`Error: ${response.status} - ${response.statusText}`);
       return res.status(response.status).send(response.statusText);
+
     }
 
     const data = await response.json();
-    res.json(data);
+    // res.json(data);
+
+    const clanName = data.name;
+    // const clanTag = data.tag;
+    res.render('clan', { clanName, clanTag });
+
   } catch (err) {
     console.error('Error fetching data from Clash of Clans API', err);
     res.status(500).send('Error fetching data from Clash of Clans API');
