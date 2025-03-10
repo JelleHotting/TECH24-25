@@ -21,10 +21,10 @@ main{
 }
 
 .loginForm{
-    width: 35vw;
-    max-width: 20em;
-    height: 65vh;
-    border-radius: 1em;
+    width: 45vw;
+    max-width: 27em;
+    height: 75vh;
+    border-radius: 2.5em;
     padding: 1.5em;
     background-color: rgba(0, 0, 0, 0.737);
     box-shadow: 0 0 1em rgba(0,0,0,0.2);
@@ -40,10 +40,11 @@ label{
     color: #fff;
     font-size: 0.8em;
     align-self: flex-start; 
+    padding-left: 2.5em; /* Dit nog veranderen */
 }
 
 input[type="text"], input[type="password"]{
-    width: 95%;
+    width: 80%;
     padding: 0.6em;
     margin: 0.4em 0;
     border: 0.1em solid #ccc;
@@ -66,9 +67,9 @@ input[type="text"], input[type="password"]{
     background-color: #1BA352;
     border: none;
     border-radius: 1em;
-    padding: 0.5em;
+    padding: 0.6em;
     color: #fff;
-    width: 100%;
+    width: 85%;
 }
 
 
