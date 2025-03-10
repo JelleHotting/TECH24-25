@@ -91,10 +91,10 @@ app.post('/login', async (req, res) => {
       return res.send('Gebruiker niet gevonden')
     }
 
-    const isMatch = await bcrypt.compare(req.body.password, user.password);
+    const Match = await bcrypt.compare(req.body.password, user.password);
 
     // Controleer of het wachtwoord overeenkomt
-    if (isMatch) {
+    if (Match) {
       res.render('home')
     } else {
       res.send('Invalid password')
