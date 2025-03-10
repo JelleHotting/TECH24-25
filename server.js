@@ -4,6 +4,7 @@ require('dotenv').config()
 
 // Initialise Express webserver
 const express = require('express')
+const bcrypt = require('bcrypt');
 const app = express()
 
 app
@@ -58,11 +59,15 @@ app.post('/register', async (req, res) => {
 
     if (existingUser) {
       return res.render('register', { error: 'Email bestaat al. Probeer een ander e-mailadres.' });
-    }
+    }   
+
+     // Hash het wachtwoord
+     const saltRounds = 10;
+     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
     const result = await collection.insertOne({
       email: req.body.email,
-      password: req.body.password
+      password: hashedPassword
     })
     res.render('login');
   } catch (err) {
@@ -80,13 +85,16 @@ app.post('/login', async (req, res) => {
   try {
     const collection = client.db(process.env.DB_NAME).collection('submissions')
     const user = await collection.findOne({ email: req.body.email })
+  console.log(req.body.email)
 
     if (!user) {
       return res.send('Gebruiker niet gevonden')
     }
 
+    const isMatch = await bcrypt.compare(req.body.password, user.password);
+
     // Controleer of het wachtwoord overeenkomt
-    if (user.password === req.body.password) {
+    if (isMatch) {
       res.render('home')
     } else {
       res.send('Invalid password')

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/JelleDeKoning/TECH24-25#readme",
   "dependencies": {
     "axios": "^1.8.1",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
