@@ -1,0 +1,78 @@
+
+/* inlog scherm */
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #0F1925;
+}
+
+.backgroundImage{
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: -1;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.loginForm{
+    width: 45vw;
+    max-width: 27em;
+    height: 75vh;
+    border-radius: 2.5em;
+    padding: 1.5em;
+    background-color: rgba(0, 0, 0, 0.737);
+    box-shadow: 0 0 1em rgba(0,0,0,0.2);
+    backdrop-filter: blur(0.25em);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: poppins;
+    font-weight: 300;
+}
+
+label{
+    color: #fff;
+    font-size: 0.8em;
+    align-self: flex-start; 
+    padding-left: 2.5em; /* Dit nog veranderen */
+}
+
+input[type="text"], input[type="password"]{
+    width: 80%;
+    padding: 0.6em;
+    margin: 0.4em 0;
+    border: 0.1em solid #ccc;
+    border-radius: 0.5em;
+    background: transparent;
+    color: white;
+}
+
+.loginForm h2{
+    font-size: 0.7em;
+    color: #fff;
+    font-weight: 300;
+}
+
+.loginForm  h2 a{
+    color: #1BA352;
+}
+
+.loginButton{
+    background-color: #1BA352;
+    border: none;
+    border-radius: 1em;
+    padding: 0.6em;
+    color: #fff;
+    width: 85%;
+}
+
+
+
+/* eind inlog scher */

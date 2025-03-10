@@ -13,6 +13,7 @@ app
 
 // Use MongoDB
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
+const path = require('path');
 // Construct URL used to connect to database from info in the .env file
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
 // Create a MongoClient
@@ -39,6 +40,12 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> Login
 // Registratie
 app.get('/register', (req, res) => {
   res.render('register', { error: null });
@@ -96,6 +103,7 @@ app.get('/home', (req, res) => {
   res.render('home');
 });
 
+<<<<<<< HEAD
 // Route via the cocproxy om data van de Clash of Clans API op te halen
 app.get('/clan/:clanTag', async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
@@ -128,6 +136,9 @@ app.get('/clan/:clanTag', async (req, res) => {
     res.status(500).send('Error fetching data from Clash of Clans API');
   }
 });
+=======
+
+>>>>>>> Login
 
 // Start de server
 const PORT = process.env.PORT || 8000;
@@ -148,4 +159,7 @@ app.use((err, req, res) => {
   // send back a HTTP response with status code 500
   res.status(500).send('500: server error')
 })
+<<<<<<< HEAD
 
+=======
+>>>>>>> Login

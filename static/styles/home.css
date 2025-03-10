@@ -1,0 +1,99 @@
+body{
+    background-color: #0F1925;
+}
+
+header nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2em 5em;
+}
+
+header nav ul,a{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    list-style: none;
+    padding: 0em;
+    color: white;
+    font-family: poppins;
+}
+
+nav ul:first-of-type li:nth-child(2){
+    margin: 0em 2em;
+}
+
+nav ul:nth-of-type(2) li:nth-child(2){
+    margin-left: 1em;
+}
+
+
+
+/* main */
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    font-size: 2.5em;
+    background-image: linear-gradient(to right, #98FE00, #337EFF); /* Gradiënt van links naar rechts */
+    -webkit-background-clip: text;  /* Zorgt ervoor dat de gradiënt alleen de tekst bedekt */
+    background-clip: text;
+    color: transparent; /* Zet de tekstkleur op transparant zodat de gradiënt zichtbaar is */
+    font-family: poppins;
+}
+
+/* zoek balk */
+form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2em;
+    background-color: white;
+    height: 3em;
+    width: 25em;
+    border-radius: 100px;
+}
+
+form input{
+    border: none;
+    outline: none;
+    background-color: white;
+    width: 70%;
+}
+
+form button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+/* resultaten section */
+section{
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    height: 26.5em;
+    width: 25em;
+    border-radius: 30px;
+}
+
+section button{
+    height: 3em;
+}
+
+section button:nth-of-type(1){
+    width: 3.875em;
+}
+
+section button:nth-of-type(2),
+section button:nth-of-type(3){
+    width: 8.75em;
+}
+
+
+
