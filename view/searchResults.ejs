@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    <ul>
+        <% clans.forEach(clan => { %>
+            <li>
+                <h2><%= clan.name %> (#<%= clan.tag %>)</h2>
+                <p>Level: <%= clan.clanLevel %></p>
+                <p>Members: <%= clan.members %></p>
+                <p>Description: <%= clan.description %></p>
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>

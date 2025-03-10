@@ -4,13 +4,19 @@ require('dotenv').config()
 // Initialise Express webserver
 const express = require('express')
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 const app = express()
 
 app
   .use(express.urlencoded({extended: true})) // middleware to parse form data from incoming HTTP request and add form fields to req.body
   .use(express.static('static'))             // Allow server to serve static content such as images, stylesheets, fonts or frontend js from the directory named static
-  .set('view engine', 'ejs')                 // Set EJS to be our templating engine
   .set('views', 'view')                      // And tell it the views can be found in the directory named view
+  .use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: true
+  }))                                        // Add session middleware
+  .set('view engine', 'ejs');                      
 
 // Use MongoDB
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
@@ -49,19 +55,29 @@ app.post('/register', async (req, res) => {
   try {
     const collection = client.db(process.env.DB_NAME).collection('submissions')
 
-    // Controleer of het e-mailadres al bestaat
-    const existingUser = await collection.findOne({ email: req.body.email });
+    // Controleer of het e-mailadres of gebruikersnaam al bestaat
+    const existingUser = await collection.findOne({ 
+      $or: [
+        { email: req.body.email },
+        { username: req.body.username }
+      ]
+    });
 
     if (existingUser) {
+      if (existingUser.email.toLowerCase() === req.body.email.toLowerCase()) {
       return res.render('register', { error: 'Email bestaat al. Probeer een ander e-mailadres.' });
+      } else if (existingUser.username.toLowerCase() === req.body.username.toLowerCase()) {
+      return res.render('register', { error2: 'Gebruikersnaam bestaat al. Probeer een andere gebruikersnaam.' });
+      }
     }   
 
-     // Hash het wachtwoord
-     const saltRounds = 10;
-     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+    // Hash het wachtwoord
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
     const result = await collection.insertOne({
       email: req.body.email,
+      username: req.body.username,
       password: hashedPassword
     })
     res.render('login');
@@ -80,7 +96,7 @@ app.post('/login', async (req, res) => {
   try {
     const collection = client.db(process.env.DB_NAME).collection('submissions')
     const user = await collection.findOne({ email: req.body.email })
-  console.log(req.body.email)
+    console.log(req.body.email)
 
     if (!user) {
       return res.send('Gebruiker niet gevonden')
@@ -90,7 +106,8 @@ app.post('/login', async (req, res) => {
 
     // Controleer of het wachtwoord overeenkomt
     if (Match) {
-      res.render('home')
+      req.session.username = user.username; // Save username in session
+      res.render('home', { username: user.username }) // Pass username to the homepage
     } else {
       res.send('Invalid password')
     }
@@ -101,8 +118,36 @@ app.post('/login', async (req, res) => {
 })
 
 app.get('/home', (req, res) => {
-  res.render('home');
+  res.render('home', { username: req.session.username });
 });
+
+
+// Search route to fetch clans from Clash of Clans API
+app.get('/search', async (req, res) => {
+  const apiToken = process.env.COC_API_KEY;
+  const query = req.query.clanName;
+
+  try {
+    const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans?name=${encodeURIComponent(query)}`, {
+      headers: {
+        'Authorization': `Bearer ${apiToken}`
+      }
+    });
+
+    if (!response.ok) {
+      console.error(`Error: ${response.status} - ${response.statusText}`);
+      return res.status(response.status).send(response.statusText);
+    }
+
+    const data = await response.json();
+    res.render('searchResults', { clans: data.items });
+  } catch (err) {
+    console.error('Error fetching data from Clash of Clans API', err);
+    res.status(500).send('Error fetching data from Clash of Clans API');
+  }
+});
+
+
 
 
 // Registratie

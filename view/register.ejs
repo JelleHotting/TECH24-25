@@ -18,13 +18,21 @@
     
     <form action="/register" method="POST" class="loginForm">
         <h1>Registreren</h1>
-        <label for="username">Gebruikersnaam:</label>
-            <input type="text" id="username" name="username" required>
+        <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
 
-        <% if (error) { %>
+        <% if (typeof error !== 'undefined') { %>
             <label><%= error %></label>
           <% } %>
 
+        <br>
+
+        <label for="username">Gebruikersnaam:</label>
+            <input type="text" id="username" name="username" required>
+
+            <% if (typeof error2 !== 'undefined') { %>
+                <label><%= error2 %></label>
+              <% } %>
         <br>
         <label for="password">Wachtwoord:</label>
             <input type="password" id="password" name="password" required>
