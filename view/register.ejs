@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/login.css">
+</head>
+<body>
+    <div>
+        <img class="backgroundImage" src="/images/clash-of-clans-halloween-battlefield-8e0l3h8yaw2qvxae-2.jpg" alt="Achtergrond foto">
+    </div>
+    <header>
+
+    </header>
+
+    <main>
+    
+    <form action="/register" method="POST" class="loginForm">
+        <h1>Registreren</h1>
+        <label for="username">Gebruikersnaam:</label>
+            <input type="text" id="username" name="username" required>
+
+        <% if (error) { %>
+            <label><%= error %></label>
+          <% } %>
+
+        <br>
+        <label for="password">Wachtwoord:</label>
+            <input type="password" id="password" name="password" required>
+        <br>
+        <button class="loginButton" type="submit">Register</button>
+        <h2>Heb je al een account? <a href="/login">Login</a></h2>
+    </form>
+    </main>
+
+    <footer>
+
+    </footer>
+</body>
+</html>
