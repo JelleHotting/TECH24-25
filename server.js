@@ -183,11 +183,25 @@ app.get('/clan/:clanTag', async (req, res) => {
     }
 
     const data = await response.json();
-    // res.json(data);
 
     const clanName = data.name;
     const clanLevel = data.clanLevel;
-    res.render('clan', { clanName, clanTag, clanLevel });
+    const clanImg = data.badgeUrls.small;
+    const clanDivisie = data.warLeague ? data.warLeague.name : 'N/A';
+    const trophies = data.clanPoints;
+    const requiredTrophies = data.requiredTrophies;
+    const requiredTownHallLevel = data.requiredTownhallLevel;
+    const memberCount = data.members;
+    const description = data.description;
+    const language = data.chatLanguage ? data.chatLanguage.name : 'N/A';
+    const location = data.location ? data.location.name : 'N/A';
+    const type = data.type;
+
+    const members = data.memberList.map(member => member.name);
+
+    const membersString = members.join(', ');
+
+    res.render('clan', { clanName, clanTag, clanLevel, clanImg, clanDivisie, trophies, requiredTrophies, requiredTownHallLevel, memberCount, description, language, location, type, membersString });
 
   } catch (err) {
     console.error('Error fetching data from Clash of Clans API', err);
