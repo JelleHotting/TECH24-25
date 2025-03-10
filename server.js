@@ -13,7 +13,6 @@ app
 
 // Use MongoDB
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
-const path = require('path');
 // Construct URL used to connect to database from info in the .env file
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
 // Create a MongoClient
@@ -40,12 +39,6 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> Login
 // Registratie
 app.get('/register', (req, res) => {
   res.render('register', { error: null });
@@ -103,7 +96,64 @@ app.get('/home', (req, res) => {
   res.render('home');
 });
 
-<<<<<<< HEAD
+
+// Registratie
+app.get('/register', (req, res) => {
+  res.render('register', { error: null });
+});
+
+app.post('/register', async (req, res) => {
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions')
+
+    // Controleer of het e-mailadres al bestaat
+    const existingUser = await collection.findOne({ email: req.body.email });
+
+    if (existingUser) {
+      return res.render('register', { error: 'Email bestaat al. Probeer een ander e-mailadres.' });
+    }
+
+    const result = await collection.insertOne({
+      email: req.body.email,
+      password: req.body.password
+    })
+    res.render('login');
+  } catch (err) {
+    console.error('Error inserting document into MongoDB', err)
+    res.status(500).send('Error inserting document into MongoDB')
+  }
+})
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+// Login
+app.post('/login', async (req, res) => {
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions')
+    const user = await collection.findOne({ email: req.body.email })
+
+    if (!user) {
+      return res.send('Gebruiker niet gevonden')
+    }
+
+    // Controleer of het wachtwoord overeenkomt
+    if (user.password === req.body.password) {
+      res.render('home')
+    } else {
+      res.send('Invalid password')
+    }
+  } catch (err) {
+    console.error('Error finding document in MongoDB', err)
+    res.status(500).send('Error finding document in MongoDB')
+  }
+})
+
+app.get('/home', (req, res) => {
+  res.render('home');
+});
+
 // Route via the cocproxy om data van de Clash of Clans API op te halen
 app.get('/clan/:clanTag', async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
@@ -136,9 +186,6 @@ app.get('/clan/:clanTag', async (req, res) => {
     res.status(500).send('Error fetching data from Clash of Clans API');
   }
 });
-=======
-
->>>>>>> Login
 
 // Start de server
 const PORT = process.env.PORT || 8000;
@@ -159,7 +206,4 @@ app.use((err, req, res) => {
   // send back a HTTP response with status code 500
   res.status(500).send('500: server error')
 })
-<<<<<<< HEAD
 
-=======
->>>>>>> Login
