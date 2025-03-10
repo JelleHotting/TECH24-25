@@ -96,7 +96,7 @@ app.get('/home', (req, res) => {
   res.render('home');
 });
 
-// New route to fetch data from Clash of Clans API
+// Route via the cocproxy om data van de Clash of Clans API op te halen
 app.get('/clan/:clanTag', async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
   const clanTag = req.params.clanTag;
@@ -120,8 +120,8 @@ app.get('/clan/:clanTag', async (req, res) => {
     // res.json(data);
 
     const clanName = data.name;
-    // const clanTag = data.tag;
-    res.render('clan', { clanName, clanTag });
+    const clanLevel = data.clanLevel;
+    res.render('clan', { clanName, clanTag, clanLevel });
 
   } catch (err) {
     console.error('Error fetching data from Clash of Clans API', err);
