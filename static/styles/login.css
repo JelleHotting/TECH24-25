@@ -5,7 +5,8 @@ body{
     padding: 0;
 }
 
-body img{
+.backgroundImage{
+    object-fit: cover;
     width: 100vw;
     height: 100vh;
     position: absolute;
