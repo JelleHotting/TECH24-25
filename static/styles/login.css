@@ -44,7 +44,7 @@ label{
     padding-left: 2.5em; /* Dit nog veranderen */
 }
 
-input[type="email"], input[type="password"]{
+input[type="email"], input[type="password"], input[type="text"]{
     width: 95%;
     padding: 0.6em;
     margin: 0.4em 0;
