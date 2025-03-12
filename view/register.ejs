@@ -18,8 +18,8 @@
     
     <form action="/register" method="POST" class="loginForm">
         <h1>Registreren</h1>
-        <label for="username">Gebruikersnaam:</label>
-            <input type="text" id="username" name="username" required>
+        <label for="email">Gebruikersnaam:</label>
+            <input type="email" id="email" name="email" required>
 
         <% if (error) { %>
             <label><%= error %></label>
