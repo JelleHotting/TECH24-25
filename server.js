@@ -184,7 +184,11 @@ app.get('/login', (req, res) => {
 
 app.get('/home', (req, res) => {
   res.render('home');
+
+
 });
+
+
 
 // Route via the cocproxy om data van de Clash of Clans API op te halen
 app.get('/clan/:clanTag', async (req, res) => {

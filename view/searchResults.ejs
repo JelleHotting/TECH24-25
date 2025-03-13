@@ -11,6 +11,7 @@
         <% clans.forEach(clan => { %>
             <li>
                 <h2><%= clan.name %> (#<%= clan.tag %>)</h2>
+                <img src="<%= clan.badgeUrls.small %>" alt="Clan Image">
                 <p>Level: <%= clan.clanLevel %></p>
                 <p>Members: <%= clan.members %></p>
                 <p>Description: <%= clan.description %></p>
