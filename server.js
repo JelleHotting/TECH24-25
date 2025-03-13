@@ -1,4 +1,4 @@
-// Add info from .env file to process.env
+// Add info from .env file to process.en
 require('dotenv').config()
 
 // Initialise Express webserver
@@ -20,6 +20,7 @@ app
 
 // Use MongoDB
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
+const dotenv = require('dotenv');
 // Construct URL used to connect to database from info in the .env file
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
 // Create a MongoClient
@@ -181,28 +182,6 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
-// Login
-app.post('/login', async (req, res) => {
-  try {
-    const collection = client.db(process.env.DB_NAME).collection('submissions')
-    const user = await collection.findOne({ email: req.body.email })
-
-    if (!user) {
-      return res.send('Gebruiker niet gevonden')
-    }
-
-    // Controleer of het wachtwoord overeenkomt
-    if (user.password === req.body.password) {
-      res.render('home')
-    } else {
-      res.send('Invalid password')
-    }
-  } catch (err) {
-    console.error('Error finding document in MongoDB', err)
-    res.status(500).send('Error finding document in MongoDB')
-  }
-})
-
 app.get('/home', (req, res) => {
   res.render('home');
 });
@@ -213,21 +192,18 @@ app.get('/clan/:clanTag', async (req, res) => {
   const clanTag = req.params.clanTag;
 
   try {
-    const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans/%23${clanTag}`, {
-      headers: {
-        'Authorization': `Bearer ${apiToken}`
+      const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans/%23${clanTag}`, {
+          headers: {
+              'Authorization': `Bearer ${apiToken}`
+          }
+      });
+  
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
       }
+  
+      const data = await response.json();
       
-    });
-    
-
-    if (!response.ok) {
-      console.error(`Error: ${response.status} - ${response.statusText}`);
-      return res.status(response.status).send(response.statusText);
-
-    }
-
-    const data = await response.json();
 
     const clanName = data.name;
     const clanLevel = data.clanLevel;
