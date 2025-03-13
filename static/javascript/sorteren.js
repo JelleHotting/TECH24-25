@@ -2,4 +2,4 @@ let options = {
     valueNames: [ 'naam' ]
   };
   
-  var lijst = new List('clanLijst', options);
+  var List = new List('clanLijst', options);
