@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profiel</title>
+    <link rel="stylesheet" href="/styles/profile.css" />
+  </head>
+  <body>
+    <section class="profile-container">
+      <h1>Profiel</h1>
+      <section class="profile-info">
+        <img
+          src="/images/barbaar.png"
+          alt="Een foto van een karakter">
+        <p><strong>Naam:</strong> <%= username %></p>
+        <p><strong>Email:</strong> <%= email %> </p>
+      </section>
+      <section class="profile-actions">
+        <a href="/edit-profile" class="btn">Profiel bewerken</a>
+        <form action="/logout" method="POST" style="display: inline;">
+          <button type="submit" class="btn">Uitloggen</button>
+        </form></form>
+      </section>
+    </section>
+  </body>
+</html>

@@ -1,4 +1,4 @@
-// Add info from .env file to process.en
+// Add info from .env file to process.env
 require('dotenv').config()
 
 // Initialise Express webserver
@@ -42,10 +42,20 @@ client.connect()
     console.log(`For uri - ${uri}`)
   })
 
-// A sample route, replace this with your own routes
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+  function isAuthenticated(req, res, next) {
+    if (req.session.username) {
+      return next();
+    }
+  
+    res.redirect('/login');
+  }
+
+
+app.get('/', isAuthenticated, (req, res) => {
+  res.render('home', { username: req.session.username });
 })
+
+
 
 // Registratie
 app.get('/register', (req, res) => {
@@ -92,6 +102,25 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
+app.get('/profile', isAuthenticated, async (req, res) => {
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+    const user = await collection.findOne({ username: req.session.username });
+
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    res.render('profile', { 
+      username: req.session.username,
+      email: user.email
+    });
+  } catch (err) {
+    console.error('Error fetching user from MongoDB', err);
+    res.status(500).send('Error fetching user from MongoDB');
+  }
+});
+
 // Login
 app.post('/login', async (req, res) => {
   try {
@@ -118,13 +147,18 @@ app.post('/login', async (req, res) => {
   }
 })
 
-app.get('/home', (req, res) => {
-  res.render('home', { username: req.session.username });
+// Logout
+app.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send('Error logging out');
+    }
+    res.redirect('/login');
+  });
 });
 
-
 // Search route to fetch clans from Clash of Clans API
-app.get('/search', async (req, res) => {
+app.get('/search' , isAuthenticated, async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
   const query = req.query.clanName;
 
@@ -148,46 +182,8 @@ app.get('/search', async (req, res) => {
   }
 });
 
-
-
-
-// Registratie
-app.get('/register', (req, res) => {
-  res.render('register', { error: null });
-});
-
-app.post('/register', async (req, res) => {
-  try {
-    const collection = client.db(process.env.DB_NAME).collection('submissions')
-
-    // Controleer of het e-mailadres al bestaat
-    const existingUser = await collection.findOne({ email: req.body.email });
-
-    if (existingUser) {
-      return res.render('register', { error: 'Email bestaat al. Probeer een ander e-mailadres.' });
-    }
-
-    const result = await collection.insertOne({
-      email: req.body.email,
-      password: req.body.password
-    })
-    res.render('login');
-  } catch (err) {
-    console.error('Error inserting document into MongoDB', err)
-    res.status(500).send('Error inserting document into MongoDB')
-  }
-})
-
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
-app.get('/home', (req, res) => {
-  res.render('home');
-});
-
 // Route via the cocproxy om data van de Clash of Clans API op te halen
-app.get('/clan/:clanTag', async (req, res) => {
+app.get('/clan/:clanTag', isAuthenticated, async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
   const clanTag = req.params.clanTag;
 
@@ -239,7 +235,7 @@ app.use((req, res) => {
   // log error to console
   console.error('404 error at URL: ' + req.url)
   // send back a HTTP response with status code 404
-  res.status(404).send('404 error at URL: ' + req.url)
+  res.status(404).render('404', { url: req.url });
 })
 
 // Middleware to handle server errors - error 500
@@ -249,4 +245,3 @@ app.use((err, req, res) => {
   // send back a HTTP response with status code 500
   res.status(500).send('500: server error')
 })
-
