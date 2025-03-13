@@ -1,7 +1,60 @@
 body{
     background-color: #0F1925;
+    color: #EFEFEF;
+    margin: 0;
+    padding: 0;
+    font-family: poppins;
+}
+
+ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 header{
     background-color: #49475A;
+}
+
+main{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    gap: 2em;
+}
+
+.clanBanner{
+    display: flex;
+    background-color: #49475A;
+    height: 20vh;
+}
+
+.clanInfo{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    justify-items: center;
+}
+
+.clanStats{
+    background-color: #49475A;
+    border-radius: 1.5em;
+    width: 90%;
+}
+
+.clanStats ul{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.clanLeden{
+    background-color: #49475A;
+    border-radius: 1.5em;
+    width: 90%;
+}
+
+.clanLeden ol{
+    display: flex;
+    flex-direction: column;
 }
