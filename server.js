@@ -182,6 +182,48 @@ app.get('/search' , isAuthenticated, async (req, res) => {
   }
 });
 
+
+
+
+// Registratie
+app.get('/register', (req, res) => {
+  res.render('register', { error: null });
+});
+
+app.post('/register', async (req, res) => {
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions')
+
+    // Controleer of het e-mailadres al bestaat
+    const existingUser = await collection.findOne({ email: req.body.email });
+
+    if (existingUser) {
+      return res.render('register', { error: 'Email bestaat al. Probeer een ander e-mailadres.' });
+    }
+
+    const result = await collection.insertOne({
+      email: req.body.email,
+      password: req.body.password
+    })
+    res.render('login');
+  } catch (err) {
+    console.error('Error inserting document into MongoDB', err)
+    res.status(500).send('Error inserting document into MongoDB')
+  }
+})
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.get('/home', (req, res) => {
+  res.render('home');
+
+
+});
+
+
+
 // Route via the cocproxy om data van de Clash of Clans API op te halen
 app.get('/clan/:clanTag', isAuthenticated, async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
