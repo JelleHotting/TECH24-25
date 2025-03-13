@@ -1,12 +1,13 @@
 
 /* inlog scherm */
-body{
+body {
     margin: 0;
     padding: 0;
     background-color: #0F1925;
+    font-family: 'Poppins', sans-serif;
 }
 
-.backgroundImage{
+.backgroundImage {
     object-fit: cover;
     width: 100vw;
     height: 100vh;
@@ -14,64 +15,123 @@ body{
     z-index: -1;
 }
 
-main{
+h1{
+    color: white;
+    font-size: 2em;
+    text-align: center;
+    margin-top: 1em;
+}
+
+main {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    padding: 1em;
 }
 
-.loginForm{
-    width: 45vw;
+.loginForm {
+    width: 90%;
     max-width: 27em;
-    height: 75vh;
-    border-radius: 2.5em;
-    padding: 1.5em;
+    padding: 2em;
     background-color: rgba(0, 0, 0, 0.737);
-    box-shadow: 0 0 1em rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     backdrop-filter: blur(0.25em);
+    border-radius: 1.5em;
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: poppins;
-    font-weight: 300;
+    gap: 1em;
+    text-align: center;
 }
 
-label{
+.loginForm h2 {
+    font-size: 1em;
     color: #fff;
-    font-size: 0.8em;
-    align-self: flex-start; 
-    padding-left: 2.5em; /* Dit nog veranderen */
+    font-weight: 400;
+    margin-bottom: 0.5em;
 }
 
-input[type="email"], input[type="password"], input[type="text"]{
-    width: 95%;
-    padding: 0.6em;
-    margin: 0.4em 0;
-    border: 0.1em solid #ccc;
-    border-radius: 0.5em;
-    background: transparent;
-    color: white;
-}
-
-.loginForm h2{
-    font-size: 0.7em;
-    color: #fff;
-    font-weight: 300;
-}
-
-.loginForm  h2 a{
+.loginForm h2 a {
     color: #1BA352;
+    text-decoration: none;
 }
 
-.loginButton{
+label {
+    color: #fff;
+    font-size: 0.9em;
+    align-self: flex-start;
+    margin-left: 1em;
+    margin-bottom: 0.3em;
+}
+
+input[type="email"], 
+input[type="password"], 
+input[type="text"] {
+    width: 100%;
+    padding: 0.8em;
+    margin-bottom: 0.8em;
+    border: 0.1em solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.8em;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1em;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="email"]:focus, 
+input[type="password"]:focus, 
+input[type="text"]:focus {
+    border-color: #1BA352;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.loginButton {
     background-color: #1BA352;
     border: none;
-    border-radius: 1em;
-    padding: 0.6em;
+    border-radius: 1.5em;
+    padding: 0.8em;
     color: #fff;
-    width: 85%;
+    width: 100%;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s;
 }
+
+.loginButton:hover {
+    background-color: #14843f;
+}
+
+a {
+    position: relative;
+    text-decoration: none;
+    color: #1BA352;
+    font-size: 1em;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: #1BA352;
+    transition: width 0.3s ease-in-out;
+}
+
+a:hover {
+    color: #14843f; /* Optioneel: kleurverandering bij hover */
+}
+
+a:hover::after {
+    width: 100%;
+}
+
+
 
 
 
