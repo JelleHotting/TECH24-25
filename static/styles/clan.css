@@ -56,7 +56,21 @@ main{
     margin: 0;
     height: auto;
     width: 65%;
-    max-width: 10em;
+    max-width: 9em;
+}
+
+.clanBanner button{
+    grid-row-start: 2;
+    grid-column-start: 2;
+    justify-self: end;
+    align-self: start;
+    margin-right: 2em;
+    border-radius: 1.5em;
+    padding: 0.5em 5em;
+    color: #EFEFEF;
+    background-color: #1BA352;
+    border: none;
+    font-family: poppins;
 }
 
 
