@@ -225,7 +225,7 @@ app.get('/home', (req, res) => {
 
 
 // Route via the cocproxy om data van de Clash of Clans API op te halen
-app.get('/clan/:clanTag', isAuthenticated, async (req, res) => {
+app.get('/clan/:clanTag', /*isAuthenticated,*/ async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
   const clanTag = req.params.clanTag;
 
