@@ -11,26 +11,31 @@
     />
 </head>
 <body id="clanLijst">
-    <input type="search" class="search" name="search" required>
-    <h1>Search Results</h1>
-    <ul class="list">
-        <% clans.forEach(clan => { %>
-            <li>
-                <img src="<%= clan.badgeUrls.small %>" alt="Clan Image">
+    <%- include('header') %>
+    <main>
+        <input type="search" class="search" name="search" required>
+        <h1>Search Results</h1>
+        <ul class="list">
+            <% clans.forEach(clan => { %>
+                <a href="/clan/<%= clan.tag.replace('#', '') %>">
+                    <li>
+                        <img src="<%= clan.badgeUrls.small %>" alt="Clan Image">
 
-                <div>
-                    <h2 class="naam"><%= clan.name %> (#<%= clan.tag %>)</h2>
-                    <p>type: <%= clan.type %></p>
-                    <p>Level: <%= clan.clanLevel %></p>
-                </div>
-                
-                <div>
-                    <p>Leden: <%= clan.members %></p>
-                    <p>Trofeeën: <%= clan.clanPoints %></p>
-                </div>
-            </li>
-        <% }) %>
-    </ul>
+                        <div>
+                            <h2 class="naam"><%= clan.name %> (#<%= clan.tag %>)</h2>
+                            <p>type: <%= clan.type %></p>
+                            <p>Level: <%= clan.clanLevel %></p>
+                        </div>
+                        
+                        <div>
+                            <p>Leden: <%= clan.members %></p>
+                            <p>Trofeeën: <%= clan.clanPoints %></p>
+                        </div>
+                    </li>
+                </a>
+            <% }) %>
+        </ul>
+    </main>
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
     <script src="/javascript/sorteren.js"></script>
 </body>

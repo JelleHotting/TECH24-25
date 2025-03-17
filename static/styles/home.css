@@ -2,33 +2,6 @@ body{
     background-color: #0F1925;
 }
 
-header nav{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 2em 5em;
-}
-
-header nav ul,a{
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    list-style: none;
-    padding: 0em;
-    color: white;
-    font-family: poppins;
-}
-
-nav ul:first-of-type li:nth-child(2){
-    margin: 0em 2em;
-}
-
-nav ul:nth-of-type(2) li:nth-child(2){
-    margin-left: 1em;
-}
-
-
-
 /* main */
 main{
     display: flex;

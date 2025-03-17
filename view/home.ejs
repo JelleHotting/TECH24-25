@@ -13,22 +13,7 @@
     />
   </head>
   <body>
-    <header>
-      <nav>
-        <img src="/images/Clash-connect-logo.png" alt="Clash connect" />
-
-        <ul>
-          <li><a href="/home">Home</a></li>
-          <li><a href="/zoeken">Zoeken</a></li>
-          <li><a href="/overons">Over ons</a></li>
-        </ul>
-
-        <ul>
-          <li><img src="/images/250px-troop-giant_png.png" alt="" /></li>
-          <li><a href="/profile"><%= username %></a></li>
-        </ul>
-      </nav>
-    </header>
+    <%- include('header') %>
 
     <main>
       <h1>Hey <%= username %>, <br />wat wil je zoeken</h1>

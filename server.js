@@ -175,7 +175,7 @@ app.get('/search' , isAuthenticated, async (req, res) => {
     }
 
     const data = await response.json();
-    res.render('searchResults', { clans: data.items });
+    res.render('searchResults', { clans: data.items, username: req.session.username });
   } catch (err) {
     console.error('Error fetching data from Clash of Clans API', err);
     res.status(500).send('Error fetching data from Clash of Clans API');
