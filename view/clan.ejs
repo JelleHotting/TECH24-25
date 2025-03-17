@@ -17,7 +17,10 @@
             <h1><%= clanName %></h1>
             <h2>#<%= clanTag %></h2>
             <img src="<%= clanImg %>" alt="Clan Image">
-            <button>Opslaan</button>
+            <form action="/saveClan" method="POST">
+                <button class="opslaanknop" type="submit">Opslaan</button>
+                <input type="hidden" name="clanTag" value="<%= clanTag %>">
+            </form>
         </section>
 
         <section class="clanInfo">

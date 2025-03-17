@@ -288,6 +288,22 @@ app.get('/clan/:clanTag', /*isAuthenticated,*/ async (req, res) => {
   }
 });
 
+// opslaan van een clan in je profiel
+app.post('/saveClan', isAuthenticated, async (req, res) => {
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+    await collection.updateOne(
+      { username: req.session.username }, // Add a filter to find the correct user
+      { $push: { favoriteClans: req.body.clanTag } }, // Push the clanTag to the favoriteClans array
+      { upsert: true } // Add a new document if it doesn't exist
+    );
+    res.sendStatus(200);
+  } catch (err) {
+    console.error('Error inserting document into MongoDB', err);
+    res.sendStatus(500);
+  }
+});
+
 // Start de server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`✅ Server draait op poort ${PORT}, open http://localhost:${PORT} in je browser`));
