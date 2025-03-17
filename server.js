@@ -194,16 +194,35 @@ app.post('/register', async (req, res) => {
   try {
     const collection = client.db(process.env.DB_NAME).collection('submissions')
 
-    // Controleer of het e-mailadres al bestaat
-    const existingUser = await collection.findOne({ email: req.body.email });
+    // Controleer of het e-mailadres of gebruikersnaam al bestaat
+    const existingUser = await collection.findOne({ 
+      $or: [
+        { email: req.body.email },
+        { username: req.body.username }
+      ]
+    });
 
     if (existingUser) {
+      if (existingUser.email.toLowerCase() === req.body.email.toLowerCase()) {
       return res.render('register', { error: 'Email bestaat al. Probeer een ander e-mailadres.' });
+      } else if (existingUser.username.toLowerCase() === req.body.username.toLowerCase()) {
+      return res.render('register', { error2: 'Gebruikersnaam bestaat al. Probeer een andere gebruikersnaam.' });
+      }
+    }   
+
+    // Controleer of de wachtwoorden overeenkomen
+    if (req.body.password !== req.body.password2) {
+      return res.render('register', { error: 'Wachtwoorden komen niet overeen.' });
     }
+
+    // Hash het wachtwoord
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
     const result = await collection.insertOne({
       email: req.body.email,
-      password: req.body.password
+      username: req.body.username,
+      password: hashedPassword
     })
     res.render('login');
   } catch (err) {
@@ -218,10 +237,11 @@ app.get('/login', (req, res) => {
 
 app.get('/home', (req, res) => {
   res.render('home');
-
-
 });
 
+app.get('/matching', (req, res) => {
+  res.render('matching');
+});
 
 
 // Route via the cocproxy om data van de Clash of Clans API op te halen
