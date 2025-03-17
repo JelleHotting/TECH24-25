@@ -85,6 +85,8 @@ main{
     background-color: #49475A;
     border-radius: 1.5em;
     width: 90%;
+    height: 80%;
+    overflow-y: scroll;
 }
 
 .clanStats ul{
@@ -96,6 +98,8 @@ main{
     background-color: #49475A;
     border-radius: 1.5em;
     width: 90%;
+    height: 80%;
+    overflow-y: scroll;
 }
 
 .clanLeden ol{

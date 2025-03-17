@@ -36,9 +36,12 @@
                 </ul>
             </section>
 
+            <% let membersArray = membersString ? membersString.split(',') : []; %>
             <section class="clanLeden">
                 <ol>
-                    <li><p><%= membersString %></p></li>
+                    <% membersArray.forEach(function(member) { %>
+                        <li><%= member.trim() %></li> <!-- trim() voorkomt onnodige spaties -->
+                    <% }); %>
                 </ol>
             </section>
 
