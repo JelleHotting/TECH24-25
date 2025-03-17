@@ -239,8 +239,8 @@ app.get('/home', (req, res) => {
   res.render('home');
 });
 
-app.get('/matching', (req, res) => {
-  res.render('matching');
+app.get('/vragenlijst', (req, res) => {
+  res.render('vragenlijst', { username: req.session.username });
 });
 
 
