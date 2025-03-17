@@ -19,31 +19,447 @@
       <div id="progress-container">
         <div id="progress-bar"></div>
       </div>
-    
-      <h1>🏠 Welk stadhuislevel ben je?</h1>
-    
-      <label for="townhall-level">Kies je stadhuislevel:</label>
-      <select id="townhall-level" name="townhall-level">
-        <option value="1">Stadhuis Level 1</option>
-        <option value="2">Stadhuis Level 2</option>
-        <option value="3">Stadhuis Level 3</option>
-        <option value="4">Stadhuis Level 4</option>
-        <option value="5">Stadhuis Level 5</option>
-        <option value="6">Stadhuis Level 6</option>
-        <option value="7">Stadhuis Level 7</option>
-        <option value="8">Stadhuis Level 8</option>
-        <option value="9">Stadhuis Level 9</option>
-        <option value="10">Stadhuis Level 10</option>
-        <option value="11">Stadhuis Level 11</option>
-        <option value="12">Stadhuis Level 12</option>
-        <option value="13">Stadhuis Level 13</option>
-        <option value="14">Stadhuis Level 14</option>
-        <option value="15">Stadhuis Level 15</option>
-      </select>
-    </main>
-    <footer>
 
-    </footer>
+      <div class="question-container">
+        <!-- Vraag 1 -->
+        <form action="#" class="townhall question active" id="question-1">
+          <label for="townhall-level"
+            ><h1>🏠 Welk stadhuislevel ben je?</h1></label
+          >
+          <select id="townhall-level" name="townhall-level" required>
+            <option value="" disabled selected hidden>
+              Kies je stadhuislevel
+            </option>
+            <option value="1" data-icon="/images/townhall1.png">
+              Stadhuis Level 1
+            </option>
+            <option value="2" data-icon="/images/townhall2.png">
+              Stadhuis Level 2
+            </option>
+            <option value="3" data-icon="/images/townhall3.png">
+              Stadhuis Level 3
+            </option>
+            <option value="4" data-icon="/images/townhall4.png">
+              Stadhuis Level 4
+            </option>
+            <option value="5" data-icon="/images/townhall5.png">
+              Stadhuis Level 5
+            </option>
+            <option value="6" data-icon="/images/townhall6.png">
+              Stadhuis Level 6
+            </option>
+            <option value="7" data-icon="/images/townhall7.png">
+              Stadhuis Level 7
+            </option>
+            <option value="8" data-icon="/images/townhall8.png">
+              Stadhuis Level 8
+            </option>
+            <option value="10" data-icon="/images/townhall10.png">
+              Stadhuis Level 10
+            </option>
+            <option value="11" data-icon="/images/townhall11.png">
+              Stadhuis Level 11
+            </option>
+            <option value="12" data-icon="/images/townhall12.png">
+              Stadhuis Level 12
+            </option>
+            <option value="13" data-icon="/images/townhall13.png">
+              Stadhuis Level 13
+            </option>
+            <option value="14" data-icon="/images/townhall14.png">
+              Stadhuis Level 14
+            </option>
+            <option value="15" data-icon="/images/townhall15.png">
+              Stadhuis Level 15
+            </option>
+          </select>
+
+          <div class="button-group">
+            <a class="prev-button" href="/home">Terug naar homepagina</a>
+            <button type="button" class="next-button">Volgende vraag</button>
+          </div>
+        </form>
+
+        <!-- Vraag 2 met verbeterde dropdown structuur -->
+        <form action="#" class="townhall question" id="question-2">
+          <label for="land"><h1>🌍Uit welk land moet de clan komen?</h1></label>
+
+          <!-- Zoekbare dropdown met verbeterde structuur -->
+          <div class="custom-select">
+            <!-- Zichtbare geselecteerde optie -->
+            <div class="select-selected">Selecteer je land</div>
+
+            <!-- Dropdown content (verborgen tot geklikt) -->
+            <div class="select-items select-hide">
+              <!-- Zoekbalk bovenaan de dropdown -->
+              <div class="select-search-container">
+                <input
+                  type="text"
+                  placeholder="Zoek een land..."
+                  id="landSearch"
+                  class="search-input"
+                />
+              </div>
+
+              <!-- Scrollbare container met opties -->
+              <div class="all-options">
+                <div data-value="">Selecteer je land</div>
+                <div data-value="Afghanistan">Afghanistan</div>
+                <div data-value="Åland Islands">Åland Islands</div>
+                <div data-value="Albania">Albania</div>
+                <div data-value="Algeria">Algeria</div>
+                <div data-value="American Samoa">American Samoa</div>
+                <div data-value="Andorra">Andorra</div>
+                <div data-value="Angola">Angola</div>
+                <div data-value="Anguilla">Anguilla</div>
+                <div data-value="Antarctica">Antarctica</div>
+                <div data-value="Antigua and Barbuda">Antigua and Barbuda</div>
+                <div data-value="Argentina">Argentina</div>
+                <div data-value="Armenia">Armenia</div>
+                <div data-value="Aruba">Aruba</div>
+                <div data-value="Australia">Australia</div>
+                <div data-value="Austria">Austria</div>
+                <div data-value="Azerbaijan">Azerbaijan</div>
+                <div data-value="Bahamas">Bahamas</div>
+                <div data-value="Bahrain">Bahrain</div>
+                <div data-value="Bangladesh">Bangladesh</div>
+                <div data-value="Barbados">Barbados</div>
+                <div data-value="Belarus">Belarus</div>
+                <div data-value="Belgium">Belgium</div>
+                <div data-value="Belize">Belize</div>
+                <div data-value="Benin">Benin</div>
+                <div data-value="Bermuda">Bermuda</div>
+                <div data-value="Bhutan">Bhutan</div>
+                <div data-value="Bolivia">Bolivia</div>
+                <div data-value="Bosnia and Herzegovina">
+                  Bosnia and Herzegovina
+                </div>
+                <div data-value="Botswana">Botswana</div>
+                <div data-value="Bouvet Island">Bouvet Island</div>
+                <div data-value="Brazil">Brazil</div>
+                <div data-value="British Indian Ocean Territory">
+                  British Indian Ocean Territory
+                </div>
+                <div data-value="Brunei Darussalam">Brunei Darussalam</div>
+                <div data-value="Bulgaria">Bulgaria</div>
+                <div data-value="Burkina Faso">Burkina Faso</div>
+                <div data-value="Burundi">Burundi</div>
+                <div data-value="Cambodia">Cambodia</div>
+                <div data-value="Cameroon">Cameroon</div>
+                <div data-value="Canada">Canada</div>
+                <div data-value="Cape Verde">Cape Verde</div>
+                <div data-value="Cayman Islands">Cayman Islands</div>
+                <div data-value="Central African Republic">
+                  Central African Republic
+                </div>
+                <div data-value="Chad">Chad</div>
+                <div data-value="Chile">Chile</div>
+                <div data-value="China">China</div>
+                <div data-value="Christmas Island">Christmas Island</div>
+                <div data-value="Cocos (Keeling) Islands">
+                  Cocos (Keeling) Islands
+                </div>
+                <div data-value="Colombia">Colombia</div>
+                <div data-value="Comoros">Comoros</div>
+                <div data-value="Congo">Congo</div>
+                <div data-value="Congo, The Democratic Republic of The">
+                  Congo, The Democratic Republic of The
+                </div>
+                <div data-value="Cook Islands">Cook Islands</div>
+                <div data-value="Costa Rica">Costa Rica</div>
+                <div data-value="Cote D'ivoire">Cote D'ivoire</div>
+                <div data-value="Croatia">Croatia</div>
+                <div data-value="Cuba">Cuba</div>
+                <div data-value="Cyprus">Cyprus</div>
+                <div data-value="Czech Republic">Czech Republic</div>
+                <div data-value="Denmark">Denmark</div>
+                <div data-value="Djibouti">Djibouti</div>
+                <div data-value="Dominica">Dominica</div>
+                <div data-value="Dominican Republic">Dominican Republic</div>
+                <div data-value="Ecuador">Ecuador</div>
+                <div data-value="Egypt">Egypt</div>
+                <div data-value="El Salvador">El Salvador</div>
+                <div data-value="Equatorial Guinea">Equatorial Guinea</div>
+                <div data-value="Eritrea">Eritrea</div>
+                <div data-value="Estonia">Estonia</div>
+                <div data-value="Ethiopia">Ethiopia</div>
+                <div data-value="Falkland Islands (Malvinas)">
+                  Falkland Islands (Malvinas)
+                </div>
+                <div data-value="Faroe Islands">Faroe Islands</div>
+                <div data-value="Fiji">Fiji</div>
+                <div data-value="Finland">Finland</div>
+                <div data-value="France">France</div>
+                <div data-value="French Guiana">French Guiana</div>
+                <div data-value="French Polynesia">French Polynesia</div>
+                <div data-value="French Southern Territories">
+                  French Southern Territories
+                </div>
+                <div data-value="Gabon">Gabon</div>
+                <div data-value="Gambia">Gambia</div>
+                <div data-value="Georgia">Georgia</div>
+                <div data-value="Germany">Germany</div>
+                <div data-value="Ghana">Ghana</div>
+                <div data-value="Gibraltar">Gibraltar</div>
+                <div data-value="Greece">Greece</div>
+                <div data-value="Greenland">Greenland</div>
+                <div data-value="Grenada">Grenada</div>
+                <div data-value="Guadeloupe">Guadeloupe</div>
+                <div data-value="Guam">Guam</div>
+                <div data-value="Guatemala">Guatemala</div>
+                <div data-value="Guernsey">Guernsey</div>
+                <div data-value="Guinea">Guinea</div>
+                <div data-value="Guinea-bissau">Guinea-bissau</div>
+                <div data-value="Guyana">Guyana</div>
+                <div data-value="Haiti">Haiti</div>
+                <div data-value="Heard Island and Mcdonald Islands">
+                  Heard Island and Mcdonald Islands
+                </div>
+                <div data-value="Holy See (Vatican City State)">
+                  Holy See (Vatican City State)
+                </div>
+                <div data-value="Honduras">Honduras</div>
+                <div data-value="Hong Kong">Hong Kong</div>
+                <div data-value="Hungary">Hungary</div>
+                <div data-value="Iceland">Iceland</div>
+                <div data-value="India">India</div>
+                <div data-value="Indonesia">Indonesia</div>
+                <div data-value="Iran, Islamic Republic of">
+                  Iran, Islamic Republic of
+                </div>
+                <div data-value="Iraq">Iraq</div>
+                <div data-value="Ireland">Ireland</div>
+                <div data-value="Isle of Man">Isle of Man</div>
+                <div data-value="Israel">Israel</div>
+                <div data-value="Italy">Italy</div>
+                <div data-value="Jamaica">Jamaica</div>
+                <div data-value="Japan">Japan</div>
+                <div data-value="Jersey">Jersey</div>
+                <div data-value="Jordan">Jordan</div>
+                <div data-value="Kazakhstan">Kazakhstan</div>
+                <div data-value="Kenya">Kenya</div>
+                <div data-value="Kiribati">Kiribati</div>
+                <div data-value="Korea, Democratic People's Republic of">
+                  Korea, Democratic People's Republic of
+                </div>
+                <div data-value="Korea, Republic of">Korea, Republic of</div>
+                <div data-value="Kuwait">Kuwait</div>
+                <div data-value="Kyrgyzstan">Kyrgyzstan</div>
+                <div data-value="Lao People's Democratic Republic">
+                  Lao People's Democratic Republic
+                </div>
+                <div data-value="Latvia">Latvia</div>
+                <div data-value="Lebanon">Lebanon</div>
+                <div data-value="Lesotho">Lesotho</div>
+                <div data-value="Liberia">Liberia</div>
+                <div data-value="Libyan Arab Jamahiriya">
+                  Libyan Arab Jamahiriya
+                </div>
+                <div data-value="Liechtenstein">Liechtenstein</div>
+                <div data-value="Lithuania">Lithuania</div>
+                <div data-value="Luxembourg">Luxembourg</div>
+                <div data-value="Macao">Macao</div>
+                <div data-value="Macedonia, The Former Yugoslav Republic of">
+                  Macedonia, The Former Yugoslav Republic of
+                </div>
+                <div data-value="Madagascar">Madagascar</div>
+                <div data-value="Malawi">Malawi</div>
+                <div data-value="Malaysia">Malaysia</div>
+                <div data-value="Maldives">Maldives</div>
+                <div data-value="Mali">Mali</div>
+                <div data-value="Malta">Malta</div>
+                <div data-value="Marshall Islands">Marshall Islands</div>
+                <div data-value="Martinique">Martinique</div>
+                <div data-value="Mauritania">Mauritania</div>
+                <div data-value="Mauritius">Mauritius</div>
+                <div data-value="Mayotte">Mayotte</div>
+                <div data-value="Mexico">Mexico</div>
+                <div data-value="Micronesia, Federated States of">
+                  Micronesia, Federated States of
+                </div>
+                <div data-value="Moldova, Republic of">
+                  Moldova, Republic of
+                </div>
+                <div data-value="Monaco">Monaco</div>
+                <div data-value="Mongolia">Mongolia</div>
+                <div data-value="Montenegro">Montenegro</div>
+                <div data-value="Montserrat">Montserrat</div>
+                <div data-value="Morocco">Morocco</div>
+                <div data-value="Mozambique">Mozambique</div>
+                <div data-value="Myanmar">Myanmar</div>
+                <div data-value="Namibia">Namibia</div>
+                <div data-value="Nauru">Nauru</div>
+                <div data-value="Nepal">Nepal</div>
+                <div data-value="Netherlands">Netherlands</div>
+                <div data-value="Netherlands Antilles">
+                  Netherlands Antilles
+                </div>
+                <div data-value="New Caledonia">New Caledonia</div>
+                <div data-value="New Zealand">New Zealand</div>
+                <div data-value="Nicaragua">Nicaragua</div>
+                <div data-value="Niger">Niger</div>
+                <div data-value="Nigeria">Nigeria</div>
+                <div data-value="Niue">Niue</div>
+                <div data-value="Norfolk Island">Norfolk Island</div>
+                <div data-value="Northern Mariana Islands">
+                  Northern Mariana Islands
+                </div>
+                <div data-value="Norway">Norway</div>
+                <div data-value="Oman">Oman</div>
+                <div data-value="Pakistan">Pakistan</div>
+                <div data-value="Palau">Palau</div>
+                <div data-value="Palestinian Territory, Occupied">
+                  Palestinian Territory, Occupied
+                </div>
+                <div data-value="Panama">Panama</div>
+                <div data-value="Papua New Guinea">Papua New Guinea</div>
+                <div data-value="Paraguay">Paraguay</div>
+                <div data-value="Peru">Peru</div>
+                <div data-value="Philippines">Philippines</div>
+                <div data-value="Pitcairn">Pitcairn</div>
+                <div data-value="Poland">Poland</div>
+                <div data-value="Portugal">Portugal</div>
+                <div data-value="Puerto Rico">Puerto Rico</div>
+                <div data-value="Qatar">Qatar</div>
+                <div data-value="Reunion">Reunion</div>
+                <div data-value="Romania">Romania</div>
+                <div data-value="Russian Federation">Russian Federation</div>
+                <div data-value="Rwanda">Rwanda</div>
+                <div data-value="Saint Helena">Saint Helena</div>
+                <div data-value="Saint Kitts and Nevis">
+                  Saint Kitts and Nevis
+                </div>
+                <div data-value="Saint Lucia">Saint Lucia</div>
+                <div data-value="Saint Pierre and Miquelon">
+                  Saint Pierre and Miquelon
+                </div>
+                <div data-value="Saint Vincent and The Grenadines">
+                  Saint Vincent and The Grenadines
+                </div>
+                <div data-value="Samoa">Samoa</div>
+                <div data-value="San Marino">San Marino</div>
+                <div data-value="Sao Tome and Principe">
+                  Sao Tome and Principe
+                </div>
+                <div data-value="Saudi Arabia">Saudi Arabia</div>
+                <div data-value="Senegal">Senegal</div>
+                <div data-value="Serbia">Serbia</div>
+                <div data-value="Seychelles">Seychelles</div>
+                <div data-value="Sierra Leone">Sierra Leone</div>
+                <div data-value="Singapore">Singapore</div>
+                <div data-value="Slovakia">Slovakia</div>
+                <div data-value="Slovenia">Slovenia</div>
+                <div data-value="Solomon Islands">Solomon Islands</div>
+                <div data-value="Somalia">Somalia</div>
+                <div data-value="South Africa">South Africa</div>
+                <div data-value="South Georgia and The South Sandwich Islands">
+                  South Georgia and The South Sandwich Islands
+                </div>
+                <div data-value="Spain">Spain</div>
+                <div data-value="Sri Lanka">Sri Lanka</div>
+                <div data-value="Sudan">Sudan</div>
+                <div data-value="Suriname">Suriname</div>
+                <div data-value="Svalbard and Jan Mayen">
+                  Svalbard and Jan Mayen
+                </div>
+                <div data-value="Swaziland">Swaziland</div>
+                <div data-value="Sweden">Sweden</div>
+                <div data-value="Switzerland">Switzerland</div>
+                <div data-value="Syrian Arab Republic">
+                  Syrian Arab Republic
+                </div>
+                <div data-value="Taiwan">Taiwan</div>
+                <div data-value="Tajikistan">Tajikistan</div>
+                <div data-value="Tanzania, United Republic of">
+                  Tanzania, United Republic of
+                </div>
+                <div data-value="Thailand">Thailand</div>
+                <div data-value="Timor-leste">Timor-leste</div>
+                <div data-value="Togo">Togo</div>
+                <div data-value="Tokelau">Tokelau</div>
+                <div data-value="Tonga">Tonga</div>
+                <div data-value="Trinidad and Tobago">Trinidad and Tobago</div>
+                <div data-value="Tunisia">Tunisia</div>
+                <div data-value="Turkey">Turkey</div>
+                <div data-value="Turkmenistan">Turkmenistan</div>
+                <div data-value="Turks and Caicos Islands">
+                  Turks and Caicos Islands
+                </div>
+                <div data-value="Tuvalu">Tuvalu</div>
+                <div data-value="Uganda">Uganda</div>
+                <div data-value="Ukraine">Ukraine</div>
+                <div data-value="United Arab Emirates">
+                  United Arab Emirates
+                </div>
+                <div data-value="United Kingdom">United Kingdom</div>
+                <div data-value="United States">United States</div>
+                <div data-value="United States Minor Outlying Islands">
+                  United States Minor Outlying Islands
+                </div>
+                <div data-value="Uruguay">Uruguay</div>
+                <div data-value="Uzbekistan">Uzbekistan</div>
+                <div data-value="Vanuatu">Vanuatu</div>
+                <div data-value="Venezuela">Venezuela</div>
+                <div data-value="Viet Nam">Viet Nam</div>
+                <div data-value="Virgin Islands, British">
+                  Virgin Islands, British
+                </div>
+                <div data-value="Virgin Islands, U.S.">
+                  Virgin Islands, U.S.
+                </div>
+                <div data-value="Wallis and Futuna">Wallis and Futuna</div>
+                <div data-value="Western Sahara">Western Sahara</div>
+                <div data-value="Yemen">Yemen</div>
+                <div data-value="Zambia">Zambia</div>
+                <div data-value="Zimbabwe">Zimbabwe</div>
+              </div>
+            </div>
+            <!-- Verborgen input om de waarde op te slaan -->
+            <input type="hidden" id="land" name="land" required />
+          </div>
+
+          <div class="button-group">
+            <button type="button" class="prev-button">Vorige vraag</button>
+            <button type="button" class="next-button">Volgende vraag</button>
+          </div>
+        </form>
+
+        <!-- Vraag 3 -->
+        <form action="#" class="townhall question" id="question-3">
+          <label for="trophies"><h1>🏆 Hoeveel trofeeën heb je?</h1></label>
+
+          <div class="slider-container">
+            <!-- Voeg het numerieke input veld toe -->
+            <div class="trophies-input-container">
+              <input
+                type="number"
+                id="trophies-input"
+                min="0"
+                max="10000"
+                step="100"
+                value="2000"
+              />
+            </div>
+
+            <input
+              type="range"
+              id="trophies"
+              name="trophies"
+              min="0"
+              max="10000"
+              step="100"
+              value="2000"
+            />
+          </div>
+
+          <div class="button-group">
+            <button type="button" class="prev-button">Vorige vraag</button>
+            <button type="button" class="next-button">Toon resultaat</button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <footer></footer>
     <script src="/javascript/vragenlijst.js"></script>
   </body>
 </html>

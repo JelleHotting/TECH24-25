@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resultaten</title>
+  <link rel="stylesheet" href="/styles/vragenlijst.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Reddit+Sans+Condensed:wght@200..900&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <%- include('header') %>
+
+  <main>
+    <div class="results-container">
+      <h1>Jouw antwoorden</h1>
+      
+      <div class="result-item">
+        <h2>Stadhuislevel</h2>
+        <p><%= answers['question-1'] && answers['question-1']['townhall-level'] ? 'Level ' + answers['question-1']['townhall-level'] : 'Niet ingevuld' %></p>
+      </div>
+      
+      <div class="result-item">
+        <h2>Land</h2>
+        <p><%= answers['question-2'] && answers['question-2']['land'] ? answers['question-2']['land'] : 'Niet ingevuld' %></p>
+      </div>
+      
+      <div class="result-item">
+        <h2>Trofeeën</h2>
+        <p><%= answers['question-3'] && answers['question-3']['trophies'] ? answers['question-3']['trophies'] + ' trofeeën' : 'Niet ingevuld' %></p>
+      </div>
+      
+      <!-- Hier kan je clans tonen die overeenkomen met de antwoorden -->
+      
+      <div class="button-group">
+        <a href="/home" class="prev-button">Terug naar home</a>
+        <a href="/vragenlijst" class="next-button">Opnieuw invullen</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+  </footer>
+</body>
+</html>
