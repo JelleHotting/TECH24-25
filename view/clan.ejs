@@ -17,6 +17,7 @@
             <h1><%= clanName %></h1>
             <h2>#<%= clanTag %></h2>
             <img src="<%= clanImg %>" alt="Clan Image">
+            <button>Opslaan</button>
         </section>
 
         <section class="clanInfo">
@@ -35,9 +36,12 @@
                 </ul>
             </section>
 
+            <% let membersArray = membersString ? membersString.split(',') : []; %>
             <section class="clanLeden">
                 <ol>
-                    <li><p><%= membersString %></p></li>
+                    <% membersArray.forEach(function(member) { %>
+                        <li><%= member.trim() %></li> <!-- trim() voorkomt onnodige spaties -->
+                    <% }); %>
                 </ol>
             </section>
 
