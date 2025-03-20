@@ -42,18 +42,20 @@ h1 {
 .profile-actions {
     display: flex;
     justify-content: space-between;
-    width: 25em;
+    gap: 10px;
 }
 
 .profile-actions .btn {
     background-color: #337EFF;
     color: white;
-    padding: 0.5em 1em;
+    padding: 0.8em 1em;
     border: none;
     border-radius: 100px;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
+    width: 200px;
+    transition: background-color 0.3s ease;
 }
 
 .profile-actions .btn:hover {
