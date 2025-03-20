@@ -1,5 +1,5 @@
 body{
-    background-color: #0F1925;
+    background-color: var(--backgroundColor);
 }
 
 header nav{
@@ -15,7 +15,7 @@ header nav ul,a{
     text-decoration: none;
     list-style: none;
     padding: 0em;
-    color: white;
+    color:var(--witteText);
     font-family: poppins;
     position: relative;
     padding-bottom: 5px;

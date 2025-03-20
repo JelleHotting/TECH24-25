@@ -17,8 +17,7 @@
           <img class="lazy-load"
             data-src="/images/barbaar.png"
             alt="Een foto van een karakter">
-          <p><strong>Naam:</strong> <%= username %></p>
-          <p><strong>Email:</strong> <%= email %> </p>
+          
         </section>
         
         <section class="profile-actions">
@@ -27,6 +26,13 @@
             <button type="submit" class="btn">Uitloggen</button>
           </form>
         </section>
+
+        <section>
+          <% if (error) { %>
+            <label><%= error %></label>
+          <% } %>
+        </section>
+          
 
               </section>
             </main>
