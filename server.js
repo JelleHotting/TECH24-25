@@ -162,7 +162,7 @@ app.post('/login', async (req, res, next) => {
 app.get('/profile', isAuthenticated, async (req, res) => {
   try {
     const collection = client.db(process.env.DB_NAME).collection('submissions');
-    const user = await collection.findOne({ username: req.session.username });
+    const user = await collection.findOne({ username: req.session.user });
 
     if (!user) {
       return res.status(404).send('User not found');
