@@ -4,15 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profiel</title>
+    <link rel="stylesheet" href="/styles/algemeen.css">
     <link rel="stylesheet" href="/styles/profile.css" />
   </head>
+
+  
   <body>
     <main>
       <section class="profile-container">
         <h1>Profiel</h1>
         <section class="profile-info">
-          <img
-            src="/images/barbaar.png"
+          <img class="lazy-load"
+            data-src="/images/barbaar.png"
             alt="Een foto van een karakter">
           
         </section>
@@ -33,5 +36,6 @@
 
               </section>
             </main>
+            <script src="/javascript/lazyLoad.js"></script>
           </body>
         </html>

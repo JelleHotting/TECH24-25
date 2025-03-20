@@ -21,7 +21,7 @@ h1{
     justify-content: center;
     flex-shrink: 0;
 
-color:white;
+    color:var(--witteText);
 }
 
 #progress-container {

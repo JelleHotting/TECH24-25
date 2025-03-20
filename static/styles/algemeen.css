@@ -1,0 +1,12 @@
+:root{
+    color-scheme: light dark;
+
+    --witteText: light-dark(#EFEFEF, #0F1925);
+    --backgroundColor: light-dark(#0F1925, #EFEFEF);
+    --grijzeAchtergrond: light-dark(#49475A, #BCC0C9);
+    --mainGroen: light-dark(#11CC6B, #14CA61);
+    --blijvendZwart: rgba(0, 0, 0, 0.737);
+    --blijvendWit: rgba(255, 255, 255, 0.1);
+    --loginSchaduw: rgba(0, 0, 0, 0.3);
+    
+}

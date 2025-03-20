@@ -1,7 +1,7 @@
 body {
-    background-color: #0F1925;
+    background-color: var(--backgroundColor);
     font-family: 'Poppins', sans-serif;
-    color: white;
+    color:var(--witteText);
     margin: 0;
     padding: 0;
     
@@ -23,11 +23,11 @@ img {
 
 h1 {
     font-size: 2.5em;
-    color:white;
+    color:var(--witteText);
 }
 
 .profile-info {
-    color: white;
+    color:var(--witteText);
     padding: 2em;
     border-radius: 30px;
     width: 25em;
@@ -42,18 +42,20 @@ h1 {
 .profile-actions {
     display: flex;
     justify-content: space-between;
-    width: 25em;
+    gap: 10px;
 }
 
 .profile-actions .btn {
     background-color: #337EFF;
-    color: white;
+    color:var(--witteText);
     padding: 0.5em 1em;
     border: none;
     border-radius: 100px;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
+    width: 200px;
+    transition: background-color 0.3s ease;
 }
 
 .profile-actions .btn:hover {
