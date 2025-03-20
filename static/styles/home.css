@@ -16,7 +16,7 @@ h1{
     -webkit-background-clip: text;  /* Zorgt ervoor dat de gradiënt alleen de tekst bedekt */
     background-clip: text;
     color: transparent; /* Zet de tekstkleur op transparant zodat de gradiënt zichtbaar is */
-    font-family: poppins;
+    font-family: "Poppins", sans-serif;
 }
 
 /* zoek balk */
@@ -49,10 +49,34 @@ form button{
 section:first-of-type{
     display: flex;
     justify-content: center;
-    background-color: white;
     height: 26.5em;
     width: 25em;
     border-radius: 30px;
+
+    p {
+        width: 12rem;
+
+        color: #FFF;
+font-family: Poppins;
+font-size: 1rem;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+    }
+
+    a {
+        display: inline-flex;
+padding: 0.75rem 2rem;
+justify-content: center;
+align-items: center;
+text-align: center;
+gap: 0.625rem;
+
+border-radius: 0.3125rem;
+background: #1BA352;
+
+height:2em;
+    }
 }
 
 section:first-of-type button{

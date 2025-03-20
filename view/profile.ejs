@@ -13,8 +13,8 @@
       <section class="profile-container">
         <h1>Profiel</h1>
         <section class="profile-info">
-          <img
-            src="/images/barbaar.png"
+          <img class="lazy-load"
+            data-src="/images/barbaar.png"
             alt="Een foto van een karakter">
           <p><strong>Naam:</strong> <%= username %></p>
           <p><strong>Email:</strong> <%= email %> </p>
@@ -24,9 +24,11 @@
           <a href="/edit-profile" class="btn">Profiel bewerken</a>
           <form action="/logout" method="POST" style="display: inline;">
             <button type="submit" class="btn">Uitloggen</button>
-          </form></form>
+          </form>
         </section>
-      </section>
-    <main>
-  </body>
-</html>
+
+              </section>
+            </main>
+            <script src="/javascript/lazyLoad.js"></script>
+          </body>
+        </html>
