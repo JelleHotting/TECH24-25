@@ -5,8 +5,8 @@
     --backgroundColor: light-dark(#0F1925, #EFEFEF);
     --grijzeAchtergrond: light-dark(#49475A, #BCC0C9);
     --mainGroen: light-dark(#11CC6B, #14CA61);
-    --loginZwart: rgba(0, 0, 0, 0.737);
-    --loginWit: rgba(255, 255, 255, 0.1);
+    --blijvendZwart: rgba(0, 0, 0, 0.737);
+    --blijvendWit: rgba(255, 255, 255, 0.1);
     --loginSchaduw: rgba(0, 0, 0, 0.3);
     
 }

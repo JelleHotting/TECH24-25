@@ -5,20 +5,20 @@ main {
     width: 100%;
     padding: 0;
     margin: 0;
-    background-color:  #0F1925;
+    background-color: var(--backgroundColor);
     font-family: poppins;
 }
 
 h1{
-    color: white;
+    color:var(--witteText);
 }
 
 h2{
-    color: white;
+    color:var(--witteText);
 }
 
 p{
-    color: white;
+    color:var(--witteText);
     margin: 0;
 }
 
@@ -36,7 +36,7 @@ p{
     align-items: center;
     justify-content: left;
     margin: 2em;
-    background-color: #49475A;
+    background-color: var(--grijzeAchtergrond);
 }
 
 .list li div:nth-of-type(1){
