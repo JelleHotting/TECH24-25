@@ -17,6 +17,8 @@ header nav ul,a{
     padding: 0em;
     color: white;
     font-family: poppins;
+    position: relative;
+    padding-bottom: 5px;
 }
 
 nav ul:first-of-type li:nth-child(2){
@@ -25,4 +27,21 @@ nav ul:first-of-type li:nth-child(2){
 
 nav ul:nth-of-type(2) li:nth-child(2){
     margin-left: 1em;
+}
+
+
+/* Lijn animatie */
+nav ul li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0; /* Start met geen breedte */
+    height: 2px;
+    background-color: #1BA352;
+    transition: width 0.3s ease-in-out;
+}
+
+nav ul li a:hover::after {
+    width: 100%; /* Lijn breidt uit van links naar rechts */
 }
