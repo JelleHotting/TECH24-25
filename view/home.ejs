@@ -18,7 +18,7 @@
 
     <main>
       <h1>Hey <%= username %>, <br />wat wil je zoeken?</h1>
-      <form action="/search" method="GET">
+      <form action="/search" method="GET" class="search-form">
         <button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -38,6 +38,7 @@
           id="searchInput"
           placeholder="Zoek naar Clans"
           name="clanName"
+          class="search-bar"
         />
         <button>
         </button>
