@@ -19,7 +19,7 @@
             <% clans.forEach(clan => { %>
                 <a href="/clan/<%= clan.tag.replace('#', '') %>">
                     <li>
-                        <img src="<%= clan.badgeUrls.small %>" alt="Clan Image">
+                        <img class="lazy-load" data-src="<%= clan.badgeUrls.small %>" alt="Clan Image">
 
                         <div>
                             <h2 class="naam"><%= clan.name %> (#<%= clan.tag %>)</h2>
