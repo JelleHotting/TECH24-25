@@ -19,6 +19,11 @@ app
     saveUninitialized: true
   }))
   .use(express.json());                       // Middleware to handle JSON requests
+  
+  app.use((req, res, next) => {
+    res.locals.username = req.session.user || null; // Add username if logged in, otherwise null
+    next();
+  });
                         
 
 // Use MongoDB
