@@ -125,7 +125,7 @@ app.post('/login', async (req, res, next) => {
   try {
     const collection = client.db(process.env.DB_NAME).collection('submissions');
     const user = await collection.findOne({ email: req.body.email });
-    console.log(req.body.email);
+    
 
     if (!user) {
       return res.send('Gebruiker niet gevonden');
@@ -158,24 +158,24 @@ app.post('/login', async (req, res, next) => {
   }
 });
 
-// Profiel route
-app.get('/profile', isAuthenticated, async (req, res) => {
-  try {
-    const collection = client.db(process.env.DB_NAME).collection('submissions');
-    const user = await collection.findOne({ username: req.session.user });
+// // Profiel route
+// app.get('/profile', isAuthenticated, async (req, res) => {
+//   try {
+//     const collection = client.db(process.env.DB_NAME).collection('submissions');
+//     const user = await collection.findOne({ username: req.session.user });
 
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
+//     if (!user) {
+//       return res.status(404).send('User not found');
+//     }
 
-    res.render('profile', { 
-      email: user.email
-    });
-  } catch (err) {
-    console.error('Error fetching user from MongoDB', err);
-    res.status(500).send('Error fetching user from MongoDB');
-  }
-});
+//     res.render('profile', { 
+//       email: user.email
+//     });
+//   } catch (err) {
+//     console.error('Error fetching user from MongoDB', err);
+//     res.status(500).send('Error fetching user from MongoDB');
+//   }
+// });
 
 // Logout
 app.post('/logout', (req, res) => {
@@ -277,6 +277,35 @@ app.post('/saveClan', isAuthenticated, async (req, res) => {
     console.error('Error inserting document into MongoDB', err);
     res.sendStatus(500);
   }
+});
+
+// Route om een opgeslagen clan op te halen uit de database
+app.get('/profile', isAuthenticated, async (req, res) => {
+  try {
+    // Verbind met de collectie in MongoDB
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+    const user = await collection.findOne({ username: req.session.user});
+    console.log(req.session.user)
+
+    // Zorg ervoor dat favoriteClans bestaat
+    const favoriteClans = user ? user.favoriteClans : [];
+    console.log('Favorite clans:', favoriteClans);
+
+    if (favoriteClans) {
+      if (favoriteClans.length === 0) {
+        return res.render('profile', { error: 'Je hebt nog geen opgeslagen clans' });
+      }
+    } else {
+      return res.render('profile', { error: 'Je hebt nog geen opgeslagen clans' });
+    }
+
+    // Verstuur de favoriteClans naar de EJS-view
+    res.render('profile', { favoriteClans, email: user.email, error: "" });
+  } catch (err) {
+    console.error('Error fetching favorite clans from MongoDB', err);
+    res.sendStatus(500);
+  }
+
 });
 
 // Route om antwoorden op te slaan in de sessie
