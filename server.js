@@ -7,24 +7,19 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const app = express()
 
+
 app
-  .use(express.urlencoded({extended: true})) // middleware to parse form data from incoming HTTP request and add form fields to req.body
-  .use(express.static('static'))             // Allow server to serve static content such as images, stylesheets, fonts or frontend js from the directory named static
-  .set('views', 'view')                      // And tell it the views can be found in the directory named view
+  .use(express.urlencoded({ extended: true })) // Middleware to parse form data
+  .use(express.static('static'))              // Serve static files
+  .set('views', 'view')                       // Set views directory
+  .set('view engine', 'ejs')                  // Set view engine to EJS
   .use(session({
-    secret: 'your_secret_key',
+    secret: 'your_secret_key',                // Replace with a secure secret
     resave: false,
     saveUninitialized: true
-  }))                                        // Add session middleware
-  .set('view engine', 'ejs')
-  .use(express.json());                      // Voeg deze middleware toe om JSON verzoeken te kunnen verwerken
+  }))
+  .use(express.json());                       // Middleware to handle JSON requests
                         
-// Middleware om username beschikbaar te maken voor alle routes
-app.use((req, res, next) => {
-  // Voeg username toe aan res.locals zodat het beschikbaar is in alle views
-  res.locals.username = req.session.username || "N/A";
-  next();
-});
 
 // Use MongoDB
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
@@ -52,20 +47,22 @@ client.connect()
 
 // Auth middleware
 function isAuthenticated(req, res, next) {
-  if (req.session.username) {
+  if (req.session.user) {
     return next();
   }
 
   res.redirect('/login');
+
 }
 
 // Home route
 app.get('/', isAuthenticated, (req, res) => {
-  res.render('home');
-})
+  res.render('home', { username: req.session.user }
+  );
+});
 
-app.get('/home', (req, res) => {
-  res.render('home');
+app.get('/home', isAuthenticated, (req, res) => {
+  res.render('home', { username: req.session.user });
 });
 
 // Registratie - Verwijderd dubbele code
@@ -119,30 +116,42 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
-app.post('/login', async (req, res) => {
+app.post('/login', async (req, res, next) => {
   try {
-    const collection = client.db(process.env.DB_NAME).collection('submissions')
-    const user = await collection.findOne({ email: req.body.email })
-    console.log(req.body.email)
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+    const user = await collection.findOne({ email: req.body.email });
+    console.log(req.body.email);
 
     if (!user) {
-      return res.send('Gebruiker niet gevonden')
+      return res.send('Gebruiker niet gevonden');
     }
 
     const Match = await bcrypt.compare(req.body.password, user.password);
 
-    // Controleer of het wachtwoord overeenkomt
     if (Match) {
-      req.session.username = user.username; // Save username in session
-      res.render('home'); // username is automatisch beschikbaar
+      // regenerate the session, which is good practice to help
+      // guard against forms of session fixation
+      req.session.regenerate(function (err) {
+        if (err) return next(err);
+
+        // store user information in session, typically a user id
+        req.session.user = user.username;
+
+        // save the session before redirection to ensure page
+        // load does not happen before session is saved
+        req.session.save(function (err) {
+          if (err) return next(err);
+          res.redirect('/');
+        });
+      });
     } else {
-      res.send('Invalid password')
+      res.send('Invalid password');
     }
   } catch (err) {
-    console.error('Error finding document in MongoDB', err)
-    res.status(500).send('Error finding document in MongoDB')
+    console.error('Error finding document in MongoDB', err);
+    res.status(500).send('Error finding document in MongoDB');
   }
-})
+});
 
 // Profiel route
 app.get('/profile', isAuthenticated, async (req, res) => {
