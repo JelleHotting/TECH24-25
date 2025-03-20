@@ -42,7 +42,7 @@ h1 {
 .profile-actions {
     display: flex;
     justify-content: space-between;
-    width: 25em;
+    gap: 10px;
 }
 
 .profile-actions .btn {
@@ -54,6 +54,8 @@ h1 {
     text-decoration: none;
     text-align: center;
     cursor: pointer;
+    width: 200px;
+    transition: background-color 0.3s ease;
 }
 
 .profile-actions .btn:hover {
