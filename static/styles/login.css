@@ -82,7 +82,7 @@ input[type="email"]:focus,
 input[type="password"]:focus, 
 input[type="text"]:focus {
     border-color: var(--mainGroen);
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--loginGrijs);
 }
 
 .loginButton {
