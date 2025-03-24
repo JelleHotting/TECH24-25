@@ -290,17 +290,18 @@ app.get('/profile', isAuthenticated, async (req, res) => {
     // Zorg ervoor dat favoriteClans bestaat
     const favoriteClans = user ? user.favoriteClans : [];
     console.log('Favorite clans:', favoriteClans);
+    const error = "";
 
     if (favoriteClans) {
       if (favoriteClans.length === 0) {
-        return res.render('profile', { error: 'Je hebt nog geen opgeslagen clans' });
+         error = 'Je hebt nog geen opgeslagen clans';
       }
     } else {
-      return res.render('profile', { error: 'Je hebt nog geen opgeslagen clans' });
+      { error = 'Je hebt nog geen opgeslagen clans' };
     }
 
     // Verstuur de favoriteClans naar de EJS-view
-    res.render('profile', { favoriteClans, email: user.email, error: "" });
+    res.render('profile', { favoriteClans, email: user.email, error });
   } catch (err) {
     console.error('Error fetching favorite clans from MongoDB', err);
     res.sendStatus(500);
@@ -405,18 +406,18 @@ app.get('/filtered-search', async (req, res) => {
       // Bouw query parameters op basis van de antwoorden
       let queryParams = new URLSearchParams();
       
-      const minTrophiesForQuery = Math.max(0, trophies - 1000);
-      queryParams.append('minClanPoints', minTrophiesForQuery.toString());
+      // const minTrophiesForQuery = Math.max(0, trophies - 1000);
+      // queryParams.append('requiredTrophies', minTrophiesForQuery.toString());
       
-      if (townHallLevel > 1) {
-        queryParams.append('minRequiredTownhallLevel', Math.max(1, townHallLevel - 3).toString());
-      }
+      // if (townHallLevel > 1) {
+      //   queryParams.append('minRequiredTownhallLevel', Math.max(1, townHallLevel - 3).toString());
+      // }
       
       if (countryCode) {
         queryParams.append('locationId', countryCode);
       }
       
-      queryParams.append('limit', '50');
+      // queryParams.append('limit', '50');
       
       let apiUrl = `https://cocproxy.royaleapi.dev/v1/clans?${queryParams.toString()}`;
       
@@ -450,18 +451,18 @@ app.get('/filtered-search', async (req, res) => {
     const filteredClans = clans.filter(clan => {
       const requiredTH = clan.requiredTownhallLevel || 0;
       const thMatch = requiredTH <= townHallLevel;
-      
+    
       const trophyRange = 1000;
       const minTrophies = Math.max(0, trophies - trophyRange);
       const maxTrophies = trophies + trophyRange;
       const trophyMatch = (clan.clanPoints >= minTrophies && clan.clanPoints <= maxTrophies);
-      
+    
       let locationMatch = true;
-      if (countryCode && clan.location && clan.location.id) {
+      if (countryCode && typeof countryCode === 'string' && clan.location && clan.location.id !== undefined) {
         locationMatch = clan.location.id === countryCode.toUpperCase();
       }
-      
-      return thMatch && trophyMatch && locationMatch;
+    
+      return locationMatch;
     });
     
     console.log(`${filteredClans.length} clans na extra filteren`);
@@ -473,12 +474,7 @@ app.get('/filtered-search', async (req, res) => {
     });
     
     res.render('searchResults', { 
-      clans: filteredClans,
-      filters: {
-        townHallLevel,
-        countryCode,
-        trophies
-      }
+      clans,
     });
   } catch (err) {
     console.error('Algemene fout bij gefilterd zoeken:', err);
