@@ -52,8 +52,31 @@ main {
 }
 
 .loginForm h2 a {
-    color: var(--mainGroen);
+    position: relative;
     text-decoration: none;
+    color: var(--mainGroen);
+    font-size: 1em;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: var(--mainGroen);
+    transition: width 0.3s ease-in-out;
+}
+
+a:hover {
+    color: var(--mainGroen); /* Optioneel: kleurverandering bij hover */
+}
+
+a:hover::after {
+    width: 100%;
 }
 
 label {
@@ -101,33 +124,7 @@ input[type="text"]:focus {
     background-color: var(--mainGroen);
 }
 
-a {
-    position: relative;
-    text-decoration: none;
-    color: var(--mainGroen);
-    font-size: 1em;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
 
-a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -2px;
-    width: 0;
-    height: 2px;
-    background-color: var(--mainGroen);
-    transition: width 0.3s ease-in-out;
-}
-
-a:hover {
-    color: var(--mainGroen); /* Optioneel: kleurverandering bij hover */
-}
-
-a:hover::after {
-    width: 100%;
-}
 
 
 @keyframes slideDownFadeIn {
@@ -145,6 +142,19 @@ a:hover::after {
     animation: slideDownFadeIn 0.5s ease-out;
 }
 
+
+@media (max-width: 768px) {
+    .loginForm {
+        width: 70%;
+
+    }
+
+    input[type="email"], 
+input[type="password"], 
+input[type="text"] {
+    padding: 0.4em;
+}
+}
 
 
 
