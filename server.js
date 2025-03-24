@@ -297,7 +297,7 @@ app.get('/profile', isAuthenticated, async (req, res) => {
          error = 'Je hebt nog geen opgeslagen clans';
       }
     } else {
-      { error = 'Je hebt nog geen opgeslagen clans' };
+       error = 'Je hebt nog geen opgeslagen clans';
     }
 
     // Verstuur de favoriteClans naar de EJS-view
