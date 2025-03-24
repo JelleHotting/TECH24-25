@@ -13,22 +13,36 @@
     <%- include('header') %>
     
     <main>
-      <section class="profile-container">
+      <section class="profileContainer">
         <h1>Profiel</h1>
-        <section class="profile-info">
+        <section class="profileInfo">
           <img class="lazy-load"
             data-src="/images/barbaar.png"
             alt="Een foto van een karakter">
+          <p><%= username %></p>
+        </section>
 
-          
+          <section class="opgeslagen">
+            <h2>Jouw opgeslagen clans</h2>
+            <% if (favoriteClans.length > 0) { %>
+              <ul>
+                <% favoriteClans.forEach(clan => { %>
+                  <li><%= clan %></li>
+                <% }) %>
+              </ul>
+            <% } else { %>
+              <p>Je hebt nog geen clans opgeslagen.</p>
+            <% } %>
+          </section>
           
         </section>
         
-        <section class="profile-actions">
+        <section class="profileActions">
           <a href="/edit-profile" class="btn">Profiel bewerken</a>
           <form action="/logout" method="POST" style="display: inline;">
             <button type="submit" class="btn">Uitloggen</button>
           </form>
+          
         </section>
 
         <section>
