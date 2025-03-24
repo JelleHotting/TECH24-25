@@ -288,7 +288,7 @@ app.get('/profile', isAuthenticated, async (req, res) => {
     console.log(req.session.user)
 
     // Zorg ervoor dat favoriteClans bestaat
-    const favoriteClans = user ? user.favoriteClans : [];
+    const favoriteClans = (user && user.favoriteClans) ? user.favoriteClans : [];
     console.log('Favorite clans:', favoriteClans);
     let error = "";
     if (favoriteClans) {
@@ -300,6 +300,7 @@ app.get('/profile', isAuthenticated, async (req, res) => {
     }
 
     // Verstuur de favoriteClans naar de EJS-view
+    console.log(favoriteClans)
     res.render('profile', { favoriteClans, email: user.email, error });
   } catch (err) {
     console.error('Error fetching favorite clans from MongoDB', err);

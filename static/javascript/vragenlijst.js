@@ -55,8 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
             throw error;
         });
     }
-
-
     
     // Slider voor trofeeën
     const trophiesSlider = document.getElementById('trophies');
