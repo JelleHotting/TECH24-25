@@ -290,8 +290,7 @@ app.get('/profile', isAuthenticated, async (req, res) => {
     // Zorg ervoor dat favoriteClans bestaat
     const favoriteClans = user ? user.favoriteClans : [];
     console.log('Favorite clans:', favoriteClans);
-    const error = "";
-
+    let error = "";
     if (favoriteClans) {
       if (favoriteClans.length === 0) {
          error = 'Je hebt nog geen opgeslagen clans';
