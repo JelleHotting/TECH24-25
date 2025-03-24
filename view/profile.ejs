@@ -24,6 +24,11 @@
 
           <section class="opgeslagen">
             <h2>Jouw opgeslagen clans</h2>
+
+            <% if (error) { %>
+              <label><%= error %></label>
+            <% } %>
+
             <% if (favoriteClans.length > 0) { %>
               <ul>
                 <% favoriteClans.forEach(clan => { %>
@@ -45,11 +50,6 @@
           
         </section>
 
-        <section>
-          <% if (error) { %>
-            <label><%= error %></label>
-          <% } %>
-        </section>
           
 
               </section>
