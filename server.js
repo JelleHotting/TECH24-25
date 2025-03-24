@@ -325,7 +325,7 @@ app.get('/filtered-search', async (req, res) => {
       ? parseInt(answers['question-1']['townhall-level']) 
       : 11; // Standaard level 11
       
-    const country = answers['question-2'] && answers['question-2']['land'] 
+    const countryCode = answers['question-2'] && answers['question-2']['land'] 
       ? answers['question-2']['land']
       : null; // Geen landfilter als niet opgegeven
       
@@ -333,7 +333,7 @@ app.get('/filtered-search', async (req, res) => {
       ? parseInt(answers['question-3']['trophies']) 
       : 2000; // Standaard 2000 trofeeën
     
-    console.log(`Filter criteria - TH: ${townHallLevel}, Land: ${country}, Trofeeën: ${trophies}`);
+    console.log(`Filter criteria - TH: ${townHallLevel}, Landcode: ${countryCode}, Trofeeën: ${trophies}`);
     
     // Demonstratie clans voor het geval de API faalt
     const demoClans = [
@@ -346,7 +346,7 @@ app.get('/filtered-search', async (req, res) => {
         requiredTownhallLevel: townHallLevel - 1,
         requiredTrophies: 2000,
         members: 43,
-        location: { name: country || "Netherlands" },
+        location: { name: countryCode || "Netherlands" },
         type: "inviteOnly"
       },
       {
@@ -360,37 +360,10 @@ app.get('/filtered-search', async (req, res) => {
         members: 48,
         location: { name: "International" },
         type: "open"
-      },
-      {
-        name: "War Masters",
-        tag: "#9JCQPLR2",
-        badgeUrls: { small: "https://api-assets.clashofclans.com/badges/70/ILrGQZ5Dg97dXgc-oo_ZhUWIYQ9XClwzVJJfM9UqTvs.png" },
-        clanLevel: 12,
-        clanPoints: trophies - 200,
-        requiredTownhallLevel: townHallLevel,
-        requiredTrophies: 1500,
-        members: 35,
-        location: { name: "United States" },
-        type: "inviteOnly"
-      },
-      {
-        name: "Trophy Hunters",
-        tag: "#8QV9CP22",
-        badgeUrls: { small: "https://api-assets.clashofclans.com/badges/70/9b1qvLUWWiVodBnPEOj3bOhzpPrEhWb3rديoMتUUGU.png" },
-        clanLevel: 8,
-        clanPoints: trophies + 200,
-        requiredTownhallLevel: townHallLevel - 1,
-        requiredTrophies: 1800,
-        members: 29,
-        location: { name: "Germany" },
-        type: "open"
       }
     ];
     
     let clans = [];
-    
-    // Definieer locationId buiten de try block zodat het beschikbaar is voor de filterfunctie
-    let locationId = null;
     
     try {
       const apiToken = process.env.COC_API_KEY;
@@ -403,58 +376,19 @@ app.get('/filtered-search', async (req, res) => {
       // Bouw query parameters op basis van de antwoorden
       let queryParams = new URLSearchParams();
       
-      // Zet minimaal aantal trofeeën (we gebruiken een ruime marge)
-      // De API heeft geen manier om binnen een bereik te filteren
-      // dus we nemen een ondergrens die ruim onder de gewenste waarde ligt
       const minTrophiesForQuery = Math.max(0, trophies - 1000);
       queryParams.append('minClanPoints', minTrophiesForQuery.toString());
       
-      // Voeg minimum townhall level toe, als Clash of Clans API dit ondersteunt
       if (townHallLevel > 1) {
         queryParams.append('minRequiredTownhallLevel', Math.max(1, townHallLevel - 3).toString());
       }
       
-      // Als een land is opgegeven, probeer dan de locationId op te halen
-      if (country) {
-        try {
-          // Cache de locations in een globale variabele om herhaalde aanvragen te voorkomen
-          if (!global.cocLocations) {
-            console.log("Locaties ophalen van API...");
-            const locationsResponse = await fetch('https://cocproxy.royaleapi.dev/v1/locations', {
-              headers: {
-                'Authorization': `Bearer ${apiToken}`
-              }
-            });
-            
-            if (locationsResponse.ok) {
-              const locationsData = await locationsResponse.json();
-              global.cocLocations = locationsData.items || [];
-              console.log(`${global.cocLocations.length} locaties opgehaald`);
-            }
-          }
-          
-          // Zoek de locatie op basis van naam
-          if (global.cocLocations) {
-            const matchingLocation = global.cocLocations.find(loc => 
-              loc.name.toLowerCase().includes(country.toLowerCase())
-            );
-            
-            if (matchingLocation) {
-              locationId = matchingLocation.id;
-              console.log(`Location ID gevonden voor ${country}: ${locationId}`);
-              queryParams.append('locationId', locationId.toString());
-            }
-          }
-        } catch (locError) {
-          console.error("Fout bij ophalen locaties:", locError);
-          // locationId blijft null, wat prima is
-        }
+      if (countryCode) {
+        queryParams.append('locationId', countryCode);
       }
       
-      // Stel een limiet in voor het aantal resultaten
       queryParams.append('limit', '50');
       
-      // Bouw de uiteindelijke URL
       let apiUrl = `https://cocproxy.royaleapi.dev/v1/clans?${queryParams.toString()}`;
       
       console.log(`API aanroepen met filters: ${apiUrl}`);
@@ -476,49 +410,26 @@ app.get('/filtered-search', async (req, res) => {
         clans = data.items;
         console.log(`${data.items.length} clans opgehaald van API met voorfiltering`);
       } else {
-        console.log("Geen clans gevonden met voorfiltering, probeer bredere zoekopdracht");
-        
-        // Probeer een bredere zoekopdracht zonder filters
-        const fallbackResponse = await fetch('https://cocproxy.royaleapi.dev/v1/clans?limit=50', {
-          headers: {
-            'Authorization': `Bearer ${apiToken}`
-          }
-        });
-        
-        if (fallbackResponse.ok) {
-          const fallbackData = await fallbackResponse.json();
-          if (fallbackData.items && fallbackData.items.length > 0) {
-            clans = fallbackData.items;
-            console.log(`${fallbackData.items.length} clans opgehaald van API zonder voorfiltering`);
-          } else {
-            throw new Error("Geen clans gevonden in API response");
-          }
-        } else {
-          throw new Error(`Fallback API Error: ${fallbackResponse.status}`);
-        }
+        console.log("Geen clans gevonden met voorfiltering, gebruik demo clans");
+        clans = demoClans;
       }
     } catch (apiError) {
       console.log("Fout bij API aanroep, gebruik demo clans:", apiError.message);
       clans = demoClans;
     }
     
-    // Extra filtering op de resultaten (voor het geval de API niet alle filters ondersteunt)
     const filteredClans = clans.filter(clan => {
-      // Filter op minimum townhall level (clans waarvan het vereiste TH-level lager is dan dat van de speler)
       const requiredTH = clan.requiredTownhallLevel || 0;
       const thMatch = requiredTH <= townHallLevel;
       
-      // Filter op trofeeën - binnen 1000 van de opgegeven waarde (ruimere marge)
       const trophyRange = 1000;
       const minTrophies = Math.max(0, trophies - trophyRange);
       const maxTrophies = trophies + trophyRange;
       const trophyMatch = (clan.clanPoints >= minTrophies && clan.clanPoints <= maxTrophies);
       
-      // Land matching - als we een land hebben opgegeven maar geen locationId konden vinden
       let locationMatch = true;
-      if (country && !locationId && clan.location && clan.location.name) {
-        // Case insensitive vergelijking - als het land als substring voorkomt
-        locationMatch = clan.location.name.toLowerCase().includes(country.toLowerCase());
+      if (countryCode && clan.location && clan.location.id) {
+        locationMatch = clan.location.id === countryCode.toUpperCase();
       }
       
       return thMatch && trophyMatch && locationMatch;
@@ -526,47 +437,29 @@ app.get('/filtered-search', async (req, res) => {
     
     console.log(`${filteredClans.length} clans na extra filteren`);
     
-    // Sorteer op trofeeën (dichtstbij de opgegeven waarde)
     filteredClans.sort((a, b) => {
       const diffA = Math.abs(a.clanPoints - trophies);
       const diffB = Math.abs(b.clanPoints - trophies);
       return diffA - diffB;
     });
     
-    // Render de bestaande searchResults.ejs template met de gefilterde clans
     res.render('searchResults', { 
       clans: filteredClans,
-      // Extra context die beschikbaar is maar niet gebruikt hoeft te worden in de bestaande template
       filters: {
         townHallLevel,
-        country,
+        countryCode,
         trophies
       }
     });
   } catch (err) {
     console.error('Algemene fout bij gefilterd zoeken:', err);
-    
-    // Zelfs bij een fout tonen we iets aan de gebruiker
-    const demoClans = [
-      {
-        name: "Error Fallback Clan",
-        tag: "#ERRORCLANTAG",
-        badgeUrls: { small: "https://api-assets.clashofclans.com/badges/70/0Qpj9K1t0boy2eUkqCmuIvGOlt9p4RWhVNOt0bIOSGM.png" },
-        clanLevel: 10,
-        clanPoints: 2000,
-        requiredTownhallLevel: 10,
-        requiredTrophies: 1500,
-        members: 25,
-        location: { name: "International" },
-        type: "open"
-      }
-    ];
-    
     res.render('searchResults', {
-      clans: demoClans
+      clans: []
     });
   }
 });
+
+
 
 // Hulproute om locatie-informatie op te halen
 app.get('/api/locations', async (req, res) => {
