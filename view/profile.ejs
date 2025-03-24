@@ -4,8 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profiel</title>
+    <link rel="stylesheet" href="/styles/algemeen.css">
     <link rel="stylesheet" href="/styles/profile.css" />
   </head>
+
+  
   <body>
     <main>
       <section class="profile-container">
@@ -14,8 +17,7 @@
           <img class="lazy-load"
             data-src="/images/barbaar.png"
             alt="Een foto van een karakter">
-          <p><strong>Naam:</strong> <%= username %></p>
-          <p><strong>Email:</strong> <%= email %> </p>
+          
         </section>
         
         <section class="profile-actions">
@@ -24,6 +26,13 @@
             <button type="submit" class="btn">Uitloggen</button>
           </form>
         </section>
+
+        <section>
+          <% if (error) { %>
+            <label><%= error %></label>
+          <% } %>
+        </section>
+          
 
               </section>
             </main>

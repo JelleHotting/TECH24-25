@@ -1,21 +1,21 @@
 body{
-    background-color: #0F1925;
+    background-color: var(--backgroundColor);
 }
 
 header{
-    background-color: #49475A;
+    background-color: var(--grijzeAchtergrond);
 }
 
 h1 {
     font-size: 3em;
-    color: #fff;
+    color:var(--witteText);
 
     font-family: 'Poppins', sans-serif;
 }
 
 p {
     font-size: 1.5em;
-    color: #fff;
+    color:var(--witteText);
 
 
     font-family: 'Poppins', sans-serif;
