@@ -268,7 +268,7 @@ app.post('/saveClan', isAuthenticated, async (req, res) => {
   try {
     const collection = client.db(process.env.DB_NAME).collection('submissions');
     await collection.updateOne(
-      { username: req.session.username }, 
+      { username: req.session.user }, 
       { $push: { favoriteClans: req.body.clanTag } }, 
       { upsert: true }
     );
@@ -286,7 +286,7 @@ app.post('/removeClan', isAuthenticated, async (req, res) => {
     const collection = client.db(process.env.DB_NAME).collection('submissions');
 
     await collection.updateOne(
-      { username: req.session.username },
+      { username: req.session.user },
       { $pull: { favoriteClans: clanTag } }
     );
 
