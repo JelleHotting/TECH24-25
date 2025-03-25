@@ -34,7 +34,12 @@
             <% if (favoriteClans.length > 0) { %>
               <ul>
                 <% favoriteClans.forEach(clan => { %>
-                  <li><%= clan %></li>
+                  <li><%= clan %>
+                    <form action="/removeClan" method="POST" style="display:inline;">
+                      <input type="hidden" name="clanTag" value="<%= clan %>">
+                      <button type="submit" class="remove-btn">Verwijderen</button>
+                    </form>
+                  </li>
                 <% }) %>
               </ul>
             <% } else { %>
@@ -50,12 +55,7 @@
             <button type="submit" class="btn">Uitloggen</button>
           </form>
           
-        </section>
-
-          
-
-              </section>
-            </main>
-            <script src="/javascript/lazyLoad.js"></script>
-          </body>
-        </html>
+      </main>
+    <script src="/javascript/lazyLoad.js"></script>
+  </body>
+</html>

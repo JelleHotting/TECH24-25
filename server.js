@@ -279,6 +279,25 @@ app.post('/saveClan', isAuthenticated, async (req, res) => {
   }
 });
 
+// Route om een clan te verwijden 
+app.post('/removeClan', isAuthenticated, async (req, res) => {
+  try {
+    const { clanTag } = req.body;
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+
+    await collection.updateOne(
+      { username: req.session.username },
+      { $pull: { favoriteClans: clanTag } }
+    );
+
+    res.redirect('/profile');
+  } catch (err) {
+    console.error('Error removing clan from MongoDB', err);
+    res.sendStatus(500);
+  }
+});
+
+
 // Route om een opgeslagen clan op te halen uit de database
 app.get('/profile', isAuthenticated, async (req, res) => {
   try {
