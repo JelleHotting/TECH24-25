@@ -5,9 +5,6 @@ main{
     height: 100vh;
 }
 
-form{
-    height:50vh;
-}
 
 
 h1{
@@ -153,6 +150,10 @@ background: #1BA352;
     padding-top: 30px; /* Ruimte voor de tooltip boven de slider */
 }
 
+form#question-2 {
+  height:100vh;
+}
+
 /* Stijl voor de trofee slider */
 input[type="range"] {
     width: 100%;
@@ -284,7 +285,7 @@ output#trophies-value {
   display: none;
 }
 
-.select-items div:hover {
+.select-items div div:hover {
   background-color: #f1f1f1;
 }
 

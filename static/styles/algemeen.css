@@ -1,12 +1,14 @@
 :root{
-    color-scheme: light dark;
 
-    --witteText: light-dark(#EFEFEF, #0F1925);
-    --backgroundColor: light-dark(#0F1925, #EFEFEF);
-    --grijzeAchtergrond: light-dark(#49475A, #BCC0C9);
-    --mainGroen: light-dark(#11CC6B, #14CA61);
-    --blijvendZwart: rgba(0, 0, 0, 0.737);
-    --blijvendWit: rgba(255, 255, 255, 0.1);
+    --witteText: #EFEFEF;
+    --backgroundColor:#0F1925;
+    --grijzeAchtergrond: #49475A;
+    --mainGroen: #0CB754;
+    --blijvendWit: #EFEFEF;
+    --loginZwart: rgba(0, 0, 0, 0.737);
+    --loginGrijs: rgba(255, 255, 255, 0.1);
     --loginSchaduw: rgba(0, 0, 0, 0.3);
     
 }
+
+/* #1BA352  Dit is de originele groene kleur*/
