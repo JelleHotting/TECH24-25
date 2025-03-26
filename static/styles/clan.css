@@ -65,7 +65,7 @@ main{
     border-radius: 1.5em;
     padding: 0.5em 5em;
     color:var(--witteText);
-    background-color: #1BA352;
+    background-color: var(--mainGroen);
     border: none;
     font-family: poppins;
 }
