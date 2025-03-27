@@ -90,8 +90,5 @@ nav ul li a:hover::after {
     .nav-links.active {
       display: flex;
     }
+}
   
-    nav ul:nth-of-type(2) {
-      display: none; /* Verberg profielgegevens op mobiel of style apart */
-    }
-  }

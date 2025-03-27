@@ -29,8 +29,12 @@ form{
     margin: 2em;
     background-color: white;
     height: 3em;
-    width: 25em;
+    width: 70%;
     border-radius: 100px;
+    max-width: 25em;
+    min-width: 14em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 
 form input{
@@ -118,4 +122,23 @@ section:nth-of-type(2) p:nth-of-type(1){
 }
 
 
+@media (max-width: 375px){
+    section:first-of-type {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
 
+    section:first-of-type {
+        height: 14em;
+    }
+
+    section:first-of-type a{
+        max-width: 7em;
+    
+    }
+
+    .search-bar{
+        padding: 0;
+    }
+}
