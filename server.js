@@ -222,6 +222,21 @@ app.get('/clan/:clanTag', async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
   const clanTag = req.params.clanTag;
 
+  // Controleer of de clan al in favorieten staat
+  let isFavorite = false;
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+    const user = await collection.findOne({ username: req.session.user });
+
+    if (user && user.favoriteClans && user.favoriteClans.includes(clanTag)) {
+      isFavorite = true;
+    }
+  } catch (err) {
+    console.error('Error fetching favorite clans from MongoDB', err);
+    return res.status(500).send('Error fetching favorite clans from MongoDB');
+  }
+
+  // Haal claninformatie op
   try {
     const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans/%23${clanTag}`, {
       headers: {
@@ -234,66 +249,89 @@ app.get('/clan/:clanTag', async (req, res) => {
     }
 
     const data = await response.json();
-      
-    // Extraction logic is kept the same
-    const clanName = data.name;
-    const clanLevel = data.clanLevel;
-    const clanImg = data.badgeUrls.small;
-    const clanDivisie = data.warLeague ? data.warLeague.name : 'N/A';
-    const trophies = data.clanPoints;
-    const requiredTrophies = data.requiredTrophies;
-    const requiredTownHallLevel = data.requiredTownhallLevel;
-    const memberCount = data.members;
-    const description = data.description;
-    const language = data.chatLanguage ? data.chatLanguage.name : 'N/A';
-    const location = data.location ? data.location.name : 'N/A';
-    const type = data.type;
 
-    const members = data.memberList.map(member => member.name);
-    const membersString = members.join(', ');
+    // Maak een string van de ledennamen
+    const membersString = data.memberList.map(member => member.name).join(', ');
 
-    res.render('clan', { 
-      clanName, clanTag, clanLevel, clanImg, clanDivisie, trophies, 
-      requiredTrophies, requiredTownHallLevel, memberCount, description, 
-      language, location, type, membersString
+    // Render de pagina en geef isFavorite door
+    res.render('clan', {
+      clanTag,
+      isFavorite,
+      clanName: data.name,
+      clanLevel: data.clanLevel,
+      clanImg: data.badgeUrls.small,
+      clanDivisie: data.warLeague ? data.warLeague.name : 'N/A',
+      trophies: data.clanPoints,
+      requiredTrophies: data.requiredTrophies,
+      requiredTownHallLevel: data.requiredTownhallLevel,
+      memberCount: data.members,
+      description: data.description,
+      language: data.chatLanguage ? data.chatLanguage.name : 'N/A',
+      location: data.location ? data.location.name : 'N/A',
+      type: data.type,
+      membersString
     });
-  } catch (err) {
-    console.error('Error fetching data from Clash of Clans API', err);
-    res.status(500).send('Error fetching data from Clash of Clans API');
+  } catch (error) {
+    console.error('Error fetching clan data:', error);
+    res.status(500).send('Er is een fout opgetreden.');
   }
 });
 
 // Route om een clan op te slaan in je profiel
-app.post('/saveClan', isAuthenticated, async (req, res) => {
+app.post('/saveClan', async (req, res) => {
+  const { clanTag } = req.body;
+  const username = req.session.user;
+
   try {
     const collection = client.db(process.env.DB_NAME).collection('submissions');
-    await collection.updateOne(
-      { username: req.session.user }, 
-      { $push: { favoriteClans: req.body.clanTag } }, 
-      { upsert: true }
-    );
-    res.sendStatus(200);
+    const user = await collection.findOne({ username });
+
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    // Voeg de clanTag toe aan de lijst van favoriete clans als deze nog niet bestaat
+    const favoriteClans = user.favoriteClans || [];
+    if (!favoriteClans.includes(clanTag)) {
+      favoriteClans.push(clanTag);
+      await collection.updateOne(
+        { username },
+        { $set: { favoriteClans } }
+      );
+    }
+
+    res.redirect(`/clan/${clanTag}`);
   } catch (err) {
-    console.error('Error inserting document into MongoDB', err);
-    res.sendStatus(500);
+    console.error('Error saving favorite clan to MongoDB', err);
+    res.status(500).send('Error saving favorite clan to MongoDB');
   }
 });
 
-// Route om een clan te verwijden 
-app.post('/removeClan', isAuthenticated, async (req, res) => {
+app.post('/removeClan', async (req, res) => {
+  const { clanTag } = req.body;
+  const username = req.session.user;
+
   try {
-    const { clanTag } = req.body;
     const collection = client.db(process.env.DB_NAME).collection('submissions');
+    const user = await collection.findOne({ username });
+
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    // Verwijder de clanTag uit de lijst van favoriete clans
+    const favoriteClans = user.favoriteClans || [];
+    const updatedClans = favoriteClans.filter(tag => tag !== clanTag);
 
     await collection.updateOne(
-      { username: req.session.user },
-      { $pull: { favoriteClans: clanTag } }
+      { username },
+      { $set: { favoriteClans: updatedClans } }
     );
 
-    res.redirect('/profile');
+    res.redirect(`/clan/${clanTag}`);
   } catch (err) {
-    console.error('Error removing clan from MongoDB', err);
-    res.sendStatus(500);
+    console.error('Error removing favorite clan from MongoDB', err);
+    res.status(500).send('Error removing favorite clan from MongoDB');
   }
 });
 

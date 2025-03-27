@@ -106,3 +106,33 @@ main{
     display: flex;
     flex-direction: column;
 }
+
+/* Stijl voor de "Opslaan"-knop */
+.btn-save {
+    background-color: #4CAF50; /* Groen */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    background-color: #45a049;
+}
+
+/* Stijl voor de "Verwijderen"-knop */
+.btn-remove {
+    background-color: #f44336; /* Rood */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-remove:hover {
+    background-color: #d32f2f;
+}
+
+
