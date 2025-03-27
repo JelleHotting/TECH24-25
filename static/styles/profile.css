@@ -3,7 +3,7 @@ body {
     font-family: 'Poppins', sans-serif;
     color:var(--witteText);
     margin: 0;
-    padding: 0;
+    padding: 0 1em;
     
 }
 
@@ -25,9 +25,9 @@ body {
 
 .profileInfo {
     color:var(--witteText);
-    padding: 2em;
+    /* padding: 2em; */
     text-align: left;
-    display: flex;
+    display: grid;
     grid-column-start: 1;
     flex-direction: column;
 }
@@ -37,9 +37,22 @@ body {
     margin: 0.5em 0;
 }
 
+.opgeslagen ul{
+    list-style: none;
+    padding: 0;
+}
+
+.opgeslagen button{
+    color: var(--witteText);
+    background-color: var(--mainGroen);
+    border: none;
+    padding: 0.2em;
+    border-radius: 0.5em;
+}
+
 .profileActions {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     gap: 1em;
 }
 
