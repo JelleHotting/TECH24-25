@@ -18,8 +18,12 @@
             <h1><%= clanName %></h1>
             <h2>#<%= clanTag %></h2>
             <img class="lazy-load" data-src="<%= clanImg %>" alt="Clan Image">
-            <form action="/saveClan" method="POST">
-                <button type="submit">Opslaan</button>
+            <form action="<%= isFavorite === true ? '/removeClan' : '/saveClan' %>" method="POST">
+                <button 
+                    type="submit" 
+                    class="<%= isFavorite === true ? 'btn-remove' : 'btn-save' %>">
+                    <%= isFavorite === true ? 'Verwijderen' : 'Opslaan' %>
+                </button>
                 <input type="hidden" name="clanTag" value="<%= clanTag %>">
             </form>
         </section>
