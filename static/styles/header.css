@@ -19,7 +19,6 @@ header nav ul,a{
     color:var(--witteText);
     font-family: poppins;
     position: relative;
-    padding-bottom: 5px;
 }
 
 nav ul:first-of-type li:nth-child(2){
@@ -32,6 +31,15 @@ nav ul:nth-of-type(2) li:nth-child(2){
 
 img a{
     padding: none;
+}
+
+ul img{
+    margin-left: 2em;
+    margin-right: 0.5em;
+}
+
+ul li{
+    margin: 0em 1em;
 }
 
 
@@ -70,8 +78,10 @@ nav ul li a:hover::after {
     transition: all 0.3s ease;
   }
   
-  /* Mobiel gedrag */
   @media (max-width: 768px) {
+    h1{
+        font-size: 2em;
+    }
     header nav {
       flex-direction: column;
       align-items: flex-start;
@@ -87,7 +97,7 @@ nav ul li a:hover::after {
     .nav-links {
       display: none;
       flex-direction: column;
-      gap: 1em;
+      /* gap: 1em; */
       width: 100%;
     }
   
@@ -95,7 +105,7 @@ nav ul li a:hover::after {
       display: flex;
     }
 
-    img{
+    ul img{
         display: none
     };
 }
