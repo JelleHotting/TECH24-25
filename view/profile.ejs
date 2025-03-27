@@ -19,7 +19,8 @@
           <img class="lazy-load"
             data-src="/images/barbaar.png"
             alt="Een foto van een karakter">
-          <p><%= username %></p>
+          <p>Naam: <%= username %></p>
+          <p>Email: <%= email %></p>
         </section>
 
           <section class="opgeslagen">
@@ -35,11 +36,8 @@
               <ul>
                 <% favoriteClans.forEach(clan => { %>
                   <li><%= clan %></li>
-                <% }) %>
+                <% })} %>
               </ul>
-            <% } else { %>
-              <p>Je hebt nog geen clans opgeslagen.</p>
-            <% } %>
           </section>
           
         </section>
