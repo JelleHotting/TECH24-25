@@ -32,15 +32,17 @@
                 <div class="clan-card">
                   <img src="<%= clan.clanImg %>" alt="<%= clan.clanName %> logo">
                   <h3><%= clan.clanName %></h3>
-                  <p>Level: <%= clan.clanLevel %></p>
-                  <p>Trophies: <%= clan.trophies %></p>
+                  <p>#<%= clan.clanTag %></p>
                   <!-- Add more clan details as needed -->
+                  <form action="/removeClan" method="POST">
+                    <input type="hidden" name="clanTag" value="<%= clan.tag %>">
+                    <button type="submit" class="btn remove-btn">Verwijderen uit opgeslagen</button>
+                  </form>
                 </div>
               <% }); %>
             <% } else { %>
               <p><%= error %></p>
             <% } %>
-              </ul>
           </section>
           
         </section>
