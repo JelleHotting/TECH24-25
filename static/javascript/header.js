@@ -24,17 +24,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-// als je ergens anders op de pagina klikt (niet op het menu)
-  document.addEventListener("click", function (event) {
-    // Check of je NIET op het hamburger-icoon of menu hebt geklikt
-    const klikBinnenMenu = hamburger.contains(event.target) || navLinks.contains(event.target);
-
-    if (!klikBinnenMenu && navLinks.classList.contains("active")) {
-      // Sluit het menu
-      hamburger.classList.remove("active");
-      navLinks.classList.remove("active");
-      document.body.classList.remove("menu-open");
-    }
-  });
-
 });
