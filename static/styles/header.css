@@ -19,11 +19,27 @@ header nav ul,a{
     color:var(--witteText);
     font-family: poppins;
     position: relative;
-    /* padding-bottom: 5px; */
+}
+
+nav ul:first-of-type li:nth-child(2){
+    margin: 0em 2em;
+}
+
+nav ul:nth-of-type(2) li:nth-child(2){
+    margin-left: 1em;
 }
 
 img a{
     padding: none;
+}
+
+ul img{
+    margin-left: 2em;
+    margin-right: 0.5em;
+}
+
+ul li{
+    margin: 0em 1em;
 }
 
 
@@ -81,7 +97,7 @@ nav ul li a:hover::after {
     .nav-links {
       display: none;
       flex-direction: column;
-      gap: 1em;
+      /* gap: 1em; */
       width: 100%;
     }
   
