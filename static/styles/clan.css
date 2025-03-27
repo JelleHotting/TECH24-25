@@ -85,7 +85,7 @@ main{
     background-color: var(--grijzeAchtergrond);
     border-radius: 1.5em;
     width: 90%;
-    height: 80%;
+    height: 25em;
     overflow-y: scroll;
 }
 
@@ -98,7 +98,7 @@ main{
     background-color: var(--grijzeAchtergrond);
     border-radius: 1.5em;
     width: 90%;
-    height: 80%;
+    height: 25em;
     overflow-y: scroll;
 }
 
