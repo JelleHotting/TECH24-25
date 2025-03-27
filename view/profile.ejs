@@ -27,22 +27,19 @@
           <section class="opgeslagen">
             <h2>Opgeslagen clans</h2>
 
-            <% if (error) { %>
-              <label><%= error %></label>
+            <% if (clansData && clansData.length > 0) { %>
+              <% clansData.forEach(clan => { %>
+                <div class="clan-card">
+                  <img src="<%= clan.clanImg %>" alt="<%= clan.clanName %> logo">
+                  <h3><%= clan.clanName %></h3>
+                  <p>Level: <%= clan.clanLevel %></p>
+                  <p>Trophies: <%= clan.trophies %></p>
+                  <!-- Add more clan details as needed -->
+                </div>
+              <% }); %>
+            <% } else { %>
+              <p><%= error %></p>
             <% } %>
-
-
-           
-            <% if (favoriteClans.length > 0) { %>
-              <ul>
-                <% favoriteClans.forEach(clan => { %>
-                  <li><%= clan %>
-                    <form action="/removeClan" method="POST" style="display:inline;">
-                      <input type="hidden" name="clanTag" value="<%= clan %>">
-                      <button type="submit" class="remove-btn">Verwijderen</button>
-                    </form>
-                  </li>
-                <% })} %>
               </ul>
           </section>
           
