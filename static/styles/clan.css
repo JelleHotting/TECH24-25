@@ -56,16 +56,19 @@ main{
     max-width: 9em;
 }
 
-.clanBanner button{
+.clanBanner form{
     grid-row-start: 2;
     grid-column-start: 2;
     justify-self: end;
     align-self: start;
+}
+
+.clanBanner button{
     margin-right: 2em;
     border-radius: 1.5em;
     padding: 0.5em 5em;
     color:var(--witteText);
-    background-color: #1BA352;
+    background-color: var(--mainGroen);
     border: none;
     font-family: poppins;
 }

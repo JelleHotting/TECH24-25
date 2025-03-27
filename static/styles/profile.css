@@ -44,7 +44,7 @@ body {
 }
 
 .profileActions .btn {
-    background-color: #337EFF;
+    background-color: var(--mainBlauw);
     color:var(--witteText);
     padding: 0.5em 1em;
     border: none;
@@ -58,5 +58,6 @@ body {
 
 .profileActions .btn:hover {
     background-color: #98FE00;
-}
+} 
+/* Deze groen moet nog een variabele kleur worden */
 

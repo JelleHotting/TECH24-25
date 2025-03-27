@@ -41,6 +41,6 @@ p{
 
 .list li div:nth-of-type(1){
     padding-left: 1em;
-    border-left: solid 0.10em white;
+    border-left: solid 0.10em var(--witteText);
 }
 

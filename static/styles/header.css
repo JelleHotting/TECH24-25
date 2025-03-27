@@ -1,4 +1,7 @@
 
+header{
+    background-color: var(--backgroundColor);
+}
 
 header nav{
     display: flex;
@@ -36,10 +39,59 @@ nav ul li a::after {
     bottom: 0;
     width: 0; /* Start met geen breedte */
     height: 2px;
-    background-color: #1BA352;
+    background-color: var(--mainGroen);
     transition: width 0.3s ease-in-out;
 }
 
 nav ul li a:hover::after {
     width: 100%; /* Lijn breidt uit van links naar rechts */
 }
+
+
+/* hamburger */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 18px;
+    cursor: pointer;
+  }
+  
+  .hamburger span {
+    height: 3px;
+    width: 100%;
+    background-color: var(--witteText);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Mobiel gedrag */
+  @media (max-width: 768px) {
+    header nav {
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 1em;
+    }
+  
+    .hamburger {
+      display: flex;
+      margin-left: auto;
+      margin-bottom: 1em;
+    }
+  
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      gap: 1em;
+      width: 100%;
+    }
+  
+    .nav-links.active {
+      display: flex;
+    }
+  
+    nav ul:nth-of-type(2) {
+      display: none; /* Verberg profielgegevens op mobiel of style apart */
+    }
+  }

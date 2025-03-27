@@ -268,7 +268,7 @@ app.post('/saveClan', isAuthenticated, async (req, res) => {
   try {
     const collection = client.db(process.env.DB_NAME).collection('submissions');
     await collection.updateOne(
-      { username: req.session.username }, 
+      { username: req.session.user }, 
       { $push: { favoriteClans: req.body.clanTag } }, 
       { upsert: true }
     );
@@ -278,6 +278,25 @@ app.post('/saveClan', isAuthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+// Route om een clan te verwijden 
+app.post('/removeClan', isAuthenticated, async (req, res) => {
+  try {
+    const { clanTag } = req.body;
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+
+    await collection.updateOne(
+      { username: req.session.user },
+      { $pull: { favoriteClans: clanTag } }
+    );
+
+    res.redirect('/profile');
+  } catch (err) {
+    console.error('Error removing clan from MongoDB', err);
+    res.sendStatus(500);
+  }
+});
+
 
 // Route om een opgeslagen clan op te halen uit de database
 app.get('/profile', isAuthenticated, async (req, res) => {
@@ -298,6 +317,49 @@ app.get('/profile', isAuthenticated, async (req, res) => {
     } else {
        error = 'Je hebt nog geen opgeslagen clans';
     }
+    
+    const apiToken = process.env.COC_API_KEY;
+    const clanTag = favoriteClans[0];
+  
+    try {
+      const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans/%23${clanTag}`, {
+        headers: {
+          'Authorization': `Bearer ${apiToken}`
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+        
+      const clanName = data.name;
+      const clanLevel = data.clanLevel;
+      const clanImg = data.badgeUrls.small;
+      const clanDivisie = data.warLeague ? data.warLeague.name : 'N/A';
+      const trophies = data.clanPoints;
+      const requiredTrophies = data.requiredTrophies;
+      const requiredTownHallLevel = data.requiredTownhallLevel;
+      const memberCount = data.members;
+      const description = data.description;
+      const language = data.chatLanguage ? data.chatLanguage.name : 'N/A';
+      const location = data.location ? data.location.name : 'N/A';
+      const type = data.type;
+  
+      const members = data.memberList.map(member => member.name);
+      const membersString = members.join(', ');
+  
+      res.render('profile', { 
+        clanName, clanTag, clanLevel, clanImg, clanDivisie, trophies, 
+        requiredTrophies, requiredTownHallLevel, memberCount, description, 
+        language, location, type, membersString, favoriteClans, email: user.email, error: "" 
+      });
+
+    } catch (err) {
+      console.error('Error:', err);
+    }
+
 
     // Verstuur de favoriteClans naar de EJS-view
     console.log(favoriteClans)
