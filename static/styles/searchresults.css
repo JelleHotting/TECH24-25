@@ -9,6 +9,10 @@ main {
     font-family: poppins;
 }
 
+body{
+    background-color: var(--backgroundColor);
+}
+
 h1{
     color:var(--witteText);
 }

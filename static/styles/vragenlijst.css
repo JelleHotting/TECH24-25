@@ -6,7 +6,9 @@ main{
     background-color: var(--backgroundColor);
 }
 
-
+body{
+  background-color: var(--backgroundColor);
+}
 
 h1{
     font-size: 2.5rem;
