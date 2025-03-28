@@ -22,6 +22,9 @@
             alt="Een foto van een karakter">
           <p>Naam: <%= username %></p>
           <p>Email: <%= email %></p>
+          <form action="/logout" method="POST" style="display: inline;">
+            <button type="submit" class="btn">Uitloggen</button>
+          </form>
         </section>
 
           <section class="opgeslagen">
@@ -47,12 +50,6 @@
           
         </section>
         
-        <section class="profileActions">
-          <a href="/edit-profile" class="btn">Profiel bewerken</a>
-          <form action="/logout" method="POST" style="display: inline;">
-            <button type="submit" class="btn">Uitloggen</button>
-          </form>
-        </section>
 
         <section>
           <% if (error) { %>

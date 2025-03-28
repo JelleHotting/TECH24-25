@@ -10,7 +10,7 @@ body {
 .profileContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    margin-bottom: 5em;
+    margin-bottom: 3em;
 }
 
 .profileContainer h1 {
@@ -46,6 +46,7 @@ body {
     display: grid;
     grid-template-columns: 20% 1fr;
     grid-template-rows: 1fr 1fr;
+    margin-bottom: 1em;
 }
 
 .clanCard img{
@@ -74,30 +75,25 @@ body {
     grid-row-start: 2;
     grid-column-start: 2;
     justify-self: end;
-    align-self: center;
+    align-self: start;
 }
 
 .clanCard button{
     color: var(--witteText);
     background-color: var(--mainGroen);
     border: none;
-    padding: 0.3em;
-    border-radius: 0.5em;
+    padding: 0.5em;
+    border-radius: 5em;
     cursor: pointer;
 }
 
-.profileActions {
-    display: flex;
-    justify-content: space-around;
-    gap: 1em;
-}
 
-.profileActions .btn {
+.profileInfo .btn {
     background-color: var(--mainBlauw);
     color:var(--witteText);
     padding: 0.5em 1em;
     border: none;
-    border-radius: 100px;
+    border-radius: 5em;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
