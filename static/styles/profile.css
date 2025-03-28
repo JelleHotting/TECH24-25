@@ -10,6 +10,7 @@ body {
 .profileContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    margin-bottom: 3em;
 }
 
 .profileContainer h1 {
@@ -23,7 +24,6 @@ body {
 
 .profileInfo {
     color:var(--witteText);
-    /* padding: 2em; */
     text-align: left;
     display: grid;
     grid-column-start: 1;
@@ -35,41 +35,75 @@ body {
     margin: 0.5em 0;
 }
 
+
+
 .opgeslagen ul{
     list-style: none;
-    padding: 0;
+    padding: 0;   
 }
 
-.opgeslagen button{
+.clanCard {
+    display: grid;
+    grid-template-columns: 20% 1fr;
+    grid-template-rows: 1fr 1fr;
+    margin-bottom: 1em;
+}
+
+.clanCard img{
+    grid-row: 1 / 3;
+    grid-column-start: 1;
+    justify-self: start;
+    align-self: center;
+    margin: 0;
+    height: auto;
+    width: 5em;
+}
+
+.clanCard h3{
+    grid-row-start: 1;
+    grid-column-start: 2; 
+    margin: 0;
+}
+
+.clanCard p{
+    grid-row-start: 2;
+    grid-column-start: 2; 
+    margin: 0;
+}
+
+.clanCard form{
+    grid-row-start: 2;
+    grid-column-start: 2;
+    justify-self: end;
+    align-self: start;
+}
+
+.clanCard button{
     color: var(--witteText);
     background-color: var(--mainGroen);
     border: none;
-    padding: 0.2em;
-    border-radius: 0.5em;
+    padding: 0.3em;
+    border-radius: 5em;
     cursor: pointer;
+    font-family: poppins;
+    font-size: 0.8em;
 }
 
-.profileActions {
-    display: flex;
-    justify-content: space-around;
-    gap: 1em;
-}
 
-.profileActions .btn {
+.profileInfo .btn {
     background-color: var(--mainBlauw);
     color:var(--witteText);
-    padding: 0.5em 1em;
+    padding: 0.3em 1em;
     border: none;
-    border-radius: 100px;
+    border-radius: 5em;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
     width: 200px;
-    transition: background-color 0.3s ease;
+    font-family: poppins;
+    transition: all 0.2s ease;
 }
 
-.profileActions .btn:hover {
-    background-color: #98FE00;
-} 
-/* Deze groen moet nog een variabele kleur worden */
-
+.profileInfo .btn:hover{
+    background-color: var(--mainRood);
+}

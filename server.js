@@ -342,71 +342,80 @@ app.get('/profile', isAuthenticated, async (req, res) => {
     // Verbind met de collectie in MongoDB
     const collection = client.db(process.env.DB_NAME).collection('submissions');
     const user = await collection.findOne({ username: req.session.user});
-    console.log(req.session.user)
-
+    
     // Zorg ervoor dat favoriteClans bestaat
     const favoriteClans = (user && user.favoriteClans) ? user.favoriteClans : [];
-    console.log('Favorite clans:', favoriteClans);
-    let error = "";
-    if (favoriteClans) {
-      if (favoriteClans.length === 0) {
-         error = 'Je hebt nog geen opgeslagen clans';
-      }
-    } else {
-       error = 'Je hebt nog geen opgeslagen clans';
+    
+    if (!favoriteClans || favoriteClans.length === 0) {
+      return res.render('profile', { 
+        clansData: [],
+        favoriteClans: [],
+        email: user.email, 
+        error: 'Je hebt nog geen opgeslagen clans'
+      });
     }
     
     const apiToken = process.env.COC_API_KEY;
-    const clanTag = favoriteClans[0];
-  
-    try {
-      const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans/%23${clanTag}`, {
-        headers: {
-          'Authorization': `Bearer ${apiToken}`
+    
+    // Maak een array van promises voor alle API verzoeken
+    const clanPromises = favoriteClans.map(async (clanTag) => {
+      try {
+        const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans/%23${clanTag}`, {
+          headers: {
+            'Authorization': `Bearer ${apiToken}`
+          }
+        });
+    
+        if (!response.ok) {
+          console.error(`Error fetching clan ${clanTag}: ${response.status}`);
+          return null;
         }
-      });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const data = await response.json();
+    
+        const data = await response.json();
         
-      const clanName = data.name;
-      const clanLevel = data.clanLevel;
-      const clanImg = data.badgeUrls.small;
-      const clanDivisie = data.warLeague ? data.warLeague.name : 'N/A';
-      const trophies = data.clanPoints;
-      const requiredTrophies = data.requiredTrophies;
-      const requiredTownHallLevel = data.requiredTownhallLevel;
-      const memberCount = data.members;
-      const description = data.description;
-      const language = data.chatLanguage ? data.chatLanguage.name : 'N/A';
-      const location = data.location ? data.location.name : 'N/A';
-      const type = data.type;
-  
-      const members = data.memberList.map(member => member.name);
-      const membersString = members.join(', ');
-  
-      res.render('profile', { 
-        clanName, clanTag, clanLevel, clanImg, clanDivisie, trophies, 
-        requiredTrophies, requiredTownHallLevel, memberCount, description, 
-        language, location, type, membersString, favoriteClans, email: user.email, error: "" 
-      });
-
-    } catch (err) {
-      console.error('Error:', err);
-    }
-
-
-    // Verstuur de favoriteClans naar de EJS-view
-    console.log(favoriteClans)
-    res.render('profile', { favoriteClans, email: user.email, error });
+        // Bereid leden voor als string
+        const membersString = data.memberList.map(member => member.name).join(', ');
+        
+        return {
+          clanTag,
+          clanName: data.name,
+          clanLevel: data.clanLevel,
+          clanImg: data.badgeUrls.small,
+          clanDivisie: data.warLeague ? data.warLeague.name : 'N/A',
+          trophies: data.clanPoints,
+          requiredTrophies: data.requiredTrophies,
+          requiredTownHallLevel: data.requiredTownhallLevel,
+          memberCount: data.members,
+          description: data.description,
+          language: data.chatLanguage ? data.chatLanguage.name : 'N/A',
+          location: data.location ? data.location.name : 'N/A',
+          type: data.type,
+          membersString
+        };
+      } catch (err) {
+        console.error(`Error processing clan ${clanTag}:`, err);
+        return null;
+      }
+    });
+    
+    // Wacht tot alle clan data is opgehaald
+    const clansDataWithNulls = await Promise.all(clanPromises);
+    
+    // Filter eventuele null waarden (mislukte verzoeken) uit
+    const clansData = clansDataWithNulls.filter(clan => clan !== null);
+    
+    // Render de pagina met alle clan data
+    res.render('profile', { 
+      clansData,
+      favoriteClans,
+      email: user.email, 
+      error: clansData.length === 0 ? 'Er is een probleem opgetreden bij het ophalen van je clans' : ''
+    });
+    
   } catch (err) {
     console.error('Error fetching favorite clans from MongoDB', err);
-    res.sendStatus(500);
+    res.status(500).send('Error fetching favorite clans from MongoDB');
   }
-
 });
 
 // Route om antwoorden op te slaan in de sessie

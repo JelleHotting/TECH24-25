@@ -22,38 +22,34 @@
             alt="Een foto van een karakter">
           <p>Naam: <%= username %></p>
           <p>Email: <%= email %></p>
+          <form action="/logout" method="POST" style="display: inline;">
+            <button type="submit" class="btn">Uitloggen</button>
+          </form>
         </section>
 
           <section class="opgeslagen">
             <h2>Opgeslagen clans</h2>
 
-            <% if (error) { %>
-              <label><%= error %></label>
+            <% if (clansData && clansData.length > 0) { %>
+              <% clansData.forEach(clan => { %>
+                <div class="clanCard">
+                  <img src="<%= clan.clanImg %>" alt="<%= clan.clanName %> logo">
+                  <h3><%= clan.clanName %></h3>
+                  <p>#<%= clan.clanTag %></p>
+                  <!-- Add more clan details as needed -->
+                  <form action="/removeClan" method="POST">
+                    <input type="hidden" name="clanTag" value="<%= clan.tag %>">
+                    <button type="submit" class="btn remove-btn">Verwijderen uit opgeslagen</button>
+                  </form>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <p><%= error %></p>
             <% } %>
-
-
-           
-            <% if (favoriteClans.length > 0) { %>
-              <ul>
-                <% favoriteClans.forEach(clan => { %>
-                  <li><%= clan %>
-                    <form action="/removeClan" method="POST" style="display:inline;">
-                      <input type="hidden" name="clanTag" value="<%= clan %>">
-                      <button type="submit" class="remove-btn">Verwijderen</button>
-                    </form>
-                  </li>
-                <% })} %>
-              </ul>
           </section>
           
         </section>
         
-        <section class="profileActions">
-          <a href="/edit-profile" class="btn">Profiel bewerken</a>
-          <form action="/logout" method="POST" style="display: inline;">
-            <button type="submit" class="btn">Uitloggen</button>
-          </form>
-        </section>
 
         <section>
           <% if (error) { %>
