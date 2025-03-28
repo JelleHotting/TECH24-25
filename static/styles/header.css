@@ -7,7 +7,7 @@ header nav{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 2em 5em;
+    margin: 2em 2em;
 }
 
 header nav ul,a{
@@ -33,10 +33,9 @@ img a{
     padding: none;
 }
 
-ul img{
-    margin-left: 2em;
-    margin-right: 0.5em;
-}
+/* ul img{
+    padding-bottom: none;
+}; */
 
 ul li{
     margin: 0em 1em;
@@ -109,4 +108,11 @@ nav ul li a:hover::after {
         display: none
     };
 }
-  
+
+
+.midden {
+    display: flex;
+    justify-content: center;
+    gap: 0.6em;
+   
+    }
