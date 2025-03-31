@@ -31,12 +31,12 @@ Om alle packages te instaleren zou je in je terminal
 ### Mongodb
 voor dit project hebben wij via mongodb een database opgezet om onze data op te slaan. Om jou eigen database te koppelen van mongodb, dan zou je de volgende code in het .env bestand moeten aanvullen met de informatie van je mongodb database.
 
-```DB_HOST=```
-```DB_NAME=```
-```DB_USERNAME=```
-```DB_PASSWORD=```
-```DB_COLLECTION=```
-```COC_API_KEY=```
+1. ```DB_HOST=```
+2. ```DB_NAME=```
+3. ```DB_USERNAME=```
+4. ```DB_PASSWORD=```
+5. ```DB_COLLECTION=```
+6. ```COC_API_KEY=```
 
 
 ## Hoe te gebruiken
