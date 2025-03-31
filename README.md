@@ -1,5 +1,6 @@
 # TECH24-25
  Eindproject tech (ClashConnect)
+ 
  ![Group 8](https://github.com/user-attachments/assets/9fce2881-0398-4b54-830f-75a84d01747e)
 
 
