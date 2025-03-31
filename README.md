@@ -3,3 +3,4 @@
 
 ## API
 Om gebruik te maken van de api zou je een api key moeten aanvragen via https://developer.clashofclans.com/#/.
+250px-troop-giant_png.png"
