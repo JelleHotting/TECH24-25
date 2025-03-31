@@ -484,6 +484,15 @@ app.post('/save-answer', (req, res) => {
 // Route voor gefilterde zoekresultaten gebaseerd op vragenlijst antwoorden
 app.get('/filtered-search', async (req, res) => {
   try {
+    // Controleer of er antwoorden zijn ingevuld
+    if (!req.session.answers || Object.keys(req.session.answers).length === 0) {
+      return res.render('searchResults', {
+        clans: [],
+        error: 'Je hebt nog geen voorkeuren ingevuld. Ga naar de vragenlijst om jouw ideale clan te vinden.',
+        searchTerm: 'Gefilterd zoeken'
+      });
+    }
+    
     // Toon de sessie-antwoorden voor debugging
     console.log("Sessie antwoorden:", req.session.answers);
     
@@ -505,59 +514,37 @@ app.get('/filtered-search', async (req, res) => {
     
     console.log(`Filter criteria - TH: ${townHallLevel}, Landcode: ${countryCode}, Trofeeën: ${trophies}`);
     
-    // Demonstratie clans voor het geval de API faalt
-    const demoClans = [
-      {
-        name: "Dutch Warriors",
-        tag: "#2Y8RLGR9P",
-        badgeUrls: { small: "https://api-assets.clashofclans.com/badges/70/0Qpj9K1t0boy2eUkqCmuIvGOlt9p4RWhVNOt0bIOSGM.png" },
-        clanLevel: 10,
-        clanPoints: trophies - 100, // Dicht bij de gewenste trofeeën
-        requiredTownhallLevel: townHallLevel - 1,
-        requiredTrophies: 2000,
-        members: 43,
-        location: { name: countryCode || "Netherlands" },
-        type: "inviteOnly"
-      },
-      {
-        name: "Global Champions",
-        tag: "#8PRVR2LP",
-        badgeUrls: { small: "https://api-assets.clashofclans.com/badges/70/RLDQCHkm2N5IvqO7NqDlItBB0mP0TGLdXhVPb6x4lYM.png" },
-        clanLevel: 15,
-        clanPoints: trophies + 100, // Dicht bij de gewenste trofeeën
-        requiredTownhallLevel: townHallLevel - 2,
-        requiredTrophies: 2500,
-        members: 48,
-        location: { name: "International" },
-        type: "open"
-      }
-    ];
-    
     let clans = [];
     
     try {
       const apiToken = process.env.COC_API_KEY;
       
       if (!apiToken) {
-        console.log("Geen API token gevonden, gebruik demo clans");
-        throw new Error("Geen API token gevonden");
+        console.log("Geen API token gevonden");
+        return res.render('searchResults', {
+          clans: [],
+          error: 'Er is een fout opgetreden bij het ophalen van clan gegevens. API token ontbreekt.',
+          searchTerm: 'Gefilterd zoeken'
+        });
       }
       
       // Bouw query parameters op basis van de antwoorden
       let queryParams = new URLSearchParams();
       
-      // const minTrophiesForQuery = Math.max(0, trophies - 1000);
-      // queryParams.append('requiredTrophies', minTrophiesForQuery.toString());
-      
-      // if (townHallLevel > 1) {
-      //   queryParams.append('minRequiredTownhallLevel', Math.max(1, townHallLevel - 3).toString());
-      // }
-      
+      // Voeg locationId toe als die opgegeven is
       if (countryCode) {
         queryParams.append('locationId', countryCode);
       }
       
-      // queryParams.append('limit', '50');
+      // Voeg minimaal aantal trofeeën toe (ongeveer 1000 minder dan gewenst)
+      const minTrophies = Math.max(0, trophies - 1000);
+      queryParams.append('minClanPoints', minTrophies.toString());
+      
+      // We willen geen minTownHallLevel parameter gebruiken omdat we zelf willen filteren
+      // op basis van de requiredTownhallLevel van elke clan
+      
+      // Beperk aantal resultaten
+      queryParams.append('limit', '50');
       
       let apiUrl = `https://cocproxy.royaleapi.dev/v1/clans?${queryParams.toString()}`;
       
@@ -571,7 +558,25 @@ app.get('/filtered-search', async (req, res) => {
 
       if (!response.ok) {
         console.error(`Error: ${response.status} - ${response.statusText}`);
-        throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+        
+        let gebruikersFoutmelding = 'Er is een probleem met de Clash of Clans API. Probeer het later nog eens.';
+        
+        // Speciale foutmeldingen voor bepaalde HTTP-statuscodes
+        if (response.status === 400) {
+          gebruikersFoutmelding = 'De zoekopdracht bevat ongeldige parameters. Probeer andere filteropties.';
+        } else if (response.status === 403) {
+          gebruikersFoutmelding = 'Geen toegang tot de Clash of Clans API. Neem contact op met de beheerder.';
+        } else if (response.status === 429) {
+          gebruikersFoutmelding = 'Te veel zoekopdrachten. Wacht even en probeer het opnieuw.';
+        } else if (response.status === 503) {
+          gebruikersFoutmelding = 'De Clash of Clans API is momenteel niet beschikbaar. Probeer het later nog eens.';
+        }
+        
+        return res.render('searchResults', {
+          clans: [],
+          error: gebruikersFoutmelding,
+          searchTerm: 'Gefilterd zoeken'
+        });
       }
 
       const data = await response.json();
@@ -580,46 +585,122 @@ app.get('/filtered-search', async (req, res) => {
         clans = data.items;
         console.log(`${data.items.length} clans opgehaald van API met voorfiltering`);
       } else {
-        console.log("Geen clans gevonden met voorfiltering, gebruik demo clans");
-        clans = demoClans;
+        console.log("Geen clans gevonden met voorfiltering");
+        return res.render('searchResults', {
+          clans: [],
+          error: 'Geen clans gevonden die aan je zoekcriteria voldoen. Probeer andere filters.',
+          searchTerm: 'Gefilterd zoeken'
+        });
       }
     } catch (apiError) {
-      console.log("Fout bij API aanroep, gebruik demo clans:", apiError.message);
-      clans = demoClans;
+      console.log("Fout bij API aanroep:", apiError.message);
+      return res.render('searchResults', {
+        clans: [],
+        error: `Er is een fout opgetreden bij het ophalen van clan gegevens: ${apiError.message}`,
+        searchTerm: 'Gefilterd zoeken'
+      });
     }
     
+    // Nauwkeuriger filteren aan de server kant
     const filteredClans = clans.filter(clan => {
+      // Town Hall niveau filter: 
+      // Als een clan requiredTownhallLevel=11 heeft, kan een speler met TH10 er niet bij
+      // maar een speler met TH11 of hoger wel
       const requiredTH = clan.requiredTownhallLevel || 0;
-      const thMatch = requiredTH <= townHallLevel;
-    
-      const trophyRange = 1000;
-      const minTrophies = Math.max(0, trophies - trophyRange);
-      const maxTrophies = trophies + trophyRange;
-      const trophyMatch = (clan.clanPoints >= minTrophies && clan.clanPoints <= maxTrophies);
-    
+      const thMatch = townHallLevel >= requiredTH;
+      
+      // Trofeeën filter:
+      // Als een clan requiredTrophies=3000 heeft, kan een speler met 2000 trofeeën er niet bij
+      // maar een speler met 3000 of meer trofeeën wel
+      const requiredTrophies = clan.requiredTrophies || 0;
+      const trophyMatch = trophies >= requiredTrophies;
+      
+      // Locatie filter: alleen filteren op locatie als die is opgegeven
       let locationMatch = true;
-      if (countryCode && typeof countryCode === 'string' && clan.location && clan.location.id !== undefined) {
-        locationMatch = clan.location.id === countryCode.toUpperCase();
+      if (countryCode && clan.location && clan.location.id) {
+        locationMatch = clan.location.id.toString() === countryCode.toString();
       }
-    
-      return locationMatch;
+
+      // Log voor debugging
+      if (Math.random() < 0.1) { // Log ongeveer 10% van de clans voor debugging
+        console.log(`Clan: ${clan.name}, Required TH: ${requiredTH}, Player TH: ${townHallLevel}, TH Match: ${thMatch}`);
+        console.log(`Required Trophies: ${requiredTrophies}, Player Trophies: ${trophies}, Trophy Match: ${trophyMatch}`);
+        console.log(`Location Match: ${locationMatch}`);
+      }
+      
+      // Clan moet aan alle criteria voldoen
+      return thMatch && trophyMatch && locationMatch;
     });
     
     console.log(`${filteredClans.length} clans na extra filteren`);
     
+    // Sorteer clans op basis van meerdere factoren (beste match eerst)
     filteredClans.sort((a, b) => {
-      const diffA = Math.abs(a.clanPoints - trophies);
-      const diffB = Math.abs(b.clanPoints - trophies);
-      return diffA - diffB;
+      // Bereken hoe goed de clan past bij de speler
+      const scoreA = calculateMatchScore(a, townHallLevel, trophies, countryCode);
+      const scoreB = calculateMatchScore(b, townHallLevel, trophies, countryCode);
+      
+      // Hogere score betekent betere match
+      return scoreB - scoreA;
     });
+
+    // Helper functie om te berekenen hoe goed een clan bij de speler past
+    function calculateMatchScore(clan, playerTH, playerTrophies, countryCode) {
+      let score = 0;
+      
+      // Bonus voor Town Hall level match
+      const thDiff = playerTH - (clan.requiredTownhallLevel || 0);
+      if (thDiff >= 0 && thDiff <= 2) {
+        score += 30; // Perfecte TH match (0-2 niveaus hoger)
+      } else if (thDiff > 2) {
+        score += 15; // Speler is veel te hoog level voor de clan
+      }
+      
+      // Bonus voor trofeeën match
+      const trophyDiff = playerTrophies - (clan.requiredTrophies || 0);
+      if (trophyDiff >= 0 && trophyDiff <= 500) {
+        score += 30; // Perfecte trofeeën match (0-500 meer)
+      } else if (trophyDiff > 500) {
+        score += 15; // Speler heeft veel meer trofeeën dan nodig
+      }
+      
+      // Bonus voor locatie match
+      if (countryCode && clan.location && clan.location.id) {
+        if (clan.location.id.toString() === countryCode.toString()) {
+          score += 40; // Perfecte locatie match
+        }
+      } else if (!countryCode) {
+        score += 20; // Als geen locatie is opgegeven, geef deelse match
+      }
+      
+      // Bonus voor actieve clans
+      score += Math.min(20, clan.members || 0); // Tot 20 punten voor een volle clan
+      
+      // Bonus voor hogere clan levels
+      score += Math.min(20, (clan.clanLevel || 0) * 2); // Tot 20 punten voor level 10 clan
+      
+      return score;
+    }
+    
+    // Als er na het filteren geen clans overblijven
+    if (filteredClans.length === 0) {
+      return res.render('searchResults', {
+        clans: [],
+        error: 'Geen clans gevonden die aan je zoekcriteria voldoen. Probeer andere filters of minder strenge criteria.',
+        searchTerm: 'Gefilterd zoeken'
+      });
+    }
     
     res.render('searchResults', { 
-      clans,
+      clans: filteredClans,
+      searchTerm: 'Gefilterd zoeken op basis van jouw voorkeuren'
     });
   } catch (err) {
     console.error('Algemene fout bij gefilterd zoeken:', err);
     res.render('searchResults', {
-      clans: []
+      clans: [],
+      error: 'Er is een onverwachte fout opgetreden bij het zoeken naar clans. Probeer het later nog eens.',
+      searchTerm: 'Gefilterd zoeken'
     });
   }
 });
