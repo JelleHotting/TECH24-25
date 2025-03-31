@@ -5,6 +5,9 @@ require('dotenv').config()
 const express = require('express')
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid');
 const app = express()
 
 
@@ -49,6 +52,24 @@ client.connect()
     console.log(`Database connection error - ${err}`)
     console.log(`For uri - ${uri}`)
   })
+
+// Configure nodemailer
+const transporter = nodemailer.createTransport({
+  service: process.env.EMAIL_SERVICE,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+// Test connection with mail server
+transporter.verify(function(error, success) {
+  if (error) {
+    console.log('Error setting up email connection:', error);
+  } else {
+    console.log('Server is ready to send emails');
+  }
+});
 
 // Auth middleware
 function isAuthenticated(req, res, next) {
@@ -758,6 +779,185 @@ app.get('/test-api', async (req, res) => {
   } catch (err) {
     console.error('API test error:', err);
     res.send(`API test error: ${err.message}`);
+  }
+});
+
+// Wachtwoord reset aanvragen
+app.get('/forgot-password', (req, res) => {
+  res.render('forgot-password', { error: null, success: null });
+});
+
+// Verwerken van wachtwoord reset aanvraag
+app.post('/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  
+  if (!email) {
+    return res.render('forgot-password', { 
+      error: 'E-mailadres is verplicht', 
+      success: null 
+    });
+  }
+  
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+    const user = await collection.findOne({ email: email });
+    
+    if (!user) {
+      // Voor veiligheid: toon geen specifieke foutmelding of deze e-mail bestaat
+      return res.render('forgot-password', { 
+        error: null, 
+        success: 'Als dit e-mailadres in ons systeem bestaat, ontvang je binnenkort een e-mail met instructies om je wachtwoord te resetten.' 
+      });
+    }
+    
+    // Genereer unieke token en sla dit op
+    const resetToken = uuidv4();
+    const resetTokenExpiry = Date.now() + 3600000; // 1 uur geldig
+    
+    // Update gebruiker met token
+    await collection.updateOne(
+      { email: email },
+      { $set: { resetToken, resetTokenExpiry } }
+    );
+    
+    // Bouw reset URL
+    const resetUrl = `${process.env.BASE_URL}/reset-password/${resetToken}`;
+    
+    // Verzend e-mail
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Wachtwoord reset voor Clash of Clans Clan Finder',
+      html: `
+        <h1>Wachtwoord reset aangevraagd</h1>
+        <p>Je hebt een wachtwoord reset aangevraagd voor je account.</p>
+        <p>Klik op de onderstaande link om je wachtwoord te resetten:</p>
+        <a href="${resetUrl}">Reset mijn wachtwoord</a>
+        <p>Deze link is 1 uur geldig.</p>
+        <p>Als je geen wachtwoord reset hebt aangevraagd, kun je deze e-mail negeren.</p>
+      `
+    };
+    
+    await transporter.sendMail(mailOptions);
+    
+    res.render('forgot-password', { 
+      error: null, 
+      success: 'Er is een e-mail met reset instructies verzonden naar je e-mailadres.' 
+    });
+    
+  } catch (err) {
+    console.error('Fout bij wachtwoord reset aanvraag:', err);
+    res.render('forgot-password', { 
+      error: 'Er is een fout opgetreden. Probeer het later nog eens.', 
+      success: null 
+    });
+  }
+});
+
+// Pagina voor wachtwoord reset met token
+app.get('/reset-password/:token', async (req, res) => {
+  const { token } = req.params;
+  
+  if (!token) {
+    return res.redirect('/forgot-password');
+  }
+  
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+    const user = await collection.findOne({ 
+      resetToken: token,
+      resetTokenExpiry: { $gt: Date.now() } // Controleer of token nog geldig is
+    });
+    
+    if (!user) {
+      return res.render('reset-password', { 
+        token: null, 
+        error: 'De wachtwoord reset link is ongeldig of verlopen.', 
+        success: null 
+      });
+    }
+    
+    res.render('reset-password', { token, error: null, success: null });
+    
+  } catch (err) {
+    console.error('Fout bij wachtwoord reset pagina:', err);
+    res.render('reset-password', { 
+      token: null, 
+      error: 'Er is een fout opgetreden. Probeer het later nog eens.', 
+      success: null 
+    });
+  }
+});
+
+// Verwerken van nieuw wachtwoord
+app.post('/reset-password', async (req, res) => {
+  const { token, password, confirmPassword } = req.body;
+  
+  if (!token || !password || !confirmPassword) {
+    return res.render('reset-password', { 
+      token, 
+      error: 'Alle velden zijn verplicht.', 
+      success: null 
+    });
+  }
+  
+  if (password !== confirmPassword) {
+    return res.render('reset-password', { 
+      token, 
+      error: 'Wachtwoorden komen niet overeen.', 
+      success: null 
+    });
+  }
+  
+  if (password.length < 8) {
+    return res.render('reset-password', { 
+      token, 
+      error: 'Wachtwoord moet minimaal 8 tekens bevatten.', 
+      success: null 
+    });
+  }
+  
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+    const user = await collection.findOne({ 
+      resetToken: token,
+      resetTokenExpiry: { $gt: Date.now() } // Controleer of token nog geldig is
+    });
+    
+    if (!user) {
+      return res.render('reset-password', { 
+        token: null, 
+        error: 'De wachtwoord reset link is ongeldig of verlopen.', 
+        success: null 
+      });
+    }
+    
+    // Hash het nieuwe wachtwoord
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    
+    // Update gebruiker met nieuw wachtwoord en verwijder reset token
+    await collection.updateOne(
+      { _id: user._id },
+      { 
+        $set: { password: hashedPassword },
+        $unset: { resetToken: "", resetTokenExpiry: "" }
+      }
+    );
+    
+    res.render('reset-password', { 
+      token: null, 
+      error: null, 
+      success: 'Je wachtwoord is succesvol gewijzigd. Je kunt nu <a href="/login">inloggen</a> met je nieuwe wachtwoord.' 
+    });
+    
+  } catch (err) {
+    console.error('Fout bij wachtwoord reset:', err);
+    res.render('reset-password', { 
+      token, 
+      error: 'Er is een fout opgetreden. Probeer het later nog eens.', 
+      success: null 
+    });
   }
 });
 
