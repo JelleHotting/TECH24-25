@@ -1,0 +1,102 @@
+/* Als je nog geen forms.css hebt, kun je deze aanmaken */
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: var(--backgroundColor);
+}
+
+.auth-form-container {
+  background-color: var(--grijzeAchtergrond);
+  border-radius: 8px;
+  padding: 30px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form-container h1 {
+  color: var(--witteText);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.auth-form-container p {
+  color: var(--witteText);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  color: var(--witteText);
+  font-weight: 500;
+}
+
+.form-group input {
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: var(--backgroundColor);
+  color: var(--witteText);
+}
+
+.btn-primary {
+  padding: 12px;
+  background-color: var(--accentKleur);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.form-links {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.form-links a {
+  color: var(--accentKleur);
+  text-decoration: none;
+}
+
+.form-links a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  background-color: #ff5252;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.success-message {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
