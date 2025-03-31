@@ -2,6 +2,7 @@
  Eindproject tech (ClashConnect)
  
 ![Group 8](https://github.com/user-attachments/assets/9fce2881-0398-4b54-830f-75a84d01747e)
+
 Clash Connect is dé website voor Clash of Clans-spelers die op zoek zijn naar de perfecte clan! Met onze gebruiksvriendelijke zoekfunctie en slimme vragenlijst vind je eenvoudig een clan die bij jouw speelstijl past. Maak een profiel aan, sla je favoriete clans op en beheer je matches moeiteloos. Of je nu een casual speler of een competitieve strijder bent, Clash Connect helpt je de juiste community te vinden! 🚀🔥
 
 ## Instalatie instructies
@@ -14,12 +15,8 @@ Het ziet er dan als volgt uit: git clone <[repository-URL](https://github.com/Je
 
 3. Navigeer naar de map. Gefeliciteerd nu heb je een lokaal mapje van het project waarmee je kan werken.
 
-4. bcrypt
-5. express
-6. express sessions
-7. ejs
-8. dotenv
-9. mongodb
+Om alle packages te instaleren zou je in je terminal 
+``` npm install ```
 
 ## Hoe te gebruiken
 ## Functionaliteiten
