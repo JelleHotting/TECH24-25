@@ -5,6 +5,9 @@ require('dotenv').config()
 const express = require('express')
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+const { v4: uuidv4 } = require('uuid');
 const app = express()
 
 
@@ -49,6 +52,24 @@ client.connect()
     console.log(`Database connection error - ${err}`)
     console.log(`For uri - ${uri}`)
   })
+
+// Configure nodemailer
+const transporter = nodemailer.createTransport({
+  service: process.env.EMAIL_SERVICE,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+// Test connection with mail server
+transporter.verify(function(error, success) {
+  if (error) {
+    console.log('Error setting up email connection:', error);
+  } else {
+    console.log('Server is ready to send emails');
+  }
+});
 
 // Auth middleware
 function isAuthenticated(req, res, next) {
@@ -197,6 +218,14 @@ app.get('/search', isAuthenticated, async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
   const query = req.query.clanName;
 
+  // Check if search query is empty or too short
+  if (!query || query.trim().length < 3) {
+    return res.render('searchResults', { 
+      clans: [],
+      error: 'Voer minimaal 3 tekens in om te zoeken naar een clan.'
+    });
+  }
+
   try {
     const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans?name=${encodeURIComponent(query)}`, {
       headers: {
@@ -206,14 +235,34 @@ app.get('/search', isAuthenticated, async (req, res) => {
 
     if (!response.ok) {
       console.error(`Error: ${response.status} - ${response.statusText}`);
-      return res.status(response.status).send(response.statusText);
+      return res.render('searchResults', {
+        clans: [],
+        error: `API fout: ${response.status} - ${response.statusText}`
+      });
     }
 
     const data = await response.json();
-    res.render('searchResults', { clans: data.items });
+    
+    // Check if results are empty
+    if (!data.items || data.items.length === 0) {
+      return res.render('searchResults', {
+        clans: [],
+        error: `Geen clans gevonden voor "${query}". Probeer een andere zoekopdracht.`,
+        searchTerm: query
+      });
+    }
+
+    res.render('searchResults', { 
+      clans: data.items,
+      searchTerm: query
+    });
   } catch (err) {
     console.error('Error fetching data from Clash of Clans API', err);
-    res.status(500).send('Error fetching data from Clash of Clans API');
+    res.render('searchResults', {
+      clans: [],
+      error: 'Er is een fout opgetreden bij het ophalen van clan gegevens. Probeer het later opnieuw.',
+      searchTerm: query
+    });
   }
 });
 
@@ -316,7 +365,7 @@ app.post('/removeClan', async (req, res) => {
     const user = await collection.findOne({ username });
 
     if (!user) {
-      return res.status(404).send('User not found');
+      return res.status(404).json({ success: false, message: 'Gebruiker niet gevonden' });
     }
 
     // Verwijder de clanTag uit de lijst van favoriete clans
@@ -328,10 +377,17 @@ app.post('/removeClan', async (req, res) => {
       { $set: { favoriteClans: updatedClans } }
     );
 
-    res.redirect(`/clan/${clanTag}`);
+    // Return success response instead of redirecting
+    res.json({ 
+      success: true, 
+      message: 'Clan is verwijderd uit je favorieten' 
+    });
   } catch (err) {
     console.error('Error removing favorite clan from MongoDB', err);
-    res.status(500).send('Error removing favorite clan from MongoDB');
+    res.status(500).json({ 
+      success: false, 
+      message: 'Er is een fout opgetreden bij het verwijderen van de clan' 
+    });
   }
 });
 
@@ -359,44 +415,40 @@ app.get('/profile', isAuthenticated, async (req, res) => {
     
     // Maak een array van promises voor alle API verzoeken
     const clanPromises = favoriteClans.map(async (clanTag) => {
-      try {
-        const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans/%23${clanTag}`, {
-          headers: {
-            'Authorization': `Bearer ${apiToken}`
-          }
-        });
-    
-        if (!response.ok) {
-          console.error(`Error fetching clan ${clanTag}: ${response.status}`);
-          return null;
+      const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans/%23${clanTag}`, {
+        headers: {
+          'Authorization': `Bearer ${apiToken}`
         }
-    
-        const data = await response.json();
-        
-        // Bereid leden voor als string
-        const membersString = data.memberList.map(member => member.name).join(', ');
-        
-        return {
-          clanTag,
-          clanName: data.name,
-          clanLevel: data.clanLevel,
-          clanImg: data.badgeUrls.small,
-          clanDivisie: data.warLeague ? data.warLeague.name : 'N/A',
-          trophies: data.clanPoints,
-          requiredTrophies: data.requiredTrophies,
-          requiredTownHallLevel: data.requiredTownhallLevel,
-          memberCount: data.members,
-          description: data.description,
-          language: data.chatLanguage ? data.chatLanguage.name : 'N/A',
-          location: data.location ? data.location.name : 'N/A',
-          type: data.type,
-          membersString
-        };
-      } catch (err) {
-        console.error(`Error processing clan ${clanTag}:`, err);
+      });
+
+      if (!response.ok) {
+        console.error(`Error fetching clan ${clanTag}: ${response.status}`);
         return null;
       }
+
+      const data = await response.json();
+
+      // Prepare members as a string
+      const membersString = data.memberList.map(member => member.name).join(', ');
+
+      return {
+        clanTag,
+        clanName: data.name,
+        clanLevel: data.clanLevel,
+        clanImg: data.badgeUrls.small,
+        clanDivisie: data.warLeague ? data.warLeague.name : 'N/A',
+        trophies: data.clanPoints,
+        requiredTrophies: data.requiredTrophies,
+        requiredTownHallLevel: data.requiredTownhallLevel,
+        memberCount: data.members,
+        description: data.description,
+        language: data.chatLanguage ? data.chatLanguage.name : 'N/A',
+        location: data.location ? data.location.name : 'N/A',
+        type: data.type,
+        membersString
+      };
     });
+    
     
     // Wacht tot alle clan data is opgehaald
     const clansDataWithNulls = await Promise.all(clanPromises);
@@ -453,6 +505,15 @@ app.post('/save-answer', (req, res) => {
 // Route voor gefilterde zoekresultaten gebaseerd op vragenlijst antwoorden
 app.get('/filtered-search', async (req, res) => {
   try {
+    // Controleer of er antwoorden zijn ingevuld
+    if (!req.session.answers || Object.keys(req.session.answers).length === 0) {
+      return res.render('searchResults', {
+        clans: [],
+        error: 'Je hebt nog geen voorkeuren ingevuld. Ga naar de vragenlijst om jouw ideale clan te vinden.',
+        searchTerm: 'Gefilterd zoeken'
+      });
+    }
+    
     // Toon de sessie-antwoorden voor debugging
     console.log("Sessie antwoorden:", req.session.answers);
     
@@ -474,59 +535,37 @@ app.get('/filtered-search', async (req, res) => {
     
     console.log(`Filter criteria - TH: ${townHallLevel}, Landcode: ${countryCode}, Trofeeën: ${trophies}`);
     
-    // Demonstratie clans voor het geval de API faalt
-    const demoClans = [
-      {
-        name: "Dutch Warriors",
-        tag: "#2Y8RLGR9P",
-        badgeUrls: { small: "https://api-assets.clashofclans.com/badges/70/0Qpj9K1t0boy2eUkqCmuIvGOlt9p4RWhVNOt0bIOSGM.png" },
-        clanLevel: 10,
-        clanPoints: trophies - 100, // Dicht bij de gewenste trofeeën
-        requiredTownhallLevel: townHallLevel - 1,
-        requiredTrophies: 2000,
-        members: 43,
-        location: { name: countryCode || "Netherlands" },
-        type: "inviteOnly"
-      },
-      {
-        name: "Global Champions",
-        tag: "#8PRVR2LP",
-        badgeUrls: { small: "https://api-assets.clashofclans.com/badges/70/RLDQCHkm2N5IvqO7NqDlItBB0mP0TGLdXhVPb6x4lYM.png" },
-        clanLevel: 15,
-        clanPoints: trophies + 100, // Dicht bij de gewenste trofeeën
-        requiredTownhallLevel: townHallLevel - 2,
-        requiredTrophies: 2500,
-        members: 48,
-        location: { name: "International" },
-        type: "open"
-      }
-    ];
-    
     let clans = [];
     
     try {
       const apiToken = process.env.COC_API_KEY;
       
       if (!apiToken) {
-        console.log("Geen API token gevonden, gebruik demo clans");
-        throw new Error("Geen API token gevonden");
+        console.log("Geen API token gevonden");
+        return res.render('searchResults', {
+          clans: [],
+          error: 'Er is een fout opgetreden bij het ophalen van clan gegevens. API token ontbreekt.',
+          searchTerm: 'Gefilterd zoeken'
+        });
       }
       
       // Bouw query parameters op basis van de antwoorden
       let queryParams = new URLSearchParams();
       
-      // const minTrophiesForQuery = Math.max(0, trophies - 1000);
-      // queryParams.append('requiredTrophies', minTrophiesForQuery.toString());
-      
-      // if (townHallLevel > 1) {
-      //   queryParams.append('minRequiredTownhallLevel', Math.max(1, townHallLevel - 3).toString());
-      // }
-      
+      // Voeg locationId toe als die opgegeven is
       if (countryCode) {
         queryParams.append('locationId', countryCode);
       }
       
-      // queryParams.append('limit', '50');
+      // Voeg minimaal aantal trofeeën toe (ongeveer 1000 minder dan gewenst)
+      const minTrophies = Math.max(0, trophies - 1000);
+      queryParams.append('minClanPoints', minTrophies.toString());
+      
+      // We willen geen minTownHallLevel parameter gebruiken omdat we zelf willen filteren
+      // op basis van de requiredTownhallLevel van elke clan
+      
+      // Beperk aantal resultaten
+      queryParams.append('limit', '50');
       
       let apiUrl = `https://cocproxy.royaleapi.dev/v1/clans?${queryParams.toString()}`;
       
@@ -540,7 +579,25 @@ app.get('/filtered-search', async (req, res) => {
 
       if (!response.ok) {
         console.error(`Error: ${response.status} - ${response.statusText}`);
-        throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+        
+        let gebruikersFoutmelding = 'Er is een probleem met de Clash of Clans API. Probeer het later nog eens.';
+        
+        // Speciale foutmeldingen voor bepaalde HTTP-statuscodes
+        if (response.status === 400) {
+          gebruikersFoutmelding = 'De zoekopdracht bevat ongeldige parameters. Probeer andere filteropties.';
+        } else if (response.status === 403) {
+          gebruikersFoutmelding = 'Geen toegang tot de Clash of Clans API. Neem contact op met de beheerder.';
+        } else if (response.status === 429) {
+          gebruikersFoutmelding = 'Te veel zoekopdrachten. Wacht even en probeer het opnieuw.';
+        } else if (response.status === 503) {
+          gebruikersFoutmelding = 'De Clash of Clans API is momenteel niet beschikbaar. Probeer het later nog eens.';
+        }
+        
+        return res.render('searchResults', {
+          clans: [],
+          error: gebruikersFoutmelding,
+          searchTerm: 'Gefilterd zoeken'
+        });
       }
 
       const data = await response.json();
@@ -549,46 +606,122 @@ app.get('/filtered-search', async (req, res) => {
         clans = data.items;
         console.log(`${data.items.length} clans opgehaald van API met voorfiltering`);
       } else {
-        console.log("Geen clans gevonden met voorfiltering, gebruik demo clans");
-        clans = demoClans;
+        console.log("Geen clans gevonden met voorfiltering");
+        return res.render('searchResults', {
+          clans: [],
+          error: 'Geen clans gevonden die aan je zoekcriteria voldoen. Probeer andere filters.',
+          searchTerm: 'Gefilterd zoeken'
+        });
       }
     } catch (apiError) {
-      console.log("Fout bij API aanroep, gebruik demo clans:", apiError.message);
-      clans = demoClans;
+      console.log("Fout bij API aanroep:", apiError.message);
+      return res.render('searchResults', {
+        clans: [],
+        error: `Er is een fout opgetreden bij het ophalen van clan gegevens: ${apiError.message}`,
+        searchTerm: 'Gefilterd zoeken'
+      });
     }
     
+    // Nauwkeuriger filteren aan de server kant
     const filteredClans = clans.filter(clan => {
+      // Town Hall niveau filter: 
+      // Als een clan requiredTownhallLevel=11 heeft, kan een speler met TH10 er niet bij
+      // maar een speler met TH11 of hoger wel
       const requiredTH = clan.requiredTownhallLevel || 0;
-      const thMatch = requiredTH <= townHallLevel;
-    
-      const trophyRange = 1000;
-      const minTrophies = Math.max(0, trophies - trophyRange);
-      const maxTrophies = trophies + trophyRange;
-      const trophyMatch = (clan.clanPoints >= minTrophies && clan.clanPoints <= maxTrophies);
-    
+      const thMatch = townHallLevel >= requiredTH;
+      
+      // Trofeeën filter:
+      // Als een clan requiredTrophies=3000 heeft, kan een speler met 2000 trofeeën er niet bij
+      // maar een speler met 3000 of meer trofeeën wel
+      const requiredTrophies = clan.requiredTrophies || 0;
+      const trophyMatch = trophies >= requiredTrophies;
+      
+      // Locatie filter: alleen filteren op locatie als die is opgegeven
       let locationMatch = true;
-      if (countryCode && typeof countryCode === 'string' && clan.location && clan.location.id !== undefined) {
-        locationMatch = clan.location.id === countryCode.toUpperCase();
+      if (countryCode && clan.location && clan.location.id) {
+        locationMatch = clan.location.id.toString() === countryCode.toString();
       }
-    
-      return locationMatch;
+
+      // Log voor debugging
+      if (Math.random() < 0.1) { // Log ongeveer 10% van de clans voor debugging
+        console.log(`Clan: ${clan.name}, Required TH: ${requiredTH}, Player TH: ${townHallLevel}, TH Match: ${thMatch}`);
+        console.log(`Required Trophies: ${requiredTrophies}, Player Trophies: ${trophies}, Trophy Match: ${trophyMatch}`);
+        console.log(`Location Match: ${locationMatch}`);
+      }
+      
+      // Clan moet aan alle criteria voldoen
+      return thMatch && trophyMatch && locationMatch;
     });
     
     console.log(`${filteredClans.length} clans na extra filteren`);
     
+    // Sorteer clans op basis van meerdere factoren (beste match eerst)
     filteredClans.sort((a, b) => {
-      const diffA = Math.abs(a.clanPoints - trophies);
-      const diffB = Math.abs(b.clanPoints - trophies);
-      return diffA - diffB;
+      // Bereken hoe goed de clan past bij de speler
+      const scoreA = calculateMatchScore(a, townHallLevel, trophies, countryCode);
+      const scoreB = calculateMatchScore(b, townHallLevel, trophies, countryCode);
+      
+      // Hogere score betekent betere match
+      return scoreB - scoreA;
     });
+
+    // Helper functie om te berekenen hoe goed een clan bij de speler past
+    function calculateMatchScore(clan, playerTH, playerTrophies, countryCode) {
+      let score = 0;
+      
+      // Bonus voor Town Hall level match
+      const thDiff = playerTH - (clan.requiredTownhallLevel || 0);
+      if (thDiff >= 0 && thDiff <= 2) {
+        score += 30; // Perfecte TH match (0-2 niveaus hoger)
+      } else if (thDiff > 2) {
+        score += 15; // Speler is veel te hoog level voor de clan
+      }
+      
+      // Bonus voor trofeeën match
+      const trophyDiff = playerTrophies - (clan.requiredTrophies || 0);
+      if (trophyDiff >= 0 && trophyDiff <= 500) {
+        score += 30; // Perfecte trofeeën match (0-500 meer)
+      } else if (trophyDiff > 500) {
+        score += 15; // Speler heeft veel meer trofeeën dan nodig
+      }
+      
+      // Bonus voor locatie match
+      if (countryCode && clan.location && clan.location.id) {
+        if (clan.location.id.toString() === countryCode.toString()) {
+          score += 40; // Perfecte locatie match
+        }
+      } else if (!countryCode) {
+        score += 20; // Als geen locatie is opgegeven, geef deelse match
+      }
+      
+      // Bonus voor actieve clans
+      score += Math.min(20, clan.members || 0); // Tot 20 punten voor een volle clan
+      
+      // Bonus voor hogere clan levels
+      score += Math.min(20, (clan.clanLevel || 0) * 2); // Tot 20 punten voor level 10 clan
+      
+      return score;
+    }
+    
+    // Als er na het filteren geen clans overblijven
+    if (filteredClans.length === 0) {
+      return res.render('searchResults', {
+        clans: [],
+        error: 'Geen clans gevonden die aan je zoekcriteria voldoen. Probeer andere filters of minder strenge criteria.',
+        searchTerm: 'Gefilterd zoeken'
+      });
+    }
     
     res.render('searchResults', { 
-      clans,
+      clans: filteredClans,
+      searchTerm: 'Gefilterd zoeken op basis van jouw voorkeuren'
     });
   } catch (err) {
     console.error('Algemene fout bij gefilterd zoeken:', err);
     res.render('searchResults', {
-      clans: []
+      clans: [],
+      error: 'Er is een onverwachte fout opgetreden bij het zoeken naar clans. Probeer het later nog eens.',
+      searchTerm: 'Gefilterd zoeken'
     });
   }
 });
@@ -646,6 +779,185 @@ app.get('/test-api', async (req, res) => {
   } catch (err) {
     console.error('API test error:', err);
     res.send(`API test error: ${err.message}`);
+  }
+});
+
+// Wachtwoord reset aanvragen
+app.get('/forgot-password', (req, res) => {
+  res.render('forgot-password', { error: null, success: null });
+});
+
+// Verwerken van wachtwoord reset aanvraag
+app.post('/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  
+  if (!email) {
+    return res.render('forgot-password', { 
+      error: 'E-mailadres is verplicht', 
+      success: null 
+    });
+  }
+  
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+    const user = await collection.findOne({ email: email });
+    
+    if (!user) {
+      // Voor veiligheid: toon geen specifieke foutmelding of deze e-mail bestaat
+      return res.render('forgot-password', { 
+        error: null, 
+        success: 'Als dit e-mailadres in ons systeem bestaat, ontvang je binnenkort een e-mail met instructies om je wachtwoord te resetten.' 
+      });
+    }
+    
+    // Genereer unieke token en sla dit op
+    const resetToken = uuidv4();
+    const resetTokenExpiry = Date.now() + 3600000; // 1 uur geldig
+    
+    // Update gebruiker met token
+    await collection.updateOne(
+      { email: email },
+      { $set: { resetToken, resetTokenExpiry } }
+    );
+    
+    // Bouw reset URL
+    const resetUrl = `${process.env.BASE_URL}/reset-password/${resetToken}`;
+    
+    // Verzend e-mail
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Wachtwoord reset voor Clash of Clans Clan Finder',
+      html: `
+        <h1>Wachtwoord reset aangevraagd</h1>
+        <p>Je hebt een wachtwoord reset aangevraagd voor je account.</p>
+        <p>Klik op de onderstaande link om je wachtwoord te resetten:</p>
+        <a href="${resetUrl}">Reset mijn wachtwoord</a>
+        <p>Deze link is 1 uur geldig.</p>
+        <p>Als je geen wachtwoord reset hebt aangevraagd, kun je deze e-mail negeren.</p>
+      `
+    };
+    
+    await transporter.sendMail(mailOptions);
+    
+    res.render('forgot-password', { 
+      error: null, 
+      success: 'Er is een e-mail met reset instructies verzonden naar je e-mailadres.' 
+    });
+    
+  } catch (err) {
+    console.error('Fout bij wachtwoord reset aanvraag:', err);
+    res.render('forgot-password', { 
+      error: 'Er is een fout opgetreden. Probeer het later nog eens.', 
+      success: null 
+    });
+  }
+});
+
+// Pagina voor wachtwoord reset met token
+app.get('/reset-password/:token', async (req, res) => {
+  const { token } = req.params;
+  
+  if (!token) {
+    return res.redirect('/forgot-password');
+  }
+  
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+    const user = await collection.findOne({ 
+      resetToken: token,
+      resetTokenExpiry: { $gt: Date.now() } // Controleer of token nog geldig is
+    });
+    
+    if (!user) {
+      return res.render('reset-password', { 
+        token: null, 
+        error: 'De wachtwoord reset link is ongeldig of verlopen.', 
+        success: null 
+      });
+    }
+    
+    res.render('reset-password', { token, error: null, success: null });
+    
+  } catch (err) {
+    console.error('Fout bij wachtwoord reset pagina:', err);
+    res.render('reset-password', { 
+      token: null, 
+      error: 'Er is een fout opgetreden. Probeer het later nog eens.', 
+      success: null 
+    });
+  }
+});
+
+// Verwerken van nieuw wachtwoord
+app.post('/reset-password', async (req, res) => {
+  const { token, password, confirmPassword } = req.body;
+  
+  if (!token || !password || !confirmPassword) {
+    return res.render('reset-password', { 
+      token, 
+      error: 'Alle velden zijn verplicht.', 
+      success: null 
+    });
+  }
+  
+  if (password !== confirmPassword) {
+    return res.render('reset-password', { 
+      token, 
+      error: 'Wachtwoorden komen niet overeen.', 
+      success: null 
+    });
+  }
+  
+  if (password.length < 8) {
+    return res.render('reset-password', { 
+      token, 
+      error: 'Wachtwoord moet minimaal 8 tekens bevatten.', 
+      success: null 
+    });
+  }
+  
+  try {
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+    const user = await collection.findOne({ 
+      resetToken: token,
+      resetTokenExpiry: { $gt: Date.now() } // Controleer of token nog geldig is
+    });
+    
+    if (!user) {
+      return res.render('reset-password', { 
+        token: null, 
+        error: 'De wachtwoord reset link is ongeldig of verlopen.', 
+        success: null 
+      });
+    }
+    
+    // Hash het nieuwe wachtwoord
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    
+    // Update gebruiker met nieuw wachtwoord en verwijder reset token
+    await collection.updateOne(
+      { _id: user._id },
+      { 
+        $set: { password: hashedPassword },
+        $unset: { resetToken: "", resetTokenExpiry: "" }
+      }
+    );
+    
+    res.render('reset-password', { 
+      token: null, 
+      error: null, 
+      success: 'Je wachtwoord is succesvol gewijzigd. Je kunt nu <a href="/login">inloggen</a> met je nieuwe wachtwoord.' 
+    });
+    
+  } catch (err) {
+    console.error('Fout bij wachtwoord reset:', err);
+    res.render('reset-password', { 
+      token, 
+      error: 'Er is een fout opgetreden. Probeer het later nog eens.', 
+      success: null 
+    });
   }
 });
 
