@@ -26,6 +26,47 @@ p{
     margin: 0;
 }
 
+/* Styling voor zoekformulier - zoals op homepage */
+.search-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 800px;
+    margin: 2em auto;
+}
+
+.search {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px 0 0 25px;
+    background-color: var(--grijzeAchtergrond);
+    color: var(--witteText);
+    font-size: 16px;
+    outline: none;
+}
+
+.search::placeholder {
+    color: #999;
+}
+
+.search-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 0 25px 25px 0;
+    background-color: var(--accentKleur);
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
 .list {
     list-style-type: none;
     width: 80vw;
@@ -46,5 +87,17 @@ p{
 .list li div:nth-of-type(1){
     padding-left: 1em;
     border-left: solid 0.10em var(--witteText);
+}
+
+.error-message {
+    background-color: #ff3333;
+    color: white;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+    font-weight: 500;
+    text-align: center;
+    width: 80%;
+    max-width: 800px;
 }
 

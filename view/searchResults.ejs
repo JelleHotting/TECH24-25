@@ -14,28 +14,50 @@
 <body id="clanLijst">
     <%- include('header') %>
     <main>
-        <input type="search" class="search" name="search" required>
-        <h1>Search Results</h1>
-        <ul class="list">
-            <% clans.forEach(clan => { %>
-                <a href="/clan/<%= clan.tag.replace('#', '') %>">
-                    <li>
-                        <img class="lazy-load" data-src="<%= clan.badgeUrls.small %>" alt="Clan Image">
+        <form action="/search" method="GET" class="search-form">
+            <input 
+                type="search" 
+                class="search" 
+                name="clanName" 
+                value="<%= locals.searchTerm || '' %>" 
+                placeholder="Zoek naar een clan" 
+                required
+            >
+            <button type="submit" class="search-button">Zoeken</button>
+        </form>
 
-                        <div>
-                            <h2 class="naam"><%= clan.name %> (#<%= clan.tag %>)</h2>
-                            <p>type: <%= clan.type %></p>
-                            <p>Level: <%= clan.clanLevel %></p>
-                        </div>
-                        
-                        <div>
-                            <p>Leden: <%= clan.members %></p>
-                            <p>Trofeeën: <%= clan.clanPoints %></p>
-                        </div>
-                    </li>
-                </a>
-            <% }) %>
-        </ul>
+        <h1>Search Results</h1>
+        
+        <!-- Toon foutmelding als die er is -->
+        <% if (locals.error) { %>
+            <div class="error-message">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <!-- Toon resultaten alleen als er clans zijn -->
+        <% if (locals.clans && clans.length > 0) { %>
+            <ul class="list">
+                <% clans.forEach(clan => { %>
+                    <a href="/clan/<%= clan.tag.replace('#', '') %>">
+                        <li>
+                            <img class="lazy-load" data-src="<%= clan.badgeUrls.small %>" alt="Clan Image">
+
+                            <div>
+                                <h2 class="naam"><%= clan.name %> (#<%= clan.tag %>)</h2>
+                                <p>type: <%= clan.type %></p>
+                                <p>Level: <%= clan.clanLevel %></p>
+                            </div>
+                            
+                            <div>
+                                <p>Leden: <%= clan.members %></p>
+                                <p>Trofeeën: <%= clan.clanPoints %></p>
+                            </div>
+                        </li>
+                    </a>
+                <% }) %>
+            </ul>
+        <% } %>
     </main>
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
     <script src="/javascript/sorteren.js"></script>

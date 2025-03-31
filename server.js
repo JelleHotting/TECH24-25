@@ -197,6 +197,14 @@ app.get('/search', isAuthenticated, async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
   const query = req.query.clanName;
 
+  // Check if search query is empty or too short
+  if (!query || query.trim().length < 3) {
+    return res.render('searchResults', { 
+      clans: [],
+      error: 'Voer minimaal 3 tekens in om te zoeken naar een clan.'
+    });
+  }
+
   try {
     const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans?name=${encodeURIComponent(query)}`, {
       headers: {
@@ -206,14 +214,34 @@ app.get('/search', isAuthenticated, async (req, res) => {
 
     if (!response.ok) {
       console.error(`Error: ${response.status} - ${response.statusText}`);
-      return res.status(response.status).send(response.statusText);
+      return res.render('searchResults', {
+        clans: [],
+        error: `API fout: ${response.status} - ${response.statusText}`
+      });
     }
 
     const data = await response.json();
-    res.render('searchResults', { clans: data.items });
+    
+    // Check if results are empty
+    if (!data.items || data.items.length === 0) {
+      return res.render('searchResults', {
+        clans: [],
+        error: `Geen clans gevonden voor "${query}". Probeer een andere zoekopdracht.`,
+        searchTerm: query
+      });
+    }
+
+    res.render('searchResults', { 
+      clans: data.items,
+      searchTerm: query
+    });
   } catch (err) {
     console.error('Error fetching data from Clash of Clans API', err);
-    res.status(500).send('Error fetching data from Clash of Clans API');
+    res.render('searchResults', {
+      clans: [],
+      error: 'Er is een fout opgetreden bij het ophalen van clan gegevens. Probeer het later opnieuw.',
+      searchTerm: query
+    });
   }
 });
 
@@ -316,7 +344,7 @@ app.post('/removeClan', async (req, res) => {
     const user = await collection.findOne({ username });
 
     if (!user) {
-      return res.status(404).send('User not found');
+      return res.status(404).json({ success: false, message: 'Gebruiker niet gevonden' });
     }
 
     // Verwijder de clanTag uit de lijst van favoriete clans
@@ -328,10 +356,17 @@ app.post('/removeClan', async (req, res) => {
       { $set: { favoriteClans: updatedClans } }
     );
 
-    res.redirect(`/clan/${clanTag}`);
+    // Return success response instead of redirecting
+    res.json({ 
+      success: true, 
+      message: 'Clan is verwijderd uit je favorieten' 
+    });
   } catch (err) {
     console.error('Error removing favorite clan from MongoDB', err);
-    res.status(500).send('Error removing favorite clan from MongoDB');
+    res.status(500).json({ 
+      success: false, 
+      message: 'Er is een fout opgetreden bij het verwijderen van de clan' 
+    });
   }
 });
 
@@ -359,44 +394,40 @@ app.get('/profile', isAuthenticated, async (req, res) => {
     
     // Maak een array van promises voor alle API verzoeken
     const clanPromises = favoriteClans.map(async (clanTag) => {
-      try {
-        const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans/%23${clanTag}`, {
-          headers: {
-            'Authorization': `Bearer ${apiToken}`
-          }
-        });
-    
-        if (!response.ok) {
-          console.error(`Error fetching clan ${clanTag}: ${response.status}`);
-          return null;
+      const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans/%23${clanTag}`, {
+        headers: {
+          'Authorization': `Bearer ${apiToken}`
         }
-    
-        const data = await response.json();
-        
-        // Bereid leden voor als string
-        const membersString = data.memberList.map(member => member.name).join(', ');
-        
-        return {
-          clanTag,
-          clanName: data.name,
-          clanLevel: data.clanLevel,
-          clanImg: data.badgeUrls.small,
-          clanDivisie: data.warLeague ? data.warLeague.name : 'N/A',
-          trophies: data.clanPoints,
-          requiredTrophies: data.requiredTrophies,
-          requiredTownHallLevel: data.requiredTownhallLevel,
-          memberCount: data.members,
-          description: data.description,
-          language: data.chatLanguage ? data.chatLanguage.name : 'N/A',
-          location: data.location ? data.location.name : 'N/A',
-          type: data.type,
-          membersString
-        };
-      } catch (err) {
-        console.error(`Error processing clan ${clanTag}:`, err);
+      });
+
+      if (!response.ok) {
+        console.error(`Error fetching clan ${clanTag}: ${response.status}`);
         return null;
       }
+
+      const data = await response.json();
+
+      // Prepare members as a string
+      const membersString = data.memberList.map(member => member.name).join(', ');
+
+      return {
+        clanTag,
+        clanName: data.name,
+        clanLevel: data.clanLevel,
+        clanImg: data.badgeUrls.small,
+        clanDivisie: data.warLeague ? data.warLeague.name : 'N/A',
+        trophies: data.clanPoints,
+        requiredTrophies: data.requiredTrophies,
+        requiredTownHallLevel: data.requiredTownhallLevel,
+        memberCount: data.members,
+        description: data.description,
+        language: data.chatLanguage ? data.chatLanguage.name : 'N/A',
+        location: data.location ? data.location.name : 'N/A',
+        type: data.type,
+        membersString
+      };
     });
+    
     
     // Wacht tot alle clan data is opgehaald
     const clansDataWithNulls = await Promise.all(clanPromises);
