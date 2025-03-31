@@ -8,8 +8,18 @@ Clash Connect is dé website voor Clash of Clans-spelers die op zoek zijn naar d
 Aller eerst zou je de repository moeten clonen om het aan te kunnen passen. Dat kan als volgt:
 1. Ga naar de repository en klik op de groene code knop die boven aan staat.
 <img width="925" alt="Scherm­afbeelding 2025-03-31 om 13 01 20" src="https://github.com/user-attachments/assets/6aace92b-38cd-4806-85ea-eb480c7b1f7e" />
+
 2. Vervolgens ga je naar je terminal en plak je de volgende code in je terminal: git clone <repository-URL>. De URL die je hebt gecopieerd bij stap 1 plak je waar repository-URL staat in de code.
 Het ziet er dan als volgt uit: git clone <[repository-URL](https://github.com/JelleHotting/TECH24-25.git)>.
+
+3. Navigeer naar de map. Gefeliciteerd nu heb je een lokaal mapje van het project waarmee je kan werken.
+
+4. bcrypt
+5. express
+6. express sessions
+7. ejs
+8. dotenv
+9. mongodb
 
 ## Hoe te gebruiken
 ## Functionaliteiten
