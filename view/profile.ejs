@@ -13,13 +13,19 @@
     <%- include('header') %>
     
     <main>
+      <section class="profielBanner">
+        <img class="backgroundImage lazy-load" data-src="/images/clash_achtergrond_horizontaal.jpg" alt="Achtergrond foto">
+        <img class="profielFoto lazy-load"
+        data-src="/images/barbaar.png"
+        alt="Een foto van een karakter">
+        <h1>Naam: <%= username %></h1>
+        <h2>Email: <%= email %></h2>
+      </section>
+
       <section class="profileContainer">
-        <h1>Account</h1>
+
         <section class="profileInfo">
           <h2>Profiel</h2>
-          <img class="lazy-load"
-            data-src="/images/barbaar.png"
-            alt="Een foto van een karakter">
           <p>Naam: <%= username %></p>
           <p>Email: <%= email %></p>
           <form action="/logout" method="POST" style="display: inline;">

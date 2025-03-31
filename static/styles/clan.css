@@ -22,10 +22,19 @@ main{
 
 .clanBanner{
     display: grid;
-    background-color: var(--grijzeAchtergrond);
-    height: 20vh;
+    height: 25vh;
     grid-template-columns: 20% 1fr;
     grid-template-rows: 1fr 1fr;
+}
+
+
+.clanBanner .backgroundImage {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
 }
 
 .clanBanner h1{
@@ -45,7 +54,7 @@ main{
     font-size: 1em;
 }
 
-.clanBanner img{
+.clanBanner .clanSchild{
     grid-row: 1 / 3;
     grid-column-start: 1;
     justify-self: center;
@@ -74,6 +83,7 @@ main{
 }
 
 
+
 .clanInfo{
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -83,7 +93,7 @@ main{
 
 .clanStats{
     background-color: var(--grijzeAchtergrond);
-    border-radius: 1.5em;
+    border-radius: 1.5em 1.5em 0 0;
     width: 90%;
     height: 25em;
     overflow-y: scroll;
@@ -96,7 +106,7 @@ main{
 
 .clanLeden{
     background-color: var(--grijzeAchtergrond);
-    border-radius: 1.5em;
+    border-radius: 1.5em 1.5em 0 0;
     width: 90%;
     height: 25em;
     overflow-y: scroll;

@@ -15,9 +15,10 @@
     <%- include('header') %>
     <main>
         <section class="clanBanner">
+            <img class="backgroundImage lazy-load" data-src="/images/clash_achtergrond_horizontaal.jpg" alt="Achtergrond foto">
             <h1><%= clanName %></h1>
             <h2>#<%= clanTag %></h2>
-            <img class="lazy-load" data-src="<%= clanImg %>" alt="Clan Image">
+            <img class="clanSchild lazy-load" data-src="<%= clanImg %>" alt="Clan Image">
             <form action="<%= isFavorite === true ? '/removeClan' : '/saveClan' %>" method="POST">
                 <button 
                     type="submit" 
