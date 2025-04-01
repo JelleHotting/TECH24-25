@@ -17,12 +17,12 @@ main{
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-    gap: 2em;
+    gap: 3em;
 }
 
 .clanBanner{
     display: grid;
-    height: 25vh;
+    height: 35vh;
     grid-template-columns: 20% 1fr;
     grid-template-rows: 1fr 1fr;
 }
@@ -69,11 +69,11 @@ main{
     grid-row-start: 2;
     grid-column-start: 2;
     justify-self: end;
-    align-self: start;
+    align-self: end;
 }
 
 .clanBanner button{
-    margin-right: 2em;
+    margin: 0 2em 2em 0;
     border-radius: 1.5em;
     padding: 0.5em 5em;
     color:var(--witteText);

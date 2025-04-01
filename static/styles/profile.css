@@ -11,12 +11,18 @@ main{
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-    gap: 2em;
+    gap: 3em;
+}
+
+ul{
+    list-style: none;
+    padding: 0 1em;
+    margin: 0;
 }
 
 .profielBanner{
     display: grid;
-    height: 25vh;
+    height: 35vh;
     grid-template-columns: 20% 1fr;
     grid-template-rows: 1fr 1fr;
 }
@@ -105,9 +111,10 @@ main{
     overflow-y: scroll;
 }
 
+
 .clanCard {
     display: grid;
-    grid-template-columns: 20% 1fr;
+    grid-template-columns: 25% 1fr;
     grid-template-rows: 1fr 1fr;
     margin-bottom: 1em;
     transition: opacity 0.3s ease;
@@ -120,7 +127,7 @@ main{
     align-self: center;
     margin: 0;
     height: auto;
-    width: 5em;
+    width: 80%;
 }
 
 .clanCard h3{
@@ -146,7 +153,7 @@ main{
     color: var(--witteText);
     background-color: var(--mainGroen);
     border: none;
-    padding: 0.3em;
+    padding: 0.3em 1em;
     border-radius: 5em;
     cursor: pointer;
     font-family: poppins;
