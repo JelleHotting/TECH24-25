@@ -1,70 +1,83 @@
 # TECH24-25
- Eindproject tech (ClashConnect)
- 
+## Eindproject Tech (ClashConnect)
+
 ![Group 8](https://github.com/user-attachments/assets/9fce2881-0398-4b54-830f-75a84d01747e)
 
-Clash Connect is dé website voor Clash of Clans-spelers die op zoek zijn naar de perfecte clan! Met onze gebruiksvriendelijke zoekfunctie en slimme vragenlijst vind je eenvoudig een clan die bij jouw speelstijl past. Maak een profiel aan, sla je favoriete clans op en beheer je matches moeiteloos. Of je nu een casual speler of een competitieve strijder bent, Clash Connect helpt je de juiste community te vinden! 🚀🔥
+ClashConnect is dé website voor Clash of Clans-spelers die op zoek zijn naar de perfecte clan! Met onze gebruiksvriendelijke zoekfunctie en slimme vragenlijst vind je eenvoudig een clan die bij jouw speelstijl past. Maak een profiel aan, sla je favoriete clans op en beheer je matches moeiteloos. Of je nu een casual speler of een competitieve strijder bent, ClashConnect helpt je de juiste community te vinden! 🚀🔥
 
-## Instalatie instructies
+## Installatie-instructies
 
-### Clone reposetory
-Aller eerst zou je de repository moeten clonen om het aan te kunnen passen. Dat kan als volgt:
-1. Ga naar de repository en klik op de groene code knop die boven aan staat.
-<img width="925" alt="Scherm­afbeelding 2025-03-31 om 13 01 20" src="https://github.com/user-attachments/assets/6aace92b-38cd-4806-85ea-eb480c7b1f7e" />
+### Repository clonen
+Om aanpassingen te kunnen maken, moet je eerst de repository clonen. Dit doe je als volgt:
+1. Ga naar de repository en klik op de groene **Code**-knop bovenaan.
 
-2. Vervolgens ga je naar je terminal en plak je de volgende code in je terminal: git clone <repository-URL>. De URL die je hebt gecopieerd bij stap 1 plak je waar repository-URL staat in de code. Het ziet er dan als volgt uit:
-```git clone <[repository-URL](https://github.com/JelleHotting/TECH24-25.git)>```.
+   <img width="925" alt="Scherm­afbeelding 2025-03-31 om 13 01 20" src="https://github.com/user-attachments/assets/6aace92b-38cd-4806-85ea-eb480c7b1f7e" />
 
-4. Navigeer naar de map. Gefeliciteerd nu heb je een lokaal mapje van het project waarmee je kan werken.
+2. Kopieer de repository-URL.
+3. Open je terminal en voer de volgende code in:
+   ```sh
+   git clone <repository-URL>
+   ```
+   Plak hierbij de gekopieerde URL op de plek van `<repository-URL>`. Het ziet er dan als volgt uit:
+   ```sh
+   git clone https://github.com/JelleHotting/TECH24-25.git
+   ```
+4. Navigeer naar de map met het volgende commando:
+   ```sh
+   cd TECH24-25
+   ```
+   Gefeliciteerd! Je hebt nu een lokale kopie van het project waarmee je kunt werken.
 
-### Packages instaleren
-Om alle packages te instaleren zou je in je terminal 
-``` npm install ``` moeten invoeren en op enter drukken. Nu zou je alle packages moeten hebben. Dat zijn de volgende packeges:
+### Packages installeren
+Om alle benodigde packages te installeren, voer je het volgende commando uit in de terminal:
+```sh
+npm install
+```
+Hiermee worden de volgende dependencies geïnstalleerd:
 
 1. express
-2. express sessions
+2. express-session
 3. bcrypt
 4. ejs
 5. dotenv
 6. mongodb
 
 ## API
-Om gebruik te maken van de api zou je een api key moeten aanvragen via https://developer.clashofclans.com/#/. Dat doe je door een account aan te maken en de stappen volgend op de website. Deze API key gebruik je vervolgens om connectie te maken met de database.
+Om gebruik te maken van de Clash of Clans API, moet je een API-key aanvragen via [de ontwikkelaarswebsite](https://developer.clashofclans.com/#/). Dit doe je door een account aan te maken en de instructies op de website te volgen. De API-key wordt vervolgens gebruikt om verbinding te maken met de database.
 
-### Mongodb
-voor dit project hebben wij via mongodb een database opgezet om onze data op te slaan. Om jou eigen database te koppelen van mongodb, dan zou je de volgende code in een .env bestand moeten zetten en aanvullen met de informatie van je mongodb database.
+### MongoDB
+Voor dit project maken we gebruik van een MongoDB-database om data op te slaan. Om je eigen database te koppelen, plaats je de volgende gegevens in een `.env`-bestand en vul je deze aan met jouw MongoDB-informatie:
 
-1. ```DB_HOST=```
-2. ```DB_NAME=```
-3. ```DB_USERNAME=```
-4. ```DB_PASSWORD=```
-5. ```DB_COLLECTION=```
-6. ```COC_API_KEY=```
+```env
+DB_HOST=
+DB_NAME=
+DB_USERNAME=
+DB_PASSWORD=
+DB_COLLECTION=
+COC_API_KEY=
+```
 
-Deze informatie vind je als volgt in mongodb:
-1. Ga naar de website en log in.
-2. Ga naar clusters.
-3. klik op connect en volg de stappen.
+Zo vind je deze informatie in MongoDB:
+1. Ga naar de [MongoDB-website](https://www.mongodb.com/) en log in.
+2. Navigeer naar **Clusters**.
+3. Klik op **Connect** en volg de stappen.
 
-<img width="1357" alt="Scherm­afbeelding 2025-03-31 om 14 00 14" src="https://github.com/user-attachments/assets/5da7c428-bfed-4269-a41d-8307ab6acaef" />
-
-## Hoe te gebruiken
+   <img width="1357" alt="Scherm­afbeelding 2025-03-31 om 14 00 14" src="https://github.com/user-attachments/assets/5da7c428-bfed-4269-a41d-8307ab6acaef" />
 
 ## Functionaliteiten
-1. Het maken van een account en het bewaren van de login gegeven in de database.
-2. hashen van de wachtwoorden voor extra beveiliging van de gebruikers account.
-3. Inlog functie.
-4. uitlog functie.
-5. search bar zoek functie.
-6. Q&A zoek functie om een match voor je te vinden.
-7. List js om te filteren in de search results
-8. Clans opslaan en verwijderen.
+1. Aanmaken van een account en opslaan van inloggegevens in de database.
+2. Hashen van wachtwoorden voor extra beveiliging.
+3. Inloggen en uitloggen.
+4. Zoekfunctie via een zoekbalk.
+5. Vragenlijst (Q&A) om een geschikte clanmatch te vinden.
+6. Gebruik van List.js om zoekresultaten te filteren.
+7. Clans opslaan en verwijderen.
 
+## Contributie-richtlijnen
+(TODO: Voeg hier instructies toe voor bijdragen aan het project.)
 
-## Contributie Richtlijnen 
-
-## License
+## Licentie
+(TODO: Voeg hier de licentie-informatie toe.)
 
 ## Contact / Support
-
-
+(TODO: Voeg hier contactgegevens of support-informatie toe.)
