@@ -6,6 +6,7 @@ const express = require('express')
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const app = express()
+const nodemailer = require("nodemailer");
 
 
 app
@@ -24,6 +25,90 @@ app
     res.locals.username = req.session.user || null; // Add username if logged in, otherwise null
     next();
   });
+
+  // route naar het wachtwoord wijzigen formulier
+app.get('/wachtwoord-wijzigen', (req, res) => {
+  res.render('wachtwoord-wijzigen', { error: null });
+});
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER, 
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+  // controleer of e-mail in database staat
+async function isEmailInDatabase(email) {
+  const collection = client.db(process.env.DB_NAME).collection('submissions');
+  const result = await collection.findOne({ email });
+  return result !== null;
+}
+
+app.post('/wachtwoord-reset', async (req, res) => {
+  const email = req.body.email;
+
+  try {
+    const emailExists = await isEmailInDatabase(email);
+    if (emailExists) {
+      // Stuur e-mail met de reset link
+      const info = await transporter.sendMail({
+        from: '"Clash Connect" <neej9816@gmail.com>', // Afzender
+        to: req.body.email, // Ontvanger van het e-mail adres
+        subject: "Wachtwoord wijzigen", // Onderwerp
+        text: `Klik op de volgende link om uw wachtwoord te wijzigen: http://localhost:8000/auth/reset-wachtwoord/${email}`, // Tekst voor de link
+        html: `<p>Klik op de onderstaande link om uw wachtwoord te wijzigen:</p><a href="http://localhost:8000/auth/reset-wachtwoord/${email}">Wachtwoord Reset</a>`, // HTML versie
+      });
+
+      console.log("Message sent: %s", info.messageId);
+      res.send("E-mail verzonden! Controleer je inbox.");
+    } else {
+      res.status(400).send("E-mail niet gevonden in de database.");
+    }
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).send("Er is iets misgegaan bij het verzenden van de e-mail.");
+  }
+});
+
+// Route om het wachtwoord te resetten
+app.get('/auth/reset-wachtwoord/:email', (req, res) => {
+  res.render('wachtwoord-reset', { email: req.params.email, error: null });
+});
+
+// Route om het wachtwoord te updaten
+app.post('/auth/reset-wachtwoord/:email', async (req, res) => {
+  const email = req.params.email;
+  const wachtwoord = req.body.nieuwwachtwoord;
+  const wachtwoord2 = req.body.bevestigwachtwoord;
+
+  try {
+    // Controleer of de wachtwoorden overeenkomen
+    if (wachtwoord !== wachtwoord2) {
+      return res.render('wachtwoord-reset', { email, error: 'Wachtwoorden komen niet overeen.' });
+    }
+
+    // Hash het wachtwoord
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(wachtwoord, saltRounds);
+
+    // Update het wachtwoord in de database
+    const collection = client.db(process.env.DB_NAME).collection('submissions');
+    const result = await collection.updateOne(
+      { email },
+      { $set: { password: hashedPassword } }
+    );
+
+    res.send('Wachtwoord succesvol gewijzigd!');
+  } catch (error) {
+    console.error("Error updating password:", error);
+    res.status(500).send("Er is iets misgegaan bij het wijzigen van het wachtwoord.");
+  }
+});
+
+
+
                         
 
 // Use MongoDB
