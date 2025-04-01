@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wachtwoord Reset</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Nieuw Wachtwoord Instellen</h2>
+        <p>Voer hieronder je nieuwe wachtwoord in.</p>
+
+        <% if (error) { %>
+            <p class="message"><%= message %></p>
+        <% } %>
+
+        <form action="/auth/reset-wachtwoord/<%= email %>" method="POST">
+            <input type="wachtwoord" name="nieuwwachtwoord" placeholder="Nieuw wachtwoord" required>
+            <input type="wachtwoord" name="bevestigwachtwoord" placeholder="Bevestig wachtwoord" required>
+            <button type="submit">Wachtwoord Wijzigen</button>
+        </form>
+
+        <a href="/login">Terug naar login</a>
+    </div>
+</body>
+</html>
