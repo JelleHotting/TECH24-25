@@ -1,7 +1,7 @@
 
 
 body{
-    background: linear-gradient(var(--backgroundColor), var(--backgroundColorLichter));
+    background-color: var(--backgroundColor);
 }
 
 /* main */

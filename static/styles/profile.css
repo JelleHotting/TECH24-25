@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(var(--backgroundColor), var(--backgroundColorLichter));
+    background-color: var(--backgroundColor);
     font-family: 'Poppins', sans-serif;
     color:var(--witteText);
     margin: 0;
