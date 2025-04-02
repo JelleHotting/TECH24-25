@@ -75,7 +75,7 @@ main{
 
 .clanBanner button{
     margin: 0 2em 2em 0;
-    border-radius: 1.5em;
+    border-radius: 0.3125em;
     padding: 0.5em 5em;
     color:var(--witteText);
     background-color: var(--mainGroen);
@@ -93,8 +93,8 @@ main{
 }
 
 .clanStats{
-    background-color: var(--grijzeAchtergrond);
-    border-radius: 1.5em 1.5em 0 0;
+    background: linear-gradient(var(--grijzeAchtergrond), var(--grijzeAchtergrondDonker));
+    border-radius: 1em 1em 0 0;
     width: 90%;
     height: 25em;
     overflow-y: scroll;
@@ -118,8 +118,8 @@ main{
 }
 
 .clanLeden{
-    background-color: var(--grijzeAchtergrond);
-    border-radius: 1.5em 1.5em 0 0;
+    background: linear-gradient(var(--grijzeAchtergrond), var(--grijzeAchtergrondDonker));
+    border-radius: 1em 1em 0 0;
     width: 90%;
     height: 25em;
     overflow-y: scroll;

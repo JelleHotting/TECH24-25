@@ -10,15 +10,19 @@ header nav{
     margin: 2em 2em;
 }
 
-header nav ul,a{
+header nav ul {
     display: flex;
     align-items: center;
-    text-decoration: none;
-    list-style: none;
     padding: 0em;
     color:var(--witteText);
     font-family: poppins;
     position: relative;
+}
+
+nav a{
+    text-decoration: none;
+    color: var(--witteText);
+    font-family: poppins;
 }
 
 nav ul:first-of-type li:nth-child(2){
