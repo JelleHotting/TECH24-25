@@ -7,7 +7,10 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const app = express()
 const nodemailer = require("nodemailer");
-
+var xss = require('xss');
+var html = xss('<script>alert("xss");</script>');
+console.log(html);
+const sanitizeInput = require('./utils/sanitize');
 
 app
   .use(express.urlencoded({ extended: true })) // Middleware to parse form data
@@ -21,12 +24,25 @@ app
   }))
   .use(express.json());                       // Middleware to handle JSON requests
   
-  app.use((req, res, next) => {
-    res.locals.username = req.session.user || null; // Add username if logged in, otherwise null
-    next();
-  });
+app.use((req, res, next) => {
+  if (req.body) {
+    req.body = sanitizeInput(req.body);
+  }
+  if (req.params) {
+    req.params = sanitizeInput(req.params);
+  }
+  if (req.query) {
+    req.query = sanitizeInput(req.query);
+  }
+  next();
+});
 
-  // route naar het wachtwoord wijzigen formulier
+app.use((req, res, next) => {
+  res.locals.username = req.session.user || null; // Add username if logged in, otherwise null
+  next();
+});
+
+// route naar het wachtwoord wijzigen formulier
 app.get('/wachtwoord-wijzigen', (req, res) => {
   res.render('wachtwoord-wijzigen', { error: null });
 });
@@ -39,7 +55,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-  // controleer of e-mail in database staat
+// controleer of e-mail in database staat
 async function isEmailInDatabase(email) {
   const collection = client.db(process.env.DB_NAME).collection('submissions');
   const result = await collection.findOne({ email });
@@ -106,10 +122,6 @@ app.post('/auth/reset-wachtwoord/:email', async (req, res) => {
     res.status(500).send("Er is iets misgegaan bij het wijzigen van het wachtwoord.");
   }
 });
-
-
-
-                        
 
 // Use MongoDB
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
@@ -242,25 +254,6 @@ app.post('/login', async (req, res, next) => {
     res.status(500).send('Error finding document in MongoDB');
   }
 });
-
-// // Profiel route
-// app.get('/profile', isAuthenticated, async (req, res) => {
-//   try {
-//     const collection = client.db(process.env.DB_NAME).collection('submissions');
-//     const user = await collection.findOne({ username: req.session.user });
-
-//     if (!user) {
-//       return res.status(404).send('User not found');
-//     }
-
-//     res.render('profile', { 
-//       email: user.email
-//     });
-//   } catch (err) {
-//     console.error('Error fetching user from MongoDB', err);
-//     res.status(500).send('Error fetching user from MongoDB');
-//   }
-// });
 
 // Logout
 app.post('/logout', (req, res) => {
@@ -454,7 +447,6 @@ app.post('/removeClan', async (req, res) => {
     });
   }
 });
-
 
 // Route om een opgeslagen clan op te halen uit de database
 app.get('/profile', isAuthenticated, async (req, res) => {
@@ -789,8 +781,6 @@ app.get('/filtered-search', async (req, res) => {
     });
   }
 });
-
-
 
 // Hulproute om locatie-informatie op te halen
 app.get('/api/locations', async (req, res) => {
