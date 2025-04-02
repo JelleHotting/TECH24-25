@@ -1,11 +1,5 @@
-body {
-    background-color: var(--backgroundColor);
-    font-family: 'Poppins', sans-serif;
-    color:var(--witteText);
-    margin: 0;
-    padding: 0;
-    
-}
+
+
 
 main{
     display: grid;
@@ -14,11 +8,6 @@ main{
     gap: 3em;
 }
 
-ul{
-    list-style: none;
-    padding: 0 1em;
-    margin: 0;
-}
 
 .profielBanner{
     display: grid;
