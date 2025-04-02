@@ -25,6 +25,7 @@ main{
     height: 35vh;
     grid-template-columns: 20% 1fr;
     grid-template-rows: 1fr 1fr;
+    overflow: hidden;
 }
 
 
