@@ -114,7 +114,7 @@ ul{
 
 .clanCard {
     display: grid;
-    grid-template-columns: 25% 1fr;
+    grid-template-columns: 20% 1fr;
     grid-template-rows: 1fr 1fr;
     margin-bottom: 1em;
     transition: opacity 0.3s ease;
@@ -127,7 +127,7 @@ ul{
     align-self: center;
     margin: 0;
     height: auto;
-    width: 80%;
+    width: 65%;
 }
 
 .clanCard h3{
