@@ -1,9 +1,18 @@
 # TECH24-25
 ## Eindproject Tech (ClashConnect)
 
-![Group 8](https://github.com/user-attachments/assets/9fce2881-0398-4b54-830f-75a84d01747e)
+![Group 1](https://github.com/user-attachments/assets/9fce2881-0398-4b54-830f-75a84d01747e)
 
-ClashConnect is dé website voor Clash of Clans-spelers die op zoek zijn naar de perfecte clan! Met onze gebruiksvriendelijke zoekfunctie en slimme vragenlijst vind je eenvoudig een clan die bij jouw speelstijl past. Maak een profiel aan, sla je favoriete clans op en beheer je matches moeiteloos. Of je nu een casual speler of een competitieve strijder bent, ClashConnect helpt je de juiste community te vinden! 🚀🔥
+ClashConnect is dé website voor Clash of Clans-spelers die op zoek zijn naar de perfecte clan! Met onze gebruiksvriendelijke zoekfunctie en slimme vragenlijst vind je eenvoudig een clan die bij jouw past.
+
+## Inhoudsopgave
+1. [Installatie-instructies](#installatie-instructies)
+2. [API](#api)
+3. [MongoDB](#mongodb)
+4. [Functionaliteiten](#functionaliteiten)
+5. [Contributie-richtlijnen](#contributie-richtlijnen)
+6. [Licentie](#licentie)
+7. [Contact / Support](#contact--support)
 
 ## Installatie-instructies
 
@@ -42,11 +51,18 @@ Hiermee worden de volgende dependencies geïnstalleerd:
 5. dotenv
 6. mongodb
 
+### Applicatie starten
+Om de applicatie te starten, voer je het volgende commando uit in de terminal:
+```sh
+npm start
+```
+Hiermee wordt de server gestart en kun je de applicatie openen in je webbrowser via `http://localhost:3000`.
+
 ## API
-Om gebruik te maken van de Clash of Clans API, moet je een API-key aanvragen via [de ontwikkelaarswebsite](https://developer.clashofclans.com/#/). Dit doe je door een account aan te maken en de instructies op de website te volgen. De API-key wordt vervolgens gebruikt om verbinding te maken met de database.
+Om gebruik te maken van de Clash of Clans API, moet je een API-key aanvragen via [de ontwikkelaarswebsite](https://developer.clashofclans.com/#/). Dit doe je door een account aan te maken en de instructies te volgen om een API-key te genereren.
 
 ### MongoDB
-Voor dit project maken we gebruik van een MongoDB-database om data op te slaan. Om je eigen database te koppelen, plaats je de volgende gegevens in een `.env`-bestand en vul je deze aan met jouw MongoDB-informatie:
+Voor dit project maken we gebruik van een MongoDB-database om data op te slaan. Om je eigen database te koppelen, plaats je de volgende gegevens in een `.env`-bestand en vul je deze aan met jouw MongoDB-gegevens:
 
 ```env
 DB_HOST=
@@ -74,10 +90,16 @@ Zo vind je deze informatie in MongoDB:
 7. Clans opslaan en verwijderen.
 
 ## Contributie-richtlijnen
-(TODO: Voeg hier instructies toe voor bijdragen aan het project.)
+We verwelkomen bijdragen aan dit project! Volg de onderstaande stappen om bij te dragen:
+1. Fork de repository.
+2. Maak een nieuwe branch: `git checkout -b naam-van-je-branch`.
+3. Voeg je wijzigingen toe: `git add .`
+4. Commit je wijzigingen: `git commit -m 'Voeg mijn functie toe'`
+5. Push naar de branch: `git push origin naam-van-je-branch`
+6. Dien een Pull Request in op GitHub.
 
 ## Licentie
-(TODO: Voeg hier de licentie-informatie toe.)
+Dit project is gelicenseerd onder de MIT-licentie. Zie het [LICENSE-bestand](./LICENSE) voor meer informatie.
 
 ## Contact / Support
-(TODO: Voeg hier contactgegevens of support-informatie toe.)
+Voor vragen of ondersteuning, neem contact op met [jouw naam] via [jouw e-mailadres].
