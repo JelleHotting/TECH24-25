@@ -100,9 +100,21 @@ main{
     overflow-y: scroll;
 }
 
+.clanStats h2{
+    margin: 1em 0.5em;
+}
+
 .clanStats ul{
     display: flex;
     flex-direction: column;
+}
+
+.clanStats li{
+    margin-bottom: 1em;
+}
+
+.clanStats p{
+    margin: 0;
 }
 
 .clanLeden{
@@ -113,9 +125,18 @@ main{
     overflow-y: scroll;
 }
 
+.clanLeden h2{
+    margin: 1em 0.5em;
+}
+
 .clanLeden ol{
     display: flex;
     flex-direction: column;
+    margin: 0;
+}
+
+.clanLeden li{
+    margin-bottom: 1em;
 }
 
 /* Stijl voor de "Opslaan"-knop */

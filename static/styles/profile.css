@@ -80,9 +80,16 @@ ul{
     overflow-y: scroll;
 }
 
+.profileInfo h2{
+    margin: 1em 0.5em;
+}
+
+.profileInfo li{
+    margin-bottom: 1em;
+}
 
 .profileInfo p {
-    margin: 0.5em 0;
+    margin: 0;
 }
 
 .profileInfo .btn {
@@ -111,6 +118,17 @@ ul{
     overflow-y: scroll;
 }
 
+.opgeslagen h2{
+    margin: 1em 0.5em;
+}
+
+.opgeslagen li{
+    margin-bottom: 1em;
+}
+
+.opgeslagen p {
+    margin: 0;
+}
 
 .clanCard {
     display: grid;

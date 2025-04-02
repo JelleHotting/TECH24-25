@@ -32,6 +32,7 @@
         <section class="clanInfo">
 
             <section class="clanStats">
+                <h2>Over clan</h2>
                 <ul>
                     <li><p>Clan Level: <%= clanLevel %></p></li>
                     <li><p>Clan Divisie: <%= clanDivisie %></p></li>
@@ -45,8 +46,10 @@
                 </ul>
             </section>
 
-            <% let membersArray = membersString ? membersString.split(',') : []; %>
+            
             <section class="clanLeden">
+                <h2>Leden</h2>
+                <% let membersArray = membersString ? membersString.split(',') : []; %>
                 <ol>
                     <% membersArray.forEach(function(member) { %>
                         <li>
