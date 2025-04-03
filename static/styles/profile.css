@@ -1,24 +1,20 @@
-body {
-    background-color: var(--backgroundColor);
-    font-family: 'Poppins', sans-serif;
-    color:var(--witteText);
-    margin: 0;
-    padding: 0;
-    
-}
+
+
 
 main{
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-    gap: 2em;
+    gap: 3em;
 }
+
 
 .profielBanner{
     display: grid;
-    height: 25vh;
+    height: 35vh;
     grid-template-columns: 20% 1fr;
     grid-template-rows: 1fr 1fr;
+    overflow: hidden;
 }
 
 .profielBanner .backgroundImage {
@@ -67,16 +63,23 @@ main{
 
 
 .profileInfo {
-    background-color: var(--grijzeAchtergrond);
+    background: linear-gradient(var(--grijzeAchtergrond), var(--grijzeAchtergrondDonker));
     border-radius: 1.5em 1.5em 0 0;
     width: 90%;
     height: 25em;
     overflow-y: scroll;
 }
 
+.profileInfo h2{
+    margin: 1em 0.5em;
+}
+
+.profileInfo li{
+    margin-bottom: 1em;
+}
 
 .profileInfo p {
-    margin: 0.5em 0;
+    margin: 0;
 }
 
 .profileInfo .btn {
@@ -84,7 +87,7 @@ main{
     color:var(--witteText);
     padding: 0.3em 1em;
     border: none;
-    border-radius: 5em;
+    border-radius: 0.3125em;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
@@ -98,11 +101,23 @@ main{
 }
 
 .opgeslagen{
-    background-color: var(--grijzeAchtergrond);
+    background: linear-gradient(var(--grijzeAchtergrond), var(--grijzeAchtergrondDonker));
     border-radius: 1.5em 1.5em 0 0;
     width: 90%;
     height: 25em;
     overflow-y: scroll;
+}
+
+.opgeslagen h2{
+    margin: 1em 0.5em;
+}
+
+.opgeslagen li{
+    margin-bottom: 1em;
+}
+
+.opgeslagen p {
+    margin: 0;
 }
 
 .clanCard {
@@ -120,7 +135,7 @@ main{
     align-self: center;
     margin: 0;
     height: auto;
-    width: 5em;
+    width: 65%;
 }
 
 .clanCard h3{
@@ -146,8 +161,8 @@ main{
     color: var(--witteText);
     background-color: var(--mainGroen);
     border: none;
-    padding: 0.3em;
-    border-radius: 5em;
+    padding: 0.3em 1em;
+    border-radius: 0.3125em;
     cursor: pointer;
     font-family: poppins;
     font-size: 0.8em;
@@ -160,7 +175,7 @@ main{
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--loginZwart);
   display: flex;
   justify-content: center;
   align-items: center;

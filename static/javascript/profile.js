@@ -52,6 +52,8 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
     
+    
+
     // Notification handling
     function showNotification(message) {
       const notification = document.getElementById('notification');
@@ -71,3 +73,4 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 5000);
     }
   });
+

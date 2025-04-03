@@ -49,7 +49,7 @@ p{
 }
 
 .search::placeholder {
-    color: #999;
+    color: var(--grijzeAchtergrond);
 }
 
 .search-button {
@@ -57,14 +57,14 @@ p{
     border: none;
     border-radius: 0 25px 25px 0;
     background-color: var(--accentKleur);
-    color: white;
+    color: var(--witteText);
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .search-button:hover {
-    background-color: #0056b3;
+    background-color: var(--mainBlauw);
 }
 
 .list {
@@ -80,8 +80,9 @@ p{
     grid-template-columns: 8em 40em auto;
     align-items: center;
     justify-content: left;
-    margin: 2em;
+    margin: 2em 0;
     background-color: var(--grijzeAchtergrond);
+    border-radius: 1em;
 }
 
 .list li div:nth-of-type(1){
@@ -90,8 +91,8 @@ p{
 }
 
 .error-message {
-    background-color: #ff3333;
-    color: white;
+    background-color: var(--mainRood);
+    color: var(--witteText);
     padding: 15px;
     margin: 15px 0;
     border-radius: 4px;
