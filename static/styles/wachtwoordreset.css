@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--backgroundColor);
+    font-family: 'Poppins', sans-serif;
+}
+
+img {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: -1;
+}
+
+main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-width: 27em;
+    padding: 2em;
+    background-color: var(--loginZwart);
+    box-shadow: 0 4px 10px var(--loginSchaduw);
+    backdrop-filter: blur(0.25em);
+    border-radius: 1.5em;
+}
+
+h1 {
+    color: var(--blijvendWit);
+    font-size: 1.75em;
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+p {
+    color: var(--blijvendWit);
+    font-size: 1em;
+    text-align: center;
+    margin: 0px;
+    text-align: left;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+button{
+    background-color: var(--mainGroen);
+    border: none;
+    border-radius: 1.5em;
+    padding: 0.6em;
+    color: var(--blijvendWit);
+    width: 100%;
+    font-size: 1em;
+    cursor: pointer;
+    font-family: poppins;
+}
+
+input{
+    padding: 0.6em;
+    margin-bottom: 0.8em;
+    border: 0.1em solid var(--loginGrijs);
+    border-radius: 0.8em;
+    background: var(--loginGrijs);
+    color: var(--blijvendWit);
+    font-size: 1em;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+a{
+    font-size: 1em;
+    color: var(--blijvendWit);
+    font-weight: 400;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}

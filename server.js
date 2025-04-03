@@ -84,6 +84,11 @@ async function getTopClans(apiToken) {
 //   );
 // });
 
+app.get('/searchResults', isAuthenticated, (req, res) => {
+  res.render('searchResults', { username: req.session.user });
+}
+);
+
 app.get('/', isAuthenticated, async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
 
@@ -277,7 +282,8 @@ app.get('/search', isAuthenticated, async (req, res) => {
   if (!query || query.trim().length < 3) {
     return res.render('searchResults', { 
       clans: [],
-      error: 'Voer minimaal 3 tekens in'
+      error: 'Voer minimaal 3 tekens in',
+      username: req.session.user,
     });
   }
 
@@ -406,7 +412,8 @@ app.get('/profile', isAuthenticated, async (req, res) => {
         clansData: [],
         favoriteClans: [],
         email: user.email, 
-        error: 'Geen opgeslagen clans'
+        error: 'Geen opgeslagen clans',
+        username: req.session.user,
       });
     }
 
@@ -489,12 +496,10 @@ app.get('/filtered-search', async (req, res) => {
     // Haal clans op van API
     const params = new URLSearchParams();
 
-    // Add at least one required search parameter
     if (countryCode) {
       params.append('locationId', countryCode);
     } else {
-      // Fallback search parameter if no location is selected
-      params.append('name', 'a'); // Simple fallback search term
+      params.append('locationId', 32000006); // Internationaal als er geen land wordt geselecteerd
     }
 
     // Add limit

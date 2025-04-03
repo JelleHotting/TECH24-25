@@ -1,6 +1,9 @@
-
+body {
+    font-family: 'Poppins', sans-serif;
+}
 header{
     background-color: var(--backgroundColor);
+    font-family: 'Poppins', sans-serif;
 }
 
 header nav{
@@ -15,14 +18,14 @@ header nav ul {
     align-items: center;
     padding: 0em;
     color:var(--witteText);
-    font-family: poppins;
+    font-family: 'Poppins', sans-serif;
     position: relative;
 }
 
 nav a.headerLink {
     text-decoration: none;
     color: var(--witteText);
-    font-family: poppins;
+    font-family: 'Poppins', sans-serif;
     position: relative;
 }
 
