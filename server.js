@@ -513,26 +513,6 @@ function calculateMatchScore(clan, playerTH, playerTrophies, countryCode) {
   return score;
 }
 
-// Overige API routes 🌐
-// ====================
-
-app.get('/api/locations', async (req, res) => {
-  try {
-    const response = await fetch('https://cocproxy.royaleapi.dev/v1/locations', {
-      headers: {
-        'Authorization': `Bearer ${process.env.COC_API_KEY}`
-      }
-    });
-    
-    if (!response.ok) throw new Error('Locaties ophalen mislukt');
-    
-    const data = await response.json();
-    res.json(data.items);
-  } catch (err) {
-    console.error('Locaties fout:', err);
-    res.status(500).json({ error: 'Locaties ophalen mislukt' });
-  }
-});
 
 // Foutafhandeling ❌
 // =================
@@ -551,4 +531,8 @@ app.use((err, req, res, next) => {
 
 // Start de server 🚀
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`Server draait op poort ${PORT} 🚀`));
+app.listen(PORT, () => {
+  const url = `http://localhost:${PORT}`;
+  console.log(`Server draait op poort ${PORT} 🚀`);
+  console.log(`Open de applicatie op: ${url}`);
+});
