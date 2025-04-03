@@ -74,3 +74,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+
+// Profielfoto's 
+const plaatjesArray = ['/images/barbaar.png', '/images/Heks.png', '/images/Reus.png', '/images/Tovenaar.png'];
+
+let profielFoto = document.querySelector('.profielFoto');
+
+console.log(profielFoto);
+
+let fotoDiv = document.querySelector('.popupFotosOntzichtbaar');
+
+profielFoto.addEventListener('click', function() {
+  fotoDiv.classList.toggle('popupFotosOntzichtbaar');
+  fotoDiv.classList.toggle('popupFotosZichtbaar');
+});
+
+
+
