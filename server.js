@@ -347,7 +347,8 @@ app.get('/clan/:clanTag', async (req, res) => {
       language: data.chatLanguage?.name || 'N/A',
       location: data.location?.name || 'N/A',
       type: data.type,
-      membersString
+      membersString,
+      username: req.session.user,
     });
   } catch (error) {
     console.error('Clan detail fout:', error);
@@ -438,7 +439,8 @@ app.get('/profile', isAuthenticated, async (req, res) => {
     res.render('profile', { 
       clansData,
       favoriteClans,
-      email: user.email, 
+      email: user.email,
+      username: req.session.user,
       error: clansData.length === 0 ? 'Clans ophalen mislukt' : ''
     });
   } catch (err) {
