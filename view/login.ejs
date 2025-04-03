@@ -19,10 +19,16 @@
             <h1>Login</h1>
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="error-message"><%= error %></div>
+              <% } %>
             <br>
 
             <label for="password">Wachtwoord:</label>
             <input type="password" id="password" name="password" required>
+            <% if (typeof passwordError !== 'undefined' && passwordError) { %>
+                <div class="error-message"><%= passwordError %></div>
+            <% } %>
             <br>
 
             <button class="loginButton" type="submit">Login</button>
