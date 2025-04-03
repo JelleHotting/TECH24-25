@@ -254,6 +254,8 @@ app.get('/search', isAuthenticated, async (req, res) => {
     res.render('searchResults', { 
       clans: data.items || [],
       searchTerm: query
+      ,
+      username: req.session.user
     });
   } catch (err) {
     console.error('Clan zoekfout:', err);
@@ -261,6 +263,8 @@ app.get('/search', isAuthenticated, async (req, res) => {
       clans: [],
       error: 'Clan zoeken mislukt',
       searchTerm: query
+      ,
+      username: req.session.user
     });
   }
 });
