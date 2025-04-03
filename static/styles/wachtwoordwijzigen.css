@@ -81,10 +81,32 @@ input[type="email"]{
     transition: all 0.3s ease;
 }
 
-a{
+p{
+    color: var(--witteText);
+    font-family: poppins;
     font-size: 1em;
-    color: var(--blijvendWit);
-    font-weight: 400;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+}
+
+ a {
+    text-decoration: none;
+    color: var(--witteText);
+    font-family: poppins;
+    position: relative;
+}
+
+a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--mainGroen);
+    transition: width 0.3s ease-in-out;
+}
+
+a:hover::after {
+    width: 100%;
 }
