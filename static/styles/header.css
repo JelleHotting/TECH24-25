@@ -40,7 +40,11 @@ nav a.headerLink::after {
     transition: width 0.3s ease-in-out;
 }
 
-nav a:hover::after {
+nav a.headerLink:hover {
+    color: var(--mainGroen);
+}
+
+nav a.headerLink:hover::after {
     width: 100%;
 }
 
