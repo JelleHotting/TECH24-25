@@ -163,7 +163,7 @@ app.post('/login', async (req, res, next) => {
     const collection = client.db(process.env.DB_NAME).collection('submissions');
     const user = await collection.findOne({ email: req.body.email });
     
-    if (!user) return res.send('Gebruiker niet gevonden');
+    if (!user) return res.render('login', { error: 'Email niet gevonden', username: req.session.user });
 
     const wachtwoordMatch = await bcrypt.compare(req.body.password, user.password);
 
@@ -177,7 +177,7 @@ app.post('/login', async (req, res, next) => {
         });
       });
     } else {
-      res.send('Ongeldig wachtwoord');
+      res.render('login', { error: null, passwordError: 'Ongeldig wachtwoord', username: req.session.user });
     }
   } catch (err) {
     console.error('Login fout:', err);
@@ -262,8 +262,12 @@ app.get('/', isAuthenticated, (req, res) => {
   res.render('home', { username: req.session.user });
 });
 
-app.get('/home', isAuthenticated, (req, res) => {
-  res.render('home', { username: req.session.user });
+// app.get('/home', isAuthenticated, (req, res) => {
+//   res.render('home', { username: req.session.user });
+// });
+
+app.get('/home', (req, res) => {
+  res.redirect('/');
 });
 
 // Clan zoekfunctionaliteit 🔍
@@ -450,8 +454,6 @@ app.get('/profile', isAuthenticated, async (req, res) => {
 });
 
 // Vragenlijst functionaliteiten 📝
-// ===============================
-
 app.get('/vragenlijst', (req, res) => {
   res.render('vragenlijst', { username: req.session.user });
 });
@@ -485,13 +487,30 @@ app.get('/filtered-search', async (req, res) => {
     const trophies = parseInt(answers['question-3']?.['trophies'] || 2000);
 
     // Haal clans op van API
-    const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans?limit=50`, {
+    const params = new URLSearchParams();
+
+    // Add at least one required search parameter
+    if (countryCode) {
+      params.append('locationId', countryCode);
+    } else {
+      // Fallback search parameter if no location is selected
+      params.append('name', 'a'); // Simple fallback search term
+    }
+
+    // Add limit
+    params.append('limit', '50');
+
+    const response = await fetch(`https://cocproxy.royaleapi.dev/v1/clans?${params.toString()}`, {
       headers: {
         'Authorization': `Bearer ${process.env.COC_API_KEY}`
       }
     });
-
-    if (!response.ok) throw new Error('API fout');
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`API Error: ${response.status} - ${errorText}`);
+      throw new Error(`API fout (${response.status}): ${errorText}`);
+    }
     
     const data = await response.json();
     let clans = data.items || [];
@@ -517,7 +536,6 @@ app.get('/filtered-search', async (req, res) => {
 
     res.render('searchResults', { 
       clans: filteredClans,
-      searchTerm: 'Gefilterd zoeken',
       username: req.session.user
     });
   } catch (err) {
@@ -525,7 +543,6 @@ app.get('/filtered-search', async (req, res) => {
     res.render('searchResults', {
       clans: [],
       error: 'Zoeken mislukt',
-      searchTerm: 'Gefilterd zoeken',
       username: req.session.user
     });
   }
