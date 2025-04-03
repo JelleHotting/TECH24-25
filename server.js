@@ -27,6 +27,7 @@ app
   });
 
   // route naar het wachtwoord wijzigen formulier
+  // bron: https://nodemailer.com/transports/
 app.get('/wachtwoord-wijzigen', (req, res) => {
   res.render('wachtwoord-wijzigen', { error: null });
 });
