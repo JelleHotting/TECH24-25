@@ -64,6 +64,22 @@
 <p>Weet je niet zeker wat je wilt zoeken?</p>
       <a href="/vragenlijst">Start de vragenlijst</a>
       </section>
+      <section class="top-clans">
+        <h2> Top 10 Clans Wereldwijd</h2>
+        <ul>
+          <% if (typeof topClans !== 'undefined' && topClans.length > 0) { %>
+            <% topClans.forEach(clan => { %>
+              <li>
+                <span class="clan-name"><%= clan.name %></span>
+                <span><%= clan.clanPoints %> punten</span>
+                <span><%= clan.members %> leden</span>
+              </li>
+            <% }) %>
+          <% } else { %>
+            <li>Geen clans gevonden of er ging iets mis.</li>
+          <% } %>
+        </ul>
+      </section>
     </main>
     <footer></footer>
     <script src="/javascript/lazyLoad.js"></script>

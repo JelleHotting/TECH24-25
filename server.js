@@ -157,10 +157,42 @@ function isAuthenticated(req, res, next) {
 
 }
 
+// Functie om top 10 clans op te halen
+async function getTopClans(apiToken) {
+  const response = await fetch('https://cocproxy.royaleapi.dev/v1/locations/global/rankings/clans?limit=10', {
+    headers: {
+      'Authorization': `Bearer ${apiToken}`
+    }
+  });
+
+  const data = await response.json();
+  return data.items || [];
+}
+
 // Home route
-app.get('/', isAuthenticated, (req, res) => {
-  res.render('home', { username: req.session.user }
-  );
+// app.get('/', isAuthenticated, (req, res) => {
+//   res.render('home', { username: req.session.user }
+//   );
+// });
+
+app.get('/', isAuthenticated, async (req, res) => {
+  const apiToken = process.env.COC_API_KEY;
+
+  try {
+    const topClans = await getTopClans(apiToken);
+
+    res.render('home', {
+      username: req.session.user,
+      topClans: topClans
+    });
+  } catch (err) {
+    console.error('Fout bij ophalen van top clans:', err);
+    res.render('home', {
+      username: req.session.user,
+      topClans: [],
+      error: 'Kon top clans niet ophalen.'
+    });
+  }
 });
 
 app.get('/home', isAuthenticated, (req, res) => {
