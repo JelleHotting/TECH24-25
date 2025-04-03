@@ -102,4 +102,4 @@ We verwelkomen bijdragen aan dit project! Volg de onderstaande stappen om bij te
 Dit project is gelicenseerd onder de MIT-licentie. Zie het [LICENSE-bestand](./LICENSE) voor meer informatie.
 
 ## Contact / Support
-Voor vragen of ondersteuning, neem contact op met [jouw naam] via [jouw e-mailadres].
+Voor vragen of ondersteuning, neem contact op met [Jelle Hotting] via [jelle.hotting@gmail.com].
