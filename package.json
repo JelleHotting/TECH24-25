@@ -28,9 +28,13 @@
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.10.0",
     "start": "^5.1.0",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "xss": "^1.0.15"
   },
   "devDependencies": {
+    "@eslint/js": "^9.23.0",
+    "eslint": "^9.23.0",
+    "globals": "^16.0.0",
     "nodemon": "^3.1.9"
   }
 }

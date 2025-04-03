@@ -23,7 +23,7 @@ p {
 
 a {
     font-size: 1.5em;
-    color: #1BA352;
+    color: var(--mainGroen);
 
 text-decoration: none;
 

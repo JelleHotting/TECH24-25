@@ -17,14 +17,15 @@ main{
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-    gap: 2em;
+    gap: 3em;
 }
 
 .clanBanner{
     display: grid;
-    height: 25vh;
+    height: 35vh;
     grid-template-columns: 20% 1fr;
     grid-template-rows: 1fr 1fr;
+    overflow: hidden;
 }
 
 
@@ -69,12 +70,12 @@ main{
     grid-row-start: 2;
     grid-column-start: 2;
     justify-self: end;
-    align-self: start;
+    align-self: end;
 }
 
 .clanBanner button{
-    margin-right: 2em;
-    border-radius: 1.5em;
+    margin: 0 2em 2em 0;
+    border-radius: 0.3125em;
     padding: 0.5em 5em;
     color:var(--witteText);
     background-color: var(--mainGroen);
@@ -92,11 +93,15 @@ main{
 }
 
 .clanStats{
-    background-color: var(--grijzeAchtergrond);
-    border-radius: 1.5em 1.5em 0 0;
+    background: linear-gradient(var(--grijzeAchtergrond), var(--grijzeAchtergrondDonker));
+    border-radius: 1em 1em 0 0;
     width: 90%;
     height: 25em;
     overflow-y: scroll;
+}
+
+.clanStats h2{
+    margin: 1em 0.5em;
 }
 
 .clanStats ul{
@@ -104,17 +109,34 @@ main{
     flex-direction: column;
 }
 
+.clanStats li{
+    margin-bottom: 1em;
+}
+
+.clanStats p{
+    margin: 0;
+}
+
 .clanLeden{
-    background-color: var(--grijzeAchtergrond);
-    border-radius: 1.5em 1.5em 0 0;
+    background: linear-gradient(var(--grijzeAchtergrond), var(--grijzeAchtergrondDonker));
+    border-radius: 1em 1em 0 0;
     width: 90%;
     height: 25em;
     overflow-y: scroll;
 }
 
+.clanLeden h2{
+    margin: 1em 0.5em;
+}
+
 .clanLeden ol{
     display: flex;
     flex-direction: column;
+    margin: 0;
+}
+
+.clanLeden li{
+    margin-bottom: 1em;
 }
 
 /* Stijl voor de "Opslaan"-knop */

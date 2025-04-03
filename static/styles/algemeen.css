@@ -3,6 +3,7 @@
     --witteText: #EFEFEF;
     --backgroundColor:#0F1925;
     --grijzeAchtergrond: #49475A;
+    --grijzeAchtergrondDonker: #363542;
     --mainGroen: #0CB754;
     --mainBlauw: #337EFF;
     --blijvendWit: #EFEFEF;
@@ -13,4 +14,27 @@
     
 }
 
+body {
+    background-color: var(--backgroundColor);
+    font-family: 'Poppins', sans-serif;
+    color:var(--witteText);
+    margin: 0;
+    padding: 0; 
+}
+
+ul{
+    list-style: none;
+    padding: 0 1em;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+    color: var(--witteText);
+    font-family: poppins;
+}
+
+
+/* #141e2d */
+/* #182433 */
 /* #1BA352  Dit is de originele groene kleur*/
