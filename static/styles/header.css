@@ -19,10 +19,26 @@ header nav ul {
     position: relative;
 }
 
-nav a{
+nav a.headerLink {
     text-decoration: none;
     color: var(--witteText);
     font-family: poppins;
+    position: relative;
+}
+
+nav a.headerLink::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--mainGroen);
+    transition: width 0.3s ease-in-out;
+}
+
+nav a:hover::after {
+    width: 100%;
 }
 
 nav ul:first-of-type li:nth-child(2){
@@ -45,22 +61,6 @@ nav ul li{
     margin: 0em 1em;
 }
 
-
-/* Lijn animatie */
-nav ul li a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0; /* Start met geen breedte */
-    height: 2px;
-    background-color: var(--mainGroen);
-    transition: width 0.3s ease-in-out;
-}
-
-nav ul li a:hover::after {
-    width: 100%; /* Lijn breidt uit van links naar rechts */
-}
 
 
 /* hamburger */
