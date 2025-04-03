@@ -24,10 +24,10 @@ app
   }))
   .use(express.json());                          // Parse JSON requests
 
-  // route naar het wachtwoord wijzigen formulier
-  // bron: https://nodemailer.com/transports/
+// route naar het wachtwoord wijzigen formulier
+// bron: https://nodemailer.com/transports/
 app.get('/wachtwoord-wijzigen', (req, res) => {
-  res.render('wachtwoord-wijzigen', { error: null });
+  res.render('wachtwoord-wijzigen', { error: null, username: req.session.user });
 });
 
 // MongoDB connectie setup 🗄️
@@ -71,7 +71,7 @@ function isAuthenticated(req, res, next) {
 
 // Registratie routes 📝
 app.get('/register', (req, res) => {
-  res.render('register', { error: null });
+  res.render('register', { error: null, username: req.session.user });
 });
 
 app.post('/register', async (req, res) => {
@@ -109,7 +109,7 @@ app.post('/register', async (req, res) => {
       password: hashedPassword
     });
     
-    res.render('login');
+    res.render('login', { username: req.session.user });
   } catch (err) {
     console.error('Registratie fout:', err);
     res.status(500).send('Registratie mislukt');
@@ -118,7 +118,7 @@ app.post('/register', async (req, res) => {
 
 // Login routes 🔑
 app.get('/login', (req, res) => {
-  res.render('login');
+  res.render('login', { username: req.session.user });
 });
 
 app.post('/login', async (req, res, next) => {
@@ -160,7 +160,7 @@ app.post('/logout', (req, res) => {
 // =========================
 
 app.get('/wachtwoord-wijzigen', (req, res) => {
-  res.render('wachtwoord-wijzigen', { error: null });
+  res.render('wachtwoord-wijzigen', { error: null, username: req.session.user });
 });
 
 app.post('/wachtwoord-reset', async (req, res) => {
@@ -189,7 +189,7 @@ app.post('/wachtwoord-reset', async (req, res) => {
 
 // Reset wachtwoord pagina
 app.get('/auth/reset-wachtwoord/:email', (req, res) => {
-  res.render('wachtwoord-reset', { email: req.params.email, error: null });
+  res.render('wachtwoord-reset', { email: req.params.email, error: null, username: req.session.user });
 });
 
 // Wachtwoord update
@@ -199,7 +199,7 @@ app.post('/auth/reset-wachtwoord/:email', async (req, res) => {
 
   try {
     if (wachtwoord !== wachtwoord2) {
-      return res.render('wachtwoord-reset', { email, error: 'Wachtwoorden komen niet overeen.' });
+      return res.render('wachtwoord-reset', { email, error: 'Wachtwoorden komen niet overeen.', username: req.session.user });
     }
 
     const hashedPassword = await bcrypt.hash(wachtwoord, 10);
@@ -414,7 +414,7 @@ app.get('/profile', isAuthenticated, async (req, res) => {
 // ===============================
 
 app.get('/vragenlijst', (req, res) => {
-  res.render('vragenlijst');
+  res.render('vragenlijst', { username: req.session.user });
 });
 
 // Sla antwoorden op in sessie
@@ -435,7 +435,8 @@ app.get('/filtered-search', async (req, res) => {
       return res.render('searchResults', {
         clans: [],
         error: 'Vul eerst de vragenlijst in',
-        searchTerm: 'Gefilterd zoeken'
+        searchTerm: 'Gefilterd zoeken',
+        username: req.session.user
       });
     }
     
@@ -477,14 +478,16 @@ app.get('/filtered-search', async (req, res) => {
 
     res.render('searchResults', { 
       clans: filteredClans,
-      searchTerm: 'Gefilterd zoeken'
+      searchTerm: 'Gefilterd zoeken',
+      username: req.session.user
     });
   } catch (err) {
     console.error('Gefilterd zoeken fout:', err);
     res.render('searchResults', {
       clans: [],
       error: 'Zoeken mislukt',
-      searchTerm: 'Gefilterd zoeken'
+      searchTerm: 'Gefilterd zoeken',
+      username: req.session.user
     });
   }
 });
@@ -544,7 +547,7 @@ app.get('/api/locations', async (req, res) => {
 // 404 - Pagina niet gevonden
 app.use((req, res) => {
   console.error('404 voor URL: ' + req.url);
-  res.status(404).render('404', { url: req.url });
+  res.status(404).render('404', { url: req.url, username: req.session.user });
 });
 
 // 500 - Serverfout
