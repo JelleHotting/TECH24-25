@@ -262,8 +262,12 @@ app.get('/', isAuthenticated, (req, res) => {
   res.render('home', { username: req.session.user });
 });
 
-app.get('/home', isAuthenticated, (req, res) => {
-  res.render('home', { username: req.session.user });
+// app.get('/home', isAuthenticated, (req, res) => {
+//   res.render('home', { username: req.session.user });
+// });
+
+app.get('/home', (req, res) => {
+  res.redirect('/');
 });
 
 // Clan zoekfunctionaliteit 🔍
