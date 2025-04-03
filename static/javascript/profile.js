@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // Profielfoto's 
-const plaatjesArray = ['/images/barbaar.png', '/images/Heks.png', '/images/Reus.png', '/images/Tovenaar.png'];
+const plaatjesArray = [ '/images/Heks.png', '/images/Reus.png', '/images/Tovenaar.png', '/images/Barbaar.png'];
 
 let profielFoto = document.querySelector('.profielFoto');
 
