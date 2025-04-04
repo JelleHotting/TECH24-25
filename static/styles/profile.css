@@ -166,6 +166,11 @@ main{
     cursor: pointer;
     font-family: poppins;
     font-size: 0.8em;
+    transition: all 0.2s ease;
+}
+
+.clanCard button:hover{
+    background-color: var(--mainRood);
 }
 
 

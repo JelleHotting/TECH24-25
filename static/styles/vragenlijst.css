@@ -138,11 +138,11 @@ form.townhall button {
 }
 
 .prev-button:hover, .next-button:hover {
-    background: var(--mainGroen);
+    background: var(--mainBlauw);
 }
 
 .prev-button:hover {
-    background: var(--grijzeAchtergrond);
+    background: var(--mainRood);
 }
 
 /* Stijl voor de slider container */

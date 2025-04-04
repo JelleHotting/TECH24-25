@@ -53,10 +53,10 @@ p{
 }
 
 .search-button {
-    padding: 12px 24px;
+    padding: 1em 2em;
     border: none;
     border-radius: 0 25px 25px 0;
-    background-color: var(--accentKleur);
+    background-color: var(--grijzeAchtergrond);
     color: var(--witteText);
     font-weight: 500;
     cursor: pointer;
