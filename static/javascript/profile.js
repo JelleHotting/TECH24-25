@@ -76,17 +76,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // Profielfoto's 
-const plaatjesArray = [ '/images/Heks.png', '/images/Reus.png', '/images/Tovenaar.png', '/images/Barbaar.png'];
+const plaatjesArray = ['/images/Tovenaar.png', '/images/Reus.png', '/images/Heks.png', '/images/Barbaar.png'];
 
 let profielFoto = document.querySelector('.profielFoto');
-
-console.log(profielFoto);
-
+let profielFotoHeader = document.querySelector('.fotoHeader');
 let fotoDiv = document.querySelector('.popupFotosOntzichtbaar');
+let opslaanKnop = document.querySelector('.knopList button');
 
 profielFoto.addEventListener('click', function() {
   fotoDiv.classList.toggle('popupFotosOntzichtbaar');
   fotoDiv.classList.toggle('popupFotosZichtbaar');
+});
+
+opslaanKnop.addEventListener('click', function() {
+  fotoDiv.classList.add('popupFotosOntzichtbaar');
+  fotoDiv.classList.remove('popupFotosZichtbaar');
+});
+
+// Add click event listeners to the photos in the div
+const fotoElements = fotoDiv.querySelectorAll('img');
+fotoElements.forEach((fotoElement, index) => {
+  fotoElement.addEventListener('click', function() {
+    profielFoto.src = plaatjesArray[index];
+    profielFotoHeader.src = plaatjesArray[index];
+  });
 });
 
 
