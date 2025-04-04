@@ -93,7 +93,6 @@ opslaanKnop.addEventListener('click', function() {
   fotoDiv.classList.remove('popupFotosZichtbaar');
 });
 
-// Add click event listeners to the photos in the div
 const fotoElements = fotoDiv.querySelectorAll('img');
 fotoElements.forEach((fotoElement, index) => {
   fotoElement.addEventListener('click', function() {
