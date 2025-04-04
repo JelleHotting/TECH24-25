@@ -212,7 +212,7 @@ main{
 
 .popupFotosZichtbaar{
     position: absolute;
-    background-color: var(--witteText);
+    background-color: var(--grijzeAchtergrond);
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 10px var(--loginSchaduw);
