@@ -107,11 +107,12 @@ section:nth-of-type(2) p:nth-of-type(1){
 /* top clans */
 .top-clans {
     background: linear-gradient(var(--grijzeAchtergrond), var(--grijzeAchtergrondDonker));
-    border-radius: 1.5em 1.5em 0 0;
-    width: 90%;
-    height: 25em;
-    overflow-y: scroll;
+    border-radius: 1.5em;
+    width: 50em;
+    height: auto;
+    /* overflow-y: scroll; */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5em;
 }
 
 .top-clans h2 {
@@ -142,6 +143,9 @@ section:nth-of-type(2) p:nth-of-type(1){
     font-weight: bold;
     color: var(--mainGroen);
 }
+
+
+
 
 @keyframes slideIn {
     from {
