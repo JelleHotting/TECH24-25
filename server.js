@@ -482,6 +482,36 @@ app.post('/updateProfilePhoto', isAuthenticated, async (req, res) => {
   }
 });
 
+// Profielfoto update route (nieuw)
+app.post('/updateProfielfoto', async (req, res) => {
+  try {
+    // Controleer of gebruiker is ingelogd
+    if (!req.session.user) {
+      return res.json({ success: false, message: 'Niet ingelogd' });
+    }
+    
+    const username = req.session.user;
+    const profilePhoto = req.body.profielfoto;
+    
+    // Update de gebruiker in de database op basis van username (niet op _id)
+    const result = await client.db(process.env.DB_NAME).collection('submissions').updateOne(
+      { username: username },
+      { $set: { profilePhoto: profilePhoto } }
+    );
+    
+    if (result.modifiedCount === 1) {
+      // Update ook de sessie
+      req.session.profilePhoto = profilePhoto;
+      return res.json({ success: true });
+    } else {
+      return res.json({ success: false, message: 'Gebruiker niet gevonden' });
+    }
+  } catch (error) {
+    console.error('Error updating profile photo:', error);
+    res.json({ success: false, message: error.message });
+  }
+});
+
 // Vragenlijst functionaliteiten 📝
 app.get('/vragenlijst', async (req, res) => {
   const profilePhoto = await getUserProfilePhoto(req.session.user);
