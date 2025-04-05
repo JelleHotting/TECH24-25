@@ -2,6 +2,7 @@
 
 body{
     background-color: var(--backgroundColor);
+    font-family: "Poppins", sans-serif;
 }
 
 /* main */
@@ -128,7 +129,7 @@ section:nth-of-type(2) p:nth-of-type(1){
     margin: 0;
 }
 
-.top-clans li {
+.top-clans li a {
     padding: 1em;
     border-radius: 0.5em;
     margin-bottom: 0.5em;

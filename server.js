@@ -26,8 +26,9 @@ app
 
 // route naar het wachtwoord wijzigen formulier
 // bron: https://nodemailer.com/transports/
-app.get('/wachtwoord-wijzigen', (req, res) => {
-  res.render('wachtwoord-wijzigen', { error: null, username: req.session.user });
+app.get('/wachtwoord-wijzigen', async (req, res) => {
+  const profilePhoto = await getUserProfilePhoto(req.session.user);
+  res.render('wachtwoord-wijzigen', { error: null, username: req.session.user, profilePhoto });
 });
 
 // MongoDB connectie setup 🗄️
@@ -66,6 +67,20 @@ function isAuthenticated(req, res, next) {
   res.redirect('/login');
 }
 
+// Helper function to get profile photo
+async function getUserProfilePhoto(username) {
+  if (!username) return '/images/Barbaar.png';
+  
+  try {
+    const user = await client.db(process.env.DB_NAME).collection('submissions')
+      .findOne({ username });
+    return user?.profilePhoto || '/images/Barbaar.png';
+  } catch (error) {
+    console.error('Error getting profile photo:', error);
+    return '/images/Barbaar.png';
+  }
+}
+
 // Functie om top 10 clans op te halen
 async function getTopClans(apiToken) {
   const response = await fetch('https://cocproxy.royaleapi.dev/v1/locations/global/rankings/clans?limit=10', {
@@ -79,41 +94,41 @@ async function getTopClans(apiToken) {
 }
 
 // Home route
-// app.get('/', isAuthenticated, (req, res) => {
-//   res.render('home', { username: req.session.user }
-//   );
-// });
-
-app.get('/searchResults', isAuthenticated, (req, res) => {
-  res.render('searchResults', { username: req.session.user });
-}
-);
+app.get('/searchResults', isAuthenticated, async (req, res) => {
+  const profilePhoto = await getUserProfilePhoto(req.session.user);
+  res.render('searchResults', { username: req.session.user, profilePhoto });
+});
 
 app.get('/', isAuthenticated, async (req, res) => {
   const apiToken = process.env.COC_API_KEY;
+  const profilePhoto = await getUserProfilePhoto(req.session.user);
 
   try {
     const topClans = await getTopClans(apiToken);
 
     res.render('home', {
       username: req.session.user,
+      profilePhoto,
       topClans: topClans
     });
   } catch (err) {
     console.error('Fout bij ophalen van top clans:', err);
     res.render('home', {
       username: req.session.user,
+      profilePhoto,
       topClans: [],
       error: 'Kon top clans niet ophalen.'
     });
   }
 });
+
 // Authenticatie routes 🔐
 // ======================
 
 // Registratie routes 📝
-app.get('/register', (req, res) => {
-  res.render('register', { error: null, username: req.session.user });
+app.get('/register', async (req, res) => {
+  const profilePhoto = await getUserProfilePhoto(req.session.user);
+  res.render('register', { error: null, username: req.session.user, profilePhoto });
 });
 
 app.post('/register', async (req, res) => {
@@ -151,7 +166,8 @@ app.post('/register', async (req, res) => {
       password: hashedPassword
     });
     
-    res.render('login', { username: req.session.user });
+    const profilePhoto = await getUserProfilePhoto(req.session.user);
+    res.render('login', { username: req.session.user, profilePhoto });
   } catch (err) {
     console.error('Registratie fout:', err);
     res.status(500).send('Registratie mislukt');
@@ -159,16 +175,18 @@ app.post('/register', async (req, res) => {
 });
 
 // Login routes 🔑
-app.get('/login', (req, res) => {
-  res.render('login', { username: req.session.user });
+app.get('/login', async (req, res) => {
+  const profilePhoto = await getUserProfilePhoto(req.session.user);
+  res.render('login', { username: req.session.user, profilePhoto });
 });
 
 app.post('/login', async (req, res, next) => {
   try {
     const collection = client.db(process.env.DB_NAME).collection('submissions');
     const user = await collection.findOne({ email: req.body.email });
+    const profilePhoto = await getUserProfilePhoto(req.session.user);
     
-    if (!user) return res.render('login', { error: 'Email niet gevonden', username: req.session.user });
+    if (!user) return res.render('login', { error: 'Email niet gevonden', username: req.session.user, profilePhoto });
 
     const wachtwoordMatch = await bcrypt.compare(req.body.password, user.password);
 
@@ -182,7 +200,7 @@ app.post('/login', async (req, res, next) => {
         });
       });
     } else {
-      res.render('login', { error: null, passwordError: 'Ongeldig wachtwoord', username: req.session.user });
+      res.render('login', { error: null, passwordError: 'Ongeldig wachtwoord', username: req.session.user, profilePhoto });
     }
   } catch (err) {
     console.error('Login fout:', err);
@@ -201,47 +219,20 @@ app.post('/logout', (req, res) => {
 // Wachtwoord reset routes 🔄
 // =========================
 
-app.get('/wachtwoord-wijzigen', (req, res) => {
-  res.render('wachtwoord-wijzigen', { error: null, username: req.session.user });
-});
-
-app.post('/wachtwoord-reset', async (req, res) => {
-  const email = req.body.email;
-
-  try {
-    if (!await isEmailInDatabase(email)) {
-      return res.status(400).send("E-mail niet gevonden");
-    }
-
-    // Stuur reset email
-    await transporter.sendMail({
-      from: '"Clash Connect" <neej9816@gmail.com>',
-      to: email,
-      subject: "Wachtwoord wijzigen",
-      html: `<p>Klik op de link om uw wachtwoord te wijzigen:</p>
-             <a href="http://localhost:8000/auth/reset-wachtwoord/${email}">Wachtwoord Reset</a>`
-    });
-
-    res.send("E-mail verzonden! Controleer je inbox.");
-  } catch (error) {
-    console.error("Email verzend fout:", error);
-    res.status(500).send("E-mail verzenden mislukt");
-  }
-});
-
-// Reset wachtwoord pagina
-app.get('/auth/reset-wachtwoord/:email', (req, res) => {
-  res.render('wachtwoord-reset', { email: req.params.email, error: null, username: req.session.user });
+app.get('/auth/reset-wachtwoord/:email', async (req, res) => {
+  const profilePhoto = await getUserProfilePhoto(req.session.user);
+  res.render('wachtwoord-reset', { email: req.params.email, error: null, username: req.session.user, profilePhoto });
 });
 
 // Wachtwoord update
 app.post('/auth/reset-wachtwoord/:email', async (req, res) => {
   const { email } = req.params;
   const { nieuwwachtwoord: wachtwoord, bevestigwachtwoord: wachtwoord2 } = req.body;
+  const profilePhoto = await getUserProfilePhoto(req.session.user);
 
   try {
     if (wachtwoord !== wachtwoord2) {
-      return res.render('wachtwoord-reset', { email, error: 'Wachtwoorden komen niet overeen.', username: req.session.user });
+      return res.render('wachtwoord-reset', { email, error: 'Wachtwoorden komen niet overeen.', username: req.session.user, profilePhoto });
     }
 
     const hashedPassword = await bcrypt.hash(wachtwoord, 10);
@@ -263,14 +254,6 @@ app.post('/auth/reset-wachtwoord/:email', async (req, res) => {
 // ========================
 
 // Home routes 🏠
-app.get('/', isAuthenticated, (req, res) => {
-  res.render('home', { username: req.session.user });
-});
-
-// app.get('/home', isAuthenticated, (req, res) => {
-//   res.render('home', { username: req.session.user });
-// });
-
 app.get('/home', (req, res) => {
   res.redirect('/');
 });
@@ -278,12 +261,14 @@ app.get('/home', (req, res) => {
 // Clan zoekfunctionaliteit 🔍
 app.get('/search', isAuthenticated, async (req, res) => {
   const { clanName: query } = req.query;
+  const profilePhoto = await getUserProfilePhoto(req.session.user);
 
   if (!query || query.trim().length < 3) {
     return res.render('searchResults', { 
       clans: [],
       error: 'Voer minimaal 3 tekens in',
       username: req.session.user,
+      profilePhoto
     });
   }
 
@@ -300,18 +285,18 @@ app.get('/search', isAuthenticated, async (req, res) => {
     
     res.render('searchResults', { 
       clans: data.items || [],
-      searchTerm: query
-      ,
-      username: req.session.user
+      searchTerm: query,
+      username: req.session.user,
+      profilePhoto
     });
   } catch (err) {
     console.error('Clan zoekfout:', err);
     res.render('searchResults', {
       clans: [],
       error: 'Clan zoeken mislukt',
-      searchTerm: query
-      ,
-      username: req.session.user
+      searchTerm: query,
+      username: req.session.user,
+      profilePhoto
     });
   }
 });
@@ -319,6 +304,7 @@ app.get('/search', isAuthenticated, async (req, res) => {
 // Clan detailpagina 📋
 app.get('/clan/:clanTag', async (req, res) => {
   const { clanTag } = req.params;
+  const profilePhoto = await getUserProfilePhoto(req.session.user);
 
   try {
     // Controleer favoriet status
@@ -359,6 +345,7 @@ app.get('/clan/:clanTag', async (req, res) => {
       type: data.type,
       membersString,
       username: req.session.user,
+      profilePhoto
     });
   } catch (error) {
     console.error('Clan detail fout:', error);
@@ -386,16 +373,26 @@ app.post('/saveClan', async (req, res) => {
 app.post('/removeClan', async (req, res) => {
   const { clanTag } = req.body;
   const { user: username } = req.session;
+  const source = req.body.source || 'clan';
 
   try {
     await client.db(process.env.DB_NAME).collection('submissions').updateOne(
       { username },
       { $pull: { favoriteClans: clanTag } }
     );
-    res.json({ success: true });
+    
+    if (source === 'profile') {
+      return res.json({ success: true });
+    } else {
+      return res.redirect(`/clan/${clanTag}`);
+    }
   } catch (err) {
     console.error('Favoriet verwijderen fout:', err);
-    res.status(500).json({ success: false });
+    if (source === 'profile') {
+      return res.status(500).json({ success: false });
+    } else {
+      return res.status(500).redirect(`/clan/${clanTag}`);
+    }
   }
 });
 
@@ -406,12 +403,14 @@ app.get('/profile', isAuthenticated, async (req, res) => {
       .findOne({ username: req.session.user });
     
     const favoriteClans = user?.favoriteClans || [];
+    const profilePhoto = user?.profilePhoto || '/images/Barbaar.png'; // Default image if none set
 
     if (favoriteClans.length === 0) {
       return res.render('profile', { 
         clansData: [],
         favoriteClans: [],
         email: user.email, 
+        profilePhoto,
         error: 'Geen opgeslagen clans',
         username: req.session.user,
       });
@@ -451,6 +450,7 @@ app.get('/profile', isAuthenticated, async (req, res) => {
       clansData,
       favoriteClans,
       email: user.email,
+      profilePhoto,
       username: req.session.user,
       error: clansData.length === 0 ? 'Clans ophalen mislukt' : ''
     });
@@ -460,9 +460,62 @@ app.get('/profile', isAuthenticated, async (req, res) => {
   }
 });
 
+// Profielfoto update route
+app.post('/updateProfilePhoto', isAuthenticated, async (req, res) => {
+  const { photoPath } = req.body;
+  const { user: username } = req.session;
+
+  try {
+    const result = await client.db(process.env.DB_NAME).collection('submissions').updateOne(
+      { username },
+      { $set: { profilePhoto: photoPath } }
+    );
+
+    if (result.modifiedCount === 1) {
+      return res.json({ success: true });
+    } else {
+      return res.json({ success: false, message: 'Geen gebruiker gevonden om te updaten' });
+    }
+  } catch (err) {
+    console.error('Profielfoto update fout:', err);
+    return res.status(500).json({ success: false, message: 'Database fout bij het opslaan van de profielfoto' });
+  }
+});
+
+// Profielfoto update route (nieuw)
+app.post('/updateProfielfoto', async (req, res) => {
+  try {
+    // Controleer of gebruiker is ingelogd
+    if (!req.session.user) {
+      return res.json({ success: false, message: 'Niet ingelogd' });
+    }
+    
+    const username = req.session.user;
+    const profilePhoto = req.body.profielfoto;
+    
+    // Update de gebruiker in de database op basis van username (niet op _id)
+    const result = await client.db(process.env.DB_NAME).collection('submissions').updateOne(
+      { username: username },
+      { $set: { profilePhoto: profilePhoto } }
+    );
+    
+    if (result.modifiedCount === 1) {
+      // Update ook de sessie
+      req.session.profilePhoto = profilePhoto;
+      return res.json({ success: true });
+    } else {
+      return res.json({ success: false, message: 'Gebruiker niet gevonden' });
+    }
+  } catch (error) {
+    console.error('Error updating profile photo:', error);
+    res.json({ success: false, message: error.message });
+  }
+});
+
 // Vragenlijst functionaliteiten 📝
-app.get('/vragenlijst', (req, res) => {
-  res.render('vragenlijst', { username: req.session.user });
+app.get('/vragenlijst', async (req, res) => {
+  const profilePhoto = await getUserProfilePhoto(req.session.user);
+  res.render('vragenlijst', { username: req.session.user, profilePhoto });
 });
 
 // Sla antwoorden op in sessie
@@ -478,13 +531,16 @@ app.post('/save-answer', (req, res) => {
 
 // Gefilterde zoekopdracht
 app.get('/filtered-search', async (req, res) => {
+  const profilePhoto = await getUserProfilePhoto(req.session.user);
+  
   try {
     if (!req.session.answers) {
       return res.render('searchResults', {
         clans: [],
         error: 'Vul eerst de vragenlijst in',
         searchTerm: 'Gefilterd zoeken',
-        username: req.session.user
+        username: req.session.user,
+        profilePhoto
       });
     }
     
@@ -541,14 +597,16 @@ app.get('/filtered-search', async (req, res) => {
 
     res.render('searchResults', { 
       clans: filteredClans,
-      username: req.session.user
+      username: req.session.user,
+      profilePhoto
     });
   } catch (err) {
     console.error('Gefilterd zoeken fout:', err);
     res.render('searchResults', {
       clans: [],
       error: 'Zoeken mislukt',
-      username: req.session.user
+      username: req.session.user,
+      profilePhoto
     });
   }
 });
@@ -606,9 +664,10 @@ app.get('/api/locations', async (req, res) => {
 // =================
 
 // 404 - Pagina niet gevonden
-app.use((req, res) => {
+app.use(async (req, res) => {
+  const profilePhoto = await getUserProfilePhoto(req.session.user);
   console.error('404 voor URL: ' + req.url);
-  res.status(404).render('404', { url: req.url, username: req.session.user });
+  res.status(404).render('404', { url: req.url, username: req.session.user, profilePhoto });
 });
 
 // 500 - Serverfout

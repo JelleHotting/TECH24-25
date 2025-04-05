@@ -52,9 +52,11 @@
           <% if (typeof topClans !== 'undefined' && topClans.length > 0) { %>
             <% topClans.forEach(clan => { %>
               <li>
+                <a href="/clan/<%= clan.tag.replace('#', '') %>">
                 <span class="clan-name"><%= clan.name %></span>
                 <span><%= clan.clanPoints %> trophies</span>
                 <span><%= clan.members %> leden</span>
+              </a>
               </li>
             <% }) %>
           <% } else { %>

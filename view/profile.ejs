@@ -16,7 +16,7 @@
       <section class="profielBanner">
         <img class="backgroundImage lazy-load" data-src="/images/clash_achtergrond_horizontaal.jpg" alt="Achtergrond foto">
         <img class="profielFoto lazy-load"
-        data-src="/images/Tovenaar.png"
+        data-src="<%= profilePhoto %>"
         alt="Een foto van een karakter">
         <h1><%= username %></h1>
         <h2><%= email %></h2>
@@ -45,6 +45,7 @@
               <% if (clansData && clansData.length > 0) { %>
                 <% clansData.forEach(clan => { %>
                   <li>
+                    <a href="/clan/<%= clan.clanTag.replace('#', '') %>">
                     <div class="clanCard">
                       <img src="<%= clan.clanImg %>" alt="<%= clan.clanName %> logo">
                       <h3><%= clan.clanName %></h3>
@@ -52,9 +53,13 @@
                       <!-- Add more clan details as needed -->
                       <form id="removeClanForm" data-clan-tag="<%= clan.clanTag %>" data-clan-name="<%= clan.clanName %>">
                         <input type="hidden" name="clanTag" value="<%= clan.clanTag %>">
-                        <button type="submit" class="btn remove-btn">Verwijderen</button>
+                        <button class="remove-favorite-button" data-clan-tag="<%= clan.clanTag %>">Verwijderen</button>
                       </form>
+                      <div class="clan-item">
+                        <!-- Clan information here -->
+                      </div>
                     </div>
+                  </a>
                   </li>
                 <% }); %>
               <% } else { %>
@@ -66,8 +71,6 @@
           </section>
         
       </section>
-
-      <!-- Add this popup element somewhere in your template -->
       <div id="notification" class="notification" style="display: none;">
         <div class="notification-content">
           <p id="notification-message"></p>
