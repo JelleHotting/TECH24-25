@@ -1,76 +1,78 @@
-
-
-body{
-    background-color: var(--backgroundColor);
-    font-family: "Poppins", sans-serif;
+body {
+  background-color: var(--backgroundColor);
+  font-family: "Poppins", sans-serif;
 }
 
 /* main */
-main{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-h1{
-    font-size: 2.5em;
-    background-image: linear-gradient(to right, var(--mainGroen), var(--mainBlauw)); /* Gradiënt van links naar rechts */
-    -webkit-background-clip: text;  /* Zorgt ervoor dat de gradiënt alleen de tekst bedekt */
-    background-clip: text;
-    color: transparent; /* Zet de tekstkleur op transparant zodat de gradiënt zichtbaar is */
-    font-family: "Poppins", sans-serif;
+h1 {
+  font-size: 2.5em;
+  background-image: linear-gradient(
+    to right,
+    var(--mainGroen),
+    var(--mainBlauw)
+  ); /* Gradiënt van links naar rechts */
+  -webkit-background-clip: text; /* Zorgt ervoor dat de gradiënt alleen de tekst bedekt */
+  background-clip: text;
+  color: transparent; /* Zet de tekstkleur op transparant zodat de gradiënt zichtbaar is */
+  font-family: "Poppins", sans-serif;
 }
 
 /* zoek balk */
-form{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2em;
-    background-color: var(--witteText);
-    height: 3em;
-    width: 70%;
-    border-radius: 100px;
-    max-width: 25em;
-    min-width: 14em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2em;
+  background-color: var(--witteText);
+  height: 3em;
+  width: 70%;
+  border-radius: 100px;
+  max-width: 25em;
+  min-width: 14em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
-form input{
-    border: none;
-    outline: none;
-    background-color: var(--witteText);
-    width: 70%;
+form input {
+  border: none;
+  outline: none;
+  background-color: var(--witteText);
+  width: 70%;
 }
 
-form button{
-    background: none;
-    border: none;
-    cursor: pointer;
-    outline: none;
+form button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
 }
 
 /* resultaten section */
-section:first-of-type{
-    display: flex;
-    justify-content: center;
-    height: 11.5em;
-    width: 25em;
-    border-radius: 30px;
+section:first-of-type {
+  display: flex;
+  justify-content: center;
+  height: 11.5em;
+  width: 25em;
+  border-radius: 30px;
 
-    p {
+  p {
     width: 12rem;
-    color:var(--witteText);
+    color: var(--witteText);
     font-family: Poppins;
     font-size: 1rem;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    }
+  }
 
-    a {
+  a {
     display: inline-flex;
     padding: 0.75rem 2rem;
     justify-content: center;
@@ -79,110 +81,107 @@ section:first-of-type{
     gap: 0.625rem;
     border-radius: 0.3125rem;
     background: var(--mainGroen);
-    height:2em;
-    }
+    height: 2em;
+  }
 }
 
-section:first-of-type button{
-    height: 3em;
+section:first-of-type button {
+  height: 3em;
 }
 
-section:first-of-type button:nth-of-type(1){
-    width: 3.875em;
+section:first-of-type button:nth-of-type(1) {
+  width: 3.875em;
 }
 
 section:first-of-type button:nth-of-type(2),
-section:first-of-type button:nth-of-type(3){
-    width: 8.75em;
+section:first-of-type button:nth-of-type(3) {
+  width: 8.75em;
 }
 
 /* Styling voor de button naar questionaire */
 
-section:nth-of-type(2) p:nth-of-type(1){
-    font-size: 1em;
-    margin: 1em 0em 0em 1em;
-    font-family: "Poppins", sans-serif;
-    color:var(--witteText);
+section:nth-of-type(2) p:nth-of-type(1) {
+  font-size: 1em;
+  margin: 1em 0em 0em 1em;
+  font-family: "Poppins", sans-serif;
+  color: var(--witteText);
 }
 
 /* top clans */
 .top-clans {
-    background: linear-gradient(var(--grijzeAchtergrond), var(--grijzeAchtergrondDonker));
-    border-radius: 1.5em;
-    width: 50em;
-    height: auto;
-    /* overflow-y: scroll; */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 5em;
+  background: linear-gradient(
+    var(--grijzeAchtergrond),
+    var(--grijzeAchtergrondDonker)
+  );
+  border-radius: 1.5em;
+  width: 50em;
+  height: auto;
+  /* overflow-y: scroll; */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 5em;
 }
 
 .top-clans h2 {
-    font-size: 1.5em;
-    font-family: "Poppins", sans-serif;
-    margin-bottom: 1em;
-    padding-left: 1em;
+  font-size: 1.5em;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 1em;
+  padding-left: 1em;
 }
 
 .top-clans ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .top-clans li a {
-    padding: 1em;
-    border-radius: 0.5em;
-    margin-bottom: 0.5em;
-    display: flex;
-    justify-content: space-between;
-    font-family: "Poppins", sans-serif;
-    font-size: 1em;
-    color: white;
+  padding: 1em;
+  border-radius: 0.5em;
+  margin-bottom: 0.5em;
+  display: flex;
+  justify-content: space-between;
+  font-family: "Poppins", sans-serif;
+  font-size: 1em;
+  color: white;
 }
 
 .top-clans .clan-name {
-    font-weight: bold;
-    color: var(--mainGroen);
+  font-weight: bold;
+  color: var(--mainGroen);
 }
-
-
-
 
 @keyframes slideIn {
-    from {
-        width: 0;
-        opacity: 0;
-    }
-    to {
-        width: 150px;
-        opacity: 1;
-    }
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 150px;
+    opacity: 1;
+  }
 }
-
 
 .search-bar {
-    padding: 8px;
-    animation: slideIn 0.8s ease-out forwards;
+  padding: 8px;
+  animation: slideIn 0.8s ease-out forwards;
 }
 
+@media (max-width: 375px) {
+  section:first-of-type {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
-@media (max-width: 375px){
-    section:first-of-type {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
+  section:first-of-type {
+    height: 14em;
+  }
 
-    section:first-of-type {
-        height: 14em;
-    }
+  section:first-of-type a {
+    max-width: 7em;
+  }
 
-    section:first-of-type a{
-        max-width: 7em;
-    
-    }
-
-    .search-bar{
-        padding: 0;
-    }
+  .search-bar {
+    padding: 0;
+  }
 }

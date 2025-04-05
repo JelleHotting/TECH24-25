@@ -1,38 +1,35 @@
-:root{
-
-    --witteText: #EFEFEF;
-    --backgroundColor:#0F1925;
-    --grijzeAchtergrond: #49475A;
-    --grijzeAchtergrondDonker: #363542;
-    --mainGroen: #0CB754;
-    --mainBlauw: #337EFF;
-    --loginZwart: rgba(0, 0, 0, 0.737);
-    --loginGrijs: rgba(255, 255, 255, 0.1);
-    --loginSchaduw: rgba(0, 0, 0, 0.3);
-    --mainRood: #ec5656;
-    
+:root {
+  --witteText: #efefef;
+  --backgroundColor: #0f1925;
+  --grijzeAchtergrond: #49475a;
+  --grijzeAchtergrondDonker: #363542;
+  --mainGroen: #0cb754;
+  --mainBlauw: #337eff;
+  --loginZwart: rgba(0, 0, 0, 0.737);
+  --loginGrijs: rgba(255, 255, 255, 0.1);
+  --loginSchaduw: rgba(0, 0, 0, 0.3);
+  --mainRood: #ec5656;
 }
 
 body {
-    background-color: var(--backgroundColor);
-    font-family: 'Poppins', sans-serif;
-    color:var(--witteText);
-    margin: 0;
-    padding: 0; 
+  background-color: var(--backgroundColor);
+  font-family: "Poppins", sans-serif;
+  color: var(--witteText);
+  margin: 0;
+  padding: 0;
 }
 
-ul{
-    list-style: none;
-    padding: 0 1em;
-    margin: 0;
+ul {
+  list-style: none;
+  padding: 0 1em;
+  margin: 0;
 }
 
-a{
-    text-decoration: none;
-    color: var(--witteText);
-    font-family: poppins;
+a {
+  text-decoration: none;
+  color: var(--witteText);
+  font-family: poppins;
 }
-
 
 /* #141e2d */
 /* #182433 */

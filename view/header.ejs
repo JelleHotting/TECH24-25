@@ -1,23 +1,37 @@
-<link rel="stylesheet" href="/styles/algemeen.css">
-<link rel="stylesheet" href="/styles/header.css">
+<link rel="stylesheet" href="/styles/algemeen.css" />
+<link rel="stylesheet" href="/styles/header.css" />
 <header>
-    <nav>
-      <img class="lazy-load" data-src="/images/Clash-connect-logo.png" alt="Clash connect" />
+  <nav>
+    <img
+      class="lazy-load"
+      data-src="/images/Clash-connect-logo.png"
+      alt="Clash connect"
+    />
 
-      <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
 
-      <ul class="nav-links">
-        <li class="midden"><a class="headerLink" href="/home">Home</a></li>
-        <li class="midden"><a class="headerLink" href="/searchResults">Zoeken</a></li>
-        <li class="midden"><a class="headerLink" href="/vragenlijst">COCMatch</a></li>
-        <li><a href="/profile"><img class="fotoHeader" src="<%= profilePhoto %>" alt="De profielfoto" /></a></li>
-        <li><a  class="headerLink" href="/profile"><%= username %></a></li>
-      </ul>
-
-    </nav>
-    <script src="/javascript/header.js"></script>
-  </header>
+    <ul class="nav-links">
+      <li class="midden"><a class="headerLink" href="/home">Home</a></li>
+      <li class="midden">
+        <a class="headerLink" href="/searchResults">Zoeken</a>
+      </li>
+      <li class="midden">
+        <a class="headerLink" href="/vragenlijst">COCMatch</a>
+      </li>
+      <li>
+        <a href="/profile"
+          ><img
+            class="fotoHeader"
+            src="<%= profilePhoto %>"
+            alt="De profielfoto"
+        /></a>
+      </li>
+      <li><a class="headerLink" href="/profile"><%= username %></a></li>
+    </ul>
+  </nav>
+  <script src="/javascript/header.js"></script>
+</header>

@@ -1,68 +1,76 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/algemeen.css">
-    <link rel="stylesheet" href="/styles/clan.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/algemeen.css" />
+    <link rel="stylesheet" href="/styles/clan.css" />
     <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Reddit+Sans+Condensed:wght@200..900&display=swap"
-    rel="stylesheet"
-  />
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Reddit+Sans+Condensed:wght@200..900&display=swap"
+      rel="stylesheet"
+    />
     <title>ClashConnect: <%= clanName %></title>
-</head>
-<body>
+  </head>
+  <body>
     <%- include('header') %>
     <main>
-        <section class="clanBanner">
-            <img class="backgroundImage lazy-load" data-src="/images/clash_achtergrond_horizontaal.jpg" alt="Achtergrond foto">
-            <h1><%= clanName %></h1>
-            <h2>#<%= clanTag %></h2>
-            <img class="clanSchild lazy-load" data-src="<%= clanImg %>" alt="Clan Image">
-            <form action="<%= isFavorite === true ? '/removeClan' : '/saveClan' %>" method="POST">
-                <button 
-                    type="submit" 
-                    class="<%= isFavorite === true ? 'btn-remove' : 'btn-save' %>">
-                    <%= isFavorite === true ? 'Verwijderen' : 'Opslaan' %>
-                </button>
-                <input type="hidden" name="clanTag" value="<%= clanTag %>">
-            </form>
+      <section class="clanBanner">
+        <img
+          class="backgroundImage lazy-load"
+          data-src="/images/clash_achtergrond_horizontaal.jpg"
+          alt="Achtergrond foto"
+        />
+        <h1><%= clanName %></h1>
+        <h2>#<%= clanTag %></h2>
+        <img
+          class="clanSchild lazy-load"
+          data-src="<%= clanImg %>"
+          alt="Clan Image"
+        />
+        <form
+          action="<%= isFavorite === true ? '/removeClan' : '/saveClan' %>"
+          method="POST"
+        >
+          <button
+            type="submit"
+            class="<%= isFavorite === true ? 'btn-remove' : 'btn-save' %>"
+          >
+            <%= isFavorite === true ? 'Verwijderen' : 'Opslaan' %>
+          </button>
+          <input type="hidden" name="clanTag" value="<%= clanTag %>" />
+        </form>
+      </section>
+
+      <section class="clanInfo">
+        <section class="clanStats">
+          <h2>Over clan</h2>
+          <ul>
+            <li><p>Clan Level: <%= clanLevel %></p></li>
+            <li><p>Clan Divisie: <%= clanDivisie %></p></li>
+            <li><p>Vereiste Trofeeën: <%= requiredTrophies %></p></li>
+            <li><p>Aantal spelers: <%= memberCount %></p></li>
+            <li><p>Clan Beschrijving: <%= description %></p></li>
+            <li><p>Clan Locatie: <%= location %></p></li>
+            <li><p>Taal in de clan: <%= language %></p></li>
+            <li><p>Type: <%= type %></p></li>
+          </ul>
         </section>
 
-        <section class="clanInfo">
-
-            <section class="clanStats">
-                <h2>Over clan</h2>
-                <ul>
-                    <li><p>Clan Level: <%= clanLevel %></p></li>
-                    <li><p>Clan Divisie: <%= clanDivisie %></p></li>
-                    <li><p>Vereiste Trofeeën: <%= requiredTrophies %></p></li>
-                    <li><p>Aantal spelers: <%= memberCount %></p></li>
-                    <li><p>Clan Beschrijving: <%= description %></p></li>
-                    <li><p>Clan Locatie: <%= location %></p></li>
-                    <li><p>Taal in de clan: <%= language %></p></li>
-                    <li><p>Type: <%= type %></p></li>
-
-                </ul>
-            </section>
-
-            
-            <section class="clanLeden">
-                <h2>Leden</h2>
-                <% let membersArray = membersString ? membersString.split(',') : []; %>
-                <ol>
-                    <% membersArray.forEach(function(member) { %>
-                        <li>
-                            <%= member.trim() %></li> <!-- trim() voorkomt onnodige spaties -->
-                    <% }); %>
-                </ol>
-            </section>
-
+        <section class="clanLeden">
+          <h2>Leden</h2>
+          <% let membersArray = membersString ? membersString.split(',') : [];
+          %>
+          <ol>
+            <% membersArray.forEach(function(member) { %>
+            <li><%= member.trim() %></li>
+            <!-- trim() voorkomt onnodige spaties -->
+            <% }); %>
+          </ol>
         </section>
-
+      </section>
     </main>
     <footer></footer>
     <script src="/javascript/lazyLoad.js"></script>
     <script src="/javascript/animaties.js"></script>
-    </body>
-    </html>
+  </body>
+</html>

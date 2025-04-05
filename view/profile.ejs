@@ -4,33 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profiel</title>
-    <link rel="stylesheet" href="/styles/algemeen.css">
+    <link rel="stylesheet" href="/styles/algemeen.css" />
     <link rel="stylesheet" href="/styles/profile.css" />
   </head>
 
-  
   <body>
     <%- include('header') %>
-    
+
     <main>
       <section class="profielBanner">
-        <img class="backgroundImage lazy-load" data-src="/images/clash_achtergrond_horizontaal.jpg" alt="Achtergrond foto">
-        <img class="profielFoto lazy-load"
-        data-src="<%= profilePhoto %>"
-        alt="Een foto van een karakter">
+        <img
+          class="backgroundImage lazy-load"
+          data-src="/images/clash_achtergrond_horizontaal.jpg"
+          alt="Achtergrond foto"
+        />
+        <img
+          class="profielFoto lazy-load"
+          data-src="<%= profilePhoto %>"
+          alt="Een foto van een karakter"
+        />
         <h1><%= username %></h1>
         <h2><%= email %></h2>
       </section>
 
       <section class="profileContainer">
-
         <section class="profileInfo">
           <h2>Profiel</h2>
           <ul>
             <li><p>Naam: <%= username %></p></li>
             <li><p>Email: <%= email %></p></li>
             <li>
-              <form action="/logout" method="POST" style="display: inline;">
+              <form action="/logout" method="POST" style="display: inline">
                 <button type="submit" class="btn">Uitloggen</button>
               </form>
             </li>
@@ -42,48 +46,63 @@
 
           <section class="clanList">
             <ul>
-              <% if (clansData && clansData.length > 0) { %>
-                <% clansData.forEach(clan => { %>
-                  <li>
-                    <a href="/clan/<%= clan.clanTag.replace('#', '') %>">
-                    <div class="clanCard">
-                      <img src="<%= clan.clanImg %>" alt="<%= clan.clanName %> logo">
-                      <h3><%= clan.clanName %></h3>
-                      <p>#<%= clan.clanTag %></p>
-                      <!-- Add more clan details as needed -->
-                      <form id="removeClanForm" data-clan-tag="<%= clan.clanTag %>" data-clan-name="<%= clan.clanName %>">
-                        <input type="hidden" name="clanTag" value="<%= clan.clanTag %>">
-                        <button class="remove-favorite-button" data-clan-tag="<%= clan.clanTag %>">Verwijderen</button>
-                      </form>
-                      <div class="clan-item">
-                        <!-- Clan information here -->
-                      </div>
+              <% if (clansData && clansData.length > 0) { %> <%
+              clansData.forEach(clan => { %>
+              <li>
+                <a href="/clan/<%= clan.clanTag.replace('#', '') %>">
+                  <div class="clanCard">
+                    <img
+                      src="<%= clan.clanImg %>"
+                      alt="<%= clan.clanName %> logo"
+                    />
+                    <h3><%= clan.clanName %></h3>
+                    <p>#<%= clan.clanTag %></p>
+                    <!-- Add more clan details as needed -->
+                    <form
+                      id="removeClanForm"
+                      data-clan-tag="<%= clan.clanTag %>"
+                      data-clan-name="<%= clan.clanName %>"
+                    >
+                      <input
+                        type="hidden"
+                        name="clanTag"
+                        value="<%= clan.clanTag %>"
+                      />
+                      <button
+                        class="remove-favorite-button"
+                        data-clan-tag="<%= clan.clanTag %>"
+                      >
+                        Verwijderen
+                      </button>
+                    </form>
+                    <div class="clan-item">
+                      <!-- Clan information here -->
                     </div>
-                  </a>
-                  </li>
-                <% }); %>
-              <% } else { %>
-                <li>
-                  <p><%= error %></p>
-                </li>
+                  </div>
+                </a>
+              </li>
+              <% }); %> <% } else { %>
+              <li>
+                <p><%= error %></p>
+              </li>
               <% } %>
             </ul>
           </section>
-        
+        </section>
       </section>
-      <div id="notification" class="notification" style="display: none;">
+      <div id="notification" class="notification" style="display: none">
         <div class="notification-content">
           <p id="notification-message"></p>
           <button id="notification-close">Sluiten</button>
         </div>
       </div>
 
-      <div class="popupFotosOntzichtbaar"> 
+      <div class="popupFotosOntzichtbaar">
         <ul>
-          <li><img src="/images/Tovenaar.png" alt=""></li>
-          <li><img src="/images/Reus.png" alt=""></li>
-          <li><img src="/images/Heks.png" alt=""></li>
-          <li><img src="/images/Barbaar.png" alt=""></li>
+          <li><img src="/images/Tovenaar.png" alt="" /></li>
+          <li><img src="/images/Reus.png" alt="" /></li>
+          <li><img src="/images/Heks.png" alt="" /></li>
+          <li><img src="/images/Barbaar.png" alt="" /></li>
           <li class="knopList"><button>Opslaan</button></li>
         </ul>
       </div>
@@ -91,7 +110,6 @@
     <script src="/javascript/lazyLoad.js"></script>
     <script src="/javascript/profile.js"></script>
     <script src="/javascript/animaties.js"></script>
-    <script>
-    </script>
+    <script></script>
   </body>
 </html>

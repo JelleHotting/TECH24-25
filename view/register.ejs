@@ -1,55 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registreren</title>
-    <link rel="stylesheet" href="/styles/algemeen.css">
-    <link rel="stylesheet" href="/styles/login.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/styles/algemeen.css" />
+    <link rel="stylesheet" href="/styles/login.css" />
+  </head>
+  <body>
     <div>
-        <img class="backgroundFoto lazy-load" data-src="/images/clash-of-clans-halloween-battlefield-8e0l3h8yaw2qvxae-2.jpg" alt="Achtergrond foto">
+      <img
+        class="backgroundFoto lazy-load"
+        data-src="/images/clash-of-clans-halloween-battlefield-8e0l3h8yaw2qvxae-2.jpg"
+        alt="Achtergrond foto"
+      />
     </div>
-    <header>
-
-    </header>
+    <header></header>
 
     <main>
-    
-    <form action="/register" method="POST" class="loginForm">
+      <form action="/register" method="POST" class="loginForm">
         <h1>Registreren</h1>
         <label for="email">Email:</label>
-            <input type="text" id="email" name="email" required>
+        <input type="text" id="email" name="email" required />
 
         <% if (typeof error !== 'undefined') { %>
-            <label><%= error %></label>
-          <% } %>
+        <label><%= error %></label>
+        <% } %>
 
-        <br>
+        <br />
 
         <label for="username">Gebruikersnaam:</label>
-            <input type="text" id="username" name="username" required>
+        <input type="text" id="username" name="username" required />
 
-            <% if (typeof error2 !== 'undefined') { %>
-                <label><%= error2 %></label>
-              <% } %>
-        <br>
+        <% if (typeof error2 !== 'undefined') { %>
+        <label><%= error2 %></label>
+        <% } %>
+        <br />
         <label for="password">Wachtwoord:</label>
-            <input type="password" id="password" name="password" required>
-        <br>
+        <input type="password" id="password" name="password" required />
+        <br />
 
         <label for="password2">Bevestig het wachtwoord:</label>
-            <input type="password" id="password2" name="password2" required>
-        <br>
+        <input type="password" id="password2" name="password2" required />
+        <br />
         <button class="loginButton" type="submit">Registreren</button>
         <h2>Heb je al een account? <a href="/login">Login</a></h2>
-    </form>
+      </form>
     </main>
 
-    <footer>
-
-    </footer>
+    <footer></footer>
     <script src="/javascript/lazyLoad.js"></script>
-</body>
+  </body>
 </html>

@@ -1,17 +1,13 @@
-
 document.addEventListener("DOMContentLoaded", function () {
-
-
   const hamburger = document.getElementById("hamburger");
   const navLinks = document.querySelector(".nav-links");
-  const navItems = document.querySelectorAll(".nav-links a"); 
+  const navItems = document.querySelectorAll(".nav-links a");
 
-  
   hamburger.addEventListener("click", function () {
-    // Zet de klasse "active" aan of uit 
+    // Zet de klasse "active" aan of uit
     hamburger.classList.toggle("active");
     navLinks.classList.toggle("active");
-    document.body.classList.toggle("menu-open"); 
+    document.body.classList.toggle("menu-open");
   });
 
   // Als je op een van de menu-links klikt:
@@ -23,5 +19,4 @@ document.addEventListener("DOMContentLoaded", function () {
       document.body.classList.remove("menu-open");
     });
   });
-
 });

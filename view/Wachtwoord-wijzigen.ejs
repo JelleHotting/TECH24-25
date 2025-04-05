@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wachtwoord Vergeten</title>
-    <link rel="stylesheet" href="/styles/algemeen.css">
-    <link rel="stylesheet" href="/styles/wachtwoordwijzigen.css">
+    <link rel="stylesheet" href="/styles/algemeen.css" />
+    <link rel="stylesheet" href="/styles/wachtwoordwijzigen.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-</head>
-<body>
+  </head>
+  <body>
     <div>
-        <img class="backgroundImage lazy-load" data-src="/images/clash-of-clans-halloween-battlefield-8e0l3h8yaw2qvxae-2.jpg" alt="Achtergrond foto">
+      <img
+        class="backgroundImage lazy-load"
+        data-src="/images/clash-of-clans-halloween-battlefield-8e0l3h8yaw2qvxae-2.jpg"
+        alt="Achtergrond foto"
+      />
     </div>
 
     <main>
-        <div class="container">
-            <h1>Wachtwoord Vergeten?</h1>
-            <p>Voer je e-mail in om een wachtwoord-reset link te ontvangen.</p>
+      <div class="container">
+        <h1>Wachtwoord Vergeten?</h1>
+        <p>Voer je e-mail in om een wachtwoord-reset link te ontvangen.</p>
 
-            <form action="/wachtwoord-reset" method="POST">
-                <input type="email" name="email" placeholder="Voer je e-mail in" required>
-                <button type="submit">Verstuur</button>
-            </form>
+        <form action="/wachtwoord-reset" method="POST">
+          <input
+            type="email"
+            name="email"
+            placeholder="Voer je e-mail in"
+            required
+          />
+          <button type="submit">Verstuur</button>
+        </form>
 
-             <p>Terug naar, <a href="login">login</a></p>
-        </div>
+        <p>Terug naar, <a href="login">login</a></p>
+      </div>
     </main>
     <script src="/javascript/lazyLoad.js"></script>
-</body>
+  </body>
 </html>

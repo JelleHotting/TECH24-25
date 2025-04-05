@@ -1,66 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search Results</title>
-    <link rel="stylesheet" href="/styles/algemeen.css">
-    <link rel="stylesheet" href="/styles/searchresults.css">
+    <link rel="stylesheet" href="/styles/algemeen.css" />
+    <link rel="stylesheet" href="/styles/searchresults.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Reddit+Sans+Condensed:wght@200..900&display=swap"
       rel="stylesheet"
     />
-</head>
-<body id="clanLijst">
+  </head>
+  <body id="clanLijst">
     <%- include('header') %>
     <main>
-        <form action="/search" method="GET" class="search-form">
-            <input 
-                type="search" 
-                class="search" 
-                name="clanName" 
-                value="<%= locals.searchTerm || '' %>" 
-                placeholder="Zoek naar een clan" 
-                required
-            >
-            <button type="submit" class="search-button">Zoeken</button>
-        </form>
+      <form action="/search" method="GET" class="search-form">
+        <input
+          type="search"
+          class="search"
+          name="clanName"
+          value="<%= locals.searchTerm || '' %>"
+          placeholder="Zoek naar een clan"
+          required
+        />
+        <button type="submit" class="search-button">Zoeken</button>
+      </form>
 
-        <h1>Search Results</h1>
-        
-        <!-- Toon foutmelding als die er is -->
-        <% if (locals.error) { %>
-            <div class="error-message">
-                <%= error %>
+      <h1>Search Results</h1>
+
+      <!-- Toon foutmelding als die er is -->
+      <% if (locals.error) { %>
+      <div class="error-message"><%= error %></div>
+      <% } %>
+
+      <!-- Toon resultaten alleen als er clans zijn -->
+      <% if (locals.clans && clans.length > 0) { %>
+      <ul class="list">
+        <% clans.forEach(clan => { %>
+        <a href="/clan/<%= clan.tag.replace('#', '') %>">
+          <li>
+            <img
+              class="lazy-load"
+              data-src="<%= clan.badgeUrls.small %>"
+              alt="Clan Image"
+            />
+
+            <div>
+              <h2 class="naam"><%= clan.name %> (#<%= clan.tag %>)</h2>
+              <p>type: <%= clan.type %></p>
+              <p>Level: <%= clan.clanLevel %></p>
             </div>
-        <% } %>
 
-        <!-- Toon resultaten alleen als er clans zijn -->
-        <% if (locals.clans && clans.length > 0) { %>
-            <ul class="list">
-                <% clans.forEach(clan => { %>
-                    <a href="/clan/<%= clan.tag.replace('#', '') %>">
-                        <li>
-                            <img class="lazy-load" data-src="<%= clan.badgeUrls.small %>" alt="Clan Image">
-
-                            <div>
-                                <h2 class="naam"><%= clan.name %> (#<%= clan.tag %>)</h2>
-                                <p>type: <%= clan.type %></p>
-                                <p>Level: <%= clan.clanLevel %></p>
-                            </div>
-                            
-                            <div>
-                                <p>Leden: <%= clan.members %></p>
-                                <p>Trofeeën: <%= clan.clanPoints %></p>
-                            </div>
-                        </li>
-                    </a>
-                <% }) %>
-            </ul>
-        <% } %>
+            <div>
+              <p>Leden: <%= clan.members %></p>
+              <p>Trofeeën: <%= clan.clanPoints %></p>
+            </div>
+          </li>
+        </a>
+        <% }) %>
+      </ul>
+      <% } %>
     </main>
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
     <script src="/javascript/sorteren.js"></script>
     <script src="/javascript/lazyLoad.js"></script>
-</body>
+  </body>
 </html>

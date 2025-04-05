@@ -1,42 +1,51 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" href="/styles/algemeen.css">
-    <link rel="stylesheet" href="/styles/login.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Reddit+Sans+Condensed:wght@200..900&display=swap" rel="stylesheet">
-    
-</head>
-<body>
+    <link rel="stylesheet" href="/styles/algemeen.css" />
+    <link rel="stylesheet" href="/styles/login.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Reddit+Sans+Condensed:wght@200..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div>
-        <img class="backgroundFoto lazy-load" data-src="/images/clash-of-clans-halloween-battlefield-8e0l3h8yaw2qvxae-2.jpg" alt="Achtergrond foto">
+      <img
+        class="backgroundFoto lazy-load"
+        data-src="/images/clash-of-clans-halloween-battlefield-8e0l3h8yaw2qvxae-2.jpg"
+        alt="Achtergrond foto"
+      />
     </div>
     <header></header>
     <main>
-        <form action="/login" method="POST" class="loginForm">
-            <h1>Login</h1>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <% if (typeof error !== 'undefined' && error) { %>
-                <div class="error-message"><%= error %></div>
-              <% } %>
-            <br>
+      <form action="/login" method="POST" class="loginForm">
+        <h1>Login</h1>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+        <% if (typeof error !== 'undefined' && error) { %>
+        <div class="error-message"><%= error %></div>
+        <% } %>
+        <br />
 
-            <label for="password">Wachtwoord:</label>
-            <input type="password" id="password" name="password" required>
-            <% if (typeof passwordError !== 'undefined' && passwordError) { %>
-                <div class="error-message"><%= passwordError %></div>
-            <% } %>
-            <br>
+        <label for="password">Wachtwoord:</label>
+        <input type="password" id="password" name="password" required />
+        <% if (typeof passwordError !== 'undefined' && passwordError) { %>
+        <div class="error-message"><%= passwordError %></div>
+        <% } %>
+        <br />
 
-            <button class="loginButton" type="submit">Login</button>
-            <h2>Geen account? <a href="/register">Maak account</a></h2>
-            <h2>Wachtwoord vergeten? <a href="/wachtwoord-wijzigen">Wijzig wachtwoord</a></h2>
-        </form>
+        <button class="loginButton" type="submit">Login</button>
+        <h2>Geen account? <a href="/register">Maak account</a></h2>
+        <h2>
+          Wachtwoord vergeten?
+          <a href="/wachtwoord-wijzigen">Wijzig wachtwoord</a>
+        </h2>
+      </form>
     </main>
     <footer></footer>
     <script src="/javascript/lazyLoad.js"></script>
-</body>
+  </body>
 </html>

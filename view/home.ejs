@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-    <link rel="stylesheet" href="/styles/algemeen.css">
+    <link rel="stylesheet" href="/styles/algemeen.css" />
     <link rel="stylesheet" href="/styles/home.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -43,24 +43,23 @@
       </form>
 
       <section>
-<p>Weet je niet zeker wat je wilt zoeken?</p>
-      <a href="/vragenlijst">Start de vragenlijst</a>
+        <p>Weet je niet zeker wat je wilt zoeken?</p>
+        <a href="/vragenlijst">Start de vragenlijst</a>
       </section>
       <section class="top-clans">
-        <h2> Top 10 Clans Wereldwijd</h2>
+        <h2>Top 10 Clans Wereldwijd</h2>
         <ul>
-          <% if (typeof topClans !== 'undefined' && topClans.length > 0) { %>
-            <% topClans.forEach(clan => { %>
-              <li>
-                <a href="/clan/<%= clan.tag.replace('#', '') %>">
-                <span class="clan-name"><%= clan.name %></span>
-                <span><%= clan.clanPoints %> trophies</span>
-                <span><%= clan.members %> leden</span>
-              </a>
-              </li>
-            <% }) %>
-          <% } else { %>
-            <li>Geen clans gevonden of er ging iets mis.</li>
+          <% if (typeof topClans !== 'undefined' && topClans.length > 0) { %> <%
+          topClans.forEach(clan => { %>
+          <li>
+            <a href="/clan/<%= clan.tag.replace('#', '') %>">
+              <span class="clan-name"><%= clan.name %></span>
+              <span><%= clan.clanPoints %> trophies</span>
+              <span><%= clan.members %> leden</span>
+            </a>
+          </li>
+          <% }) %> <% } else { %>
+          <li>Geen clans gevonden of er ging iets mis.</li>
           <% } %>
         </ul>
       </section>

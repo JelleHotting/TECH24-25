@@ -1,104 +1,103 @@
 main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    background-color: var(--backgroundColor);
-    font-family: poppins;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: var(--backgroundColor);
+  font-family: poppins;
 }
 
-body{
-    background-color: var(--backgroundColor);
+body {
+  background-color: var(--backgroundColor);
 }
 
-h1{
-    color:var(--witteText);
+h1 {
+  color: var(--witteText);
 }
 
-h2{
-    color:var(--witteText);
+h2 {
+  color: var(--witteText);
 }
 
-p{
-    color:var(--witteText);
-    margin: 0;
+p {
+  color: var(--witteText);
+  margin: 0;
 }
 
 /* Styling voor zoekformulier - zoals op homepage */
 .search-form {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 80%;
-    max-width: 800px;
-    margin: 2em auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  max-width: 800px;
+  margin: 2em auto;
 }
 
 .search {
-    width: 100%;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 25px 0 0 25px;
-    background-color: var(--grijzeAchtergrond);
-    color: var(--witteText);
-    font-size: 16px;
-    outline: none;
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 25px 0 0 25px;
+  background-color: var(--grijzeAchtergrond);
+  color: var(--witteText);
+  font-size: 16px;
+  outline: none;
 }
 
 .search::placeholder {
-    color: var(--grijzeAchtergrond);
+  color: var(--grijzeAchtergrond);
 }
 
 .search-button {
-    padding: 1em 2em;
-    border: none;
-    border-radius: 0 25px 25px 0;
-    background-color: var(--grijzeAchtergrond);
-    color: var(--witteText);
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  padding: 1em 2em;
+  border: none;
+  border-radius: 0 25px 25px 0;
+  background-color: var(--grijzeAchtergrond);
+  color: var(--witteText);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .search-button:hover {
-    background-color: var(--mainBlauw);
+  background-color: var(--mainBlauw);
 }
 
 .list {
-    list-style-type: none;
-    width: 80vw;
-    padding: 0;
+  list-style-type: none;
+  width: 80vw;
+  padding: 0;
 }
 
-.list li{
-    height: 10em;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 8em 40em auto;
-    align-items: center;
-    justify-content: left;
-    margin: 2em 0;
-    background-color: var(--grijzeAchtergrond);
-    border-radius: 1em;
+.list li {
+  height: 10em;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 8em 40em auto;
+  align-items: center;
+  justify-content: left;
+  margin: 2em 0;
+  background-color: var(--grijzeAchtergrond);
+  border-radius: 1em;
 }
 
-.list li div:nth-of-type(1){
-    padding-left: 1em;
-    border-left: solid 0.10em var(--witteText);
+.list li div:nth-of-type(1) {
+  padding-left: 1em;
+  border-left: solid 0.1em var(--witteText);
 }
 
 .error-message {
-    background-color: var(--mainRood);
-    color: var(--witteText);
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: 4px;
-    font-weight: 500;
-    text-align: center;
-    width: 80%;
-    max-width: 800px;
+  background-color: var(--mainRood);
+  color: var(--witteText);
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 4px;
+  font-weight: 500;
+  text-align: center;
+  width: 80%;
+  max-width: 800px;
 }
-

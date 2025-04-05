@@ -18,23 +18,13 @@
   },
   "homepage": "https://github.com/JelleDeKoning/TECH24-25#readme",
   "dependencies": {
-    "axios": "^1.8.1",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
-    "ejs": "^3.1.10",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "mongodb": "^6.14.2",
-    "node-fetch": "^3.3.2",
     "nodemailer": "^6.10.0",
-    "start": "^5.1.0",
-    "uuid": "^11.1.0",
     "xss": "^1.0.15"
   },
-  "devDependencies": {
-    "@eslint/js": "^9.23.0",
-    "eslint": "^9.23.0",
-    "globals": "^16.0.0",
-    "nodemon": "^3.1.9"
-  }
+  "devDependencies": {}
 }

@@ -1,9 +1,9 @@
-const xss = require('xss');
+const xss = require("xss");
 
 function sanitizeInput(input) {
-  if (typeof input === 'string') {
+  if (typeof input === "string") {
     return xss(input);
-  } else if (typeof input === 'object' && input !== null) {
+  } else if (typeof input === "object" && input !== null) {
     const result = {};
     for (const key in input) {
       if (Object.prototype.hasOwnProperty.call(input, key)) {

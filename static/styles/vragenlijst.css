@@ -1,218 +1,217 @@
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    background-color: var(--backgroundColor);
-}
-
-body{
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
   background-color: var(--backgroundColor);
 }
 
-h1{
-    font-size: 2.5rem;
-    font-family: "Poppins", sans-serif;
+body {
+  background-color: var(--backgroundColor);
+}
 
-    display: flex;
-    width: 30rem;
-    height: 12.4375rem;
-    flex-direction: column;
-    justify-content: center;
-    flex-shrink: 0;
+h1 {
+  font-size: 2.5rem;
+  font-family: "Poppins", sans-serif;
 
-    color:var(--witteText);
+  display: flex;
+  width: 30rem;
+  height: 12.4375rem;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+
+  color: var(--witteText);
 }
 
 #progress-container {
-    width: 100%;
-    background-color: var(--witteText);
-    border-radius: 20px;
-    
-    width: 30rem;
-height: 32px;
-flex-shrink: 0;
-  }
-  
-  #progress-bar {
-    width: 0;
-    height: 30px;
-    background-color: var(--mainGroen);
-    border-radius: 20px;
-    width: 30rem;
+  width: 100%;
+  background-color: var(--witteText);
+  border-radius: 20px;
+
+  width: 30rem;
   height: 32px;
   flex-shrink: 0;
-  }
+}
+
+#progress-bar {
+  width: 0;
+  height: 30px;
+  background-color: var(--mainGroen);
+  border-radius: 20px;
+  width: 30rem;
+  height: 32px;
+  flex-shrink: 0;
+}
 
 select {
-    width: 30rem;
-    padding: 0.5em;
-    margin-top: 1em;
-    border: 1px solid var(--witteText);
-    border-radius: 5px;
-    background-color: var(--witteText);
-    font-family: 'Poppins', sans-serif;
-    font-size: 1em;
-    color: var(--backgroundColor);
-    outline: none;
-    transition: border-color 0.3s ease;
+  width: 30rem;
+  padding: 0.5em;
+  margin-top: 1em;
+  border: 1px solid var(--witteText);
+  border-radius: 5px;
+  background-color: var(--witteText);
+  font-family: "Poppins", sans-serif;
+  font-size: 1em;
+  color: var(--backgroundColor);
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
 select#townhall-level:focus {
-    border-color: var(--mainGroen);
-
+  border-color: var(--mainGroen);
 }
 
 select#townhall-level option:nth-of-type(1) {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1em;
-    color: var(--backgroundColor);
-    opacity: 50%;
+  font-family: "Poppins", sans-serif;
+  font-size: 1em;
+  color: var(--backgroundColor);
+  opacity: 50%;
 }
 
 form.townhall button {
-    display: inline-flex;
-    padding: 0.75rem 2rem;
-    justify-content: center;
-    align-items: center;
-    gap: 0.625rem;
+  display: inline-flex;
+  padding: 0.75rem 2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
 
-    border-radius: 0.3125rem;
+  border-radius: 0.3125rem;
   background: var(--mainGroen);
 }
 
 .question-container {
-    width: 30rem;
-    position: relative;
-    overflow: hidden;
+  width: 30rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .question {
-    opacity: 0;
-    transform: translateX(100%);
-    position: absolute;
-    width: 100%;
-    transition: all 0.5s ease-in-out;
-    pointer-events: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  opacity: 0;
+  transform: translateX(100%);
+  position: absolute;
+  width: 100%;
+  transition: all 0.5s ease-in-out;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .question.active {
-    opacity: 1;
-    transform: translateX(0);
-    position: relative;
-    pointer-events: all;
+  opacity: 1;
+  transform: translateX(0);
+  position: relative;
+  pointer-events: all;
 }
 
 .question.prev {
-    opacity: 0;
-    transform: translateX(-100%);
+  opacity: 0;
+  transform: translateX(-100%);
 }
 
 .button-group {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
 }
 
-.prev-button, .next-button {
-    display: inline-flex;
-    padding: 0.75rem 2rem;
-    justify-content: center;
-    align-items: center;
-    gap: 0.625rem;
-    border: none;
-    cursor: pointer;
-    border-radius: 0.3125rem;
-    background: var(--mainGroen);
-    color: var(--witteText);
-    font-family: 'Poppins', sans-serif;
-    transition: background-color 0.3s ease;
+.prev-button,
+.next-button {
+  display: inline-flex;
+  padding: 0.75rem 2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.3125rem;
+  background: var(--mainGroen);
+  color: var(--witteText);
+  font-family: "Poppins", sans-serif;
+  transition: background-color 0.3s ease;
 }
 
 .prev-button {
-    background: var(--grijzeAchtergrond);
+  background: var(--grijzeAchtergrond);
 }
 
-.prev-button:hover, .next-button:hover {
-    background: var(--mainBlauw);
+.prev-button:hover,
+.next-button:hover {
+  background: var(--mainBlauw);
 }
 
 .prev-button:hover {
-    background: var(--mainRood);
+  background: var(--mainRood);
 }
 
 /* Stijl voor de slider container */
 .slider-container {
-    width: 100%;
-    position: relative;
-    margin: 20px 0;
-    padding-top: 30px; /* Ruimte voor de tooltip boven de slider */
+  width: 100%;
+  position: relative;
+  margin: 20px 0;
+  padding-top: 30px; /* Ruimte voor de tooltip boven de slider */
 }
 
 form#question-2 {
-  height:100vh;
+  height: 100vh;
 }
 
 /* Stijl voor de trofee slider */
 input[type="range"] {
-    width: 100%;
-    height: 10px;
-    border-radius: 5px;
-    background: var(--witteText);
-    outline: none;
-    -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--witteText);
+  outline: none;
+  -webkit-appearance: none;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: var(--mainGroen);
-    cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--mainGroen);
+  cursor: pointer;
 }
 
 input[type="range"]::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: var(--mainGroen);
-    cursor: pointer;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--mainGroen);
+  cursor: pointer;
 }
-
-
 
 /* Verberg de standaard output teller */
 output#trophies-value {
-    display: none;
+  display: none;
 }
 
 /* Stijlen voor het trofeeën input veld */
 .trophies-input-container {
-    text-align: center;
-    margin-bottom: 15px;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 #trophies-input {
-    width: 120px;
-    padding: 8px 12px;
-    border: 2px solid var(--mainGroen);
-    border-radius: 5px;
-    font-size: 16px;
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-    color: var(--backgroundColor);
-    background-color: var(--witteText);
+  width: 120px;
+  padding: 8px 12px;
+  border: 2px solid var(--mainGroen);
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  color: var(--backgroundColor);
+  background-color: var(--witteText);
 }
 
 #trophies-input:focus {
-    outline: none;
-    box-shadow: 0 0 3px var(--mainGroen);
+  outline: none;
+  box-shadow: 0 0 3px var(--mainGroen);
 }
 
 /* Verbeterde CSS voor dropdown met zoekbalk */
@@ -220,7 +219,7 @@ output#trophies-value {
 /* Dropdown container */
 .custom-select {
   position: relative;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   width: 100%;
   max-width: 400px;
   margin: 0 auto 30px auto;
@@ -278,11 +277,12 @@ output#trophies-value {
   overflow-y: auto;
 }
 
-.select-items div, .select-selected {
+.select-items div,
+.select-selected {
   padding: 12px 16px;
   cursor: pointer;
   user-select: none;
-  color: var(--backgroundColor)
+  color: var(--backgroundColor);
 }
 
 .select-hide {
@@ -315,7 +315,7 @@ output#trophies-value {
   border: 1px solid var(--grijzeAchtergrond);
   border-radius: 4px;
   font-size: 16px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 /* Bericht voor geen resultaten */
@@ -331,8 +331,3 @@ output#trophies-value {
   border-color: var(--mainBlauw);
   box-shadow: 0 0 4px var(--loginSchaduw);
 }
-
-
-
-
-

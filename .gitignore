@@ -134,3 +134,28 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# AIGuardian generated .gitignore
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor directories and files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# Logs
+
+# AIGuardian backups
+.aiguardian/
+
+# JavaScript/TypeScript
+dist/
+build/
+coverage/

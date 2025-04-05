@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wachtwoord Reset</title>
-    <link rel="stylesheet" href="/styles/algemeen.css">
-    <link rel="stylesheet" href="/styles/wachtwoordreset.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="/styles/algemeen.css" />
+    <link rel="stylesheet" href="/styles/wachtwoordreset.css" />
+  </head>
+  <body>
     <div>
-        <img class="backgroundImage lazy-load" data-src="/images/clash-of-clans-halloween-battlefield-8e0l3h8yaw2qvxae-2.jpg" alt="Achtergrond foto">
+      <img
+        class="backgroundImage lazy-load"
+        data-src="/images/clash-of-clans-halloween-battlefield-8e0l3h8yaw2qvxae-2.jpg"
+        alt="Achtergrond foto"
+      />
     </div>
 
     <main>
+      <div class="container">
+        <h2>Nieuw Wachtwoord Instellen</h2>
 
-        <div class="container">
-            <h2>Nieuw Wachtwoord Instellen</h2>
+        <form action="/auth/reset-wachtwoord/<%= email %>" method="POST">
+          <p>Nieuw wachtwoord</p>
+          <input
+            type="wachtwoord"
+            name="nieuwwachtwoord"
+            placeholder="Nieuw wachtwoord"
+            required
+          />
 
-            <form action="/auth/reset-wachtwoord/<%= email %>" method="POST">
-
-                <p>Nieuw wachtwoord</p>
-                <input type="wachtwoord" name="nieuwwachtwoord" placeholder="Nieuw wachtwoord" required>
-
-                <p>bevestig nieuw wachtwoord</p>
-                <input type="wachtwoord" name="bevestigwachtwoord" placeholder="Bevestig wachtwoord" required>
-                <button type="submit">Wachtwoord Wijzigen</button>
-            </form>
-            
-        </div>
+          <p>bevestig nieuw wachtwoord</p>
+          <input
+            type="wachtwoord"
+            name="bevestigwachtwoord"
+            placeholder="Bevestig wachtwoord"
+            required
+          />
+          <button type="submit">Wachtwoord Wijzigen</button>
+        </form>
+      </div>
     </main>
     <script src="/javascript/lazyLoad.js"></script>
-</body>
+  </body>
 </html>
