@@ -28,7 +28,6 @@ app
   .use(express.json()); // Parse JSON requests
 
 // route naar het wachtwoord wijzigen formulier
-// bron: https://nodemailer.com/transports/
 app.get("/wachtwoord-wijzigen", async (req, res) => {
   const profilePhoto = await getUserProfilePhoto(req.session.user);
   res.render("wachtwoord-wijzigen", {
@@ -294,6 +293,33 @@ app.post("/auth/reset-wachtwoord/:email", async (req, res) => {
   } catch (error) {
     console.error("Wachtwoord update fout:", error);
     res.status(500).send("Wachtwoord wijzigen mislukt");
+  }
+});
+
+// Wachtwoord reset aanvraag
+app.post("/wachtwoord-reset", async (req, res) => {
+  const email = req.body.email;
+
+  try {
+    const emailExists = await isEmailInDatabase(email);
+    if (emailExists) {
+      // Send email with reset link
+      const info = await transporter.sendMail({
+        from: '"Clash Connect" <neej9816@gmail.com>',
+        to: req.body.email,
+        subject: "Wachtwoord wijzigen",
+        text: `Klik op de volgende link om uw wachtwoord te wijzigen: http://localhost:8000/auth/reset-wachtwoord/${email}`,
+        html: `<p>Klik op de onderstaande link om uw wachtwoord te wijzigen:</p><a href="http://localhost:8000/auth/reset-wachtwoord/${email}">Wachtwoord Reset</a>`,
+      });
+
+      console.log("Message sent: %s", info.messageId);
+      res.send("E-mail verzonden! Controleer je inbox.");
+    } else {
+      res.status(400).send("E-mail niet gevonden in de database.");
+    }
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).send("Er is iets misgegaan bij het verzenden van de e-mail.");
   }
 });
 
