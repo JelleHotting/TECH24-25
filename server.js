@@ -54,6 +54,7 @@ client
   .catch((err) => console.error(`Database verbindingsfout - ${err}`));
 
 // Email transporter configuratie 📧
+// bron: https://nodemailer.com/transports/
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
