@@ -319,7 +319,9 @@ app.post("/wachtwoord-reset", async (req, res) => {
     }
   } catch (error) {
     console.error("Error sending email:", error);
-    res.status(500).send("Er is iets misgegaan bij het verzenden van de e-mail.");
+    res
+      .status(500)
+      .send("Er is iets misgegaan bij het verzenden van de e-mail.");
   }
 });
 
